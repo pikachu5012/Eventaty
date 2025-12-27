@@ -101,8 +101,11 @@ export default function CardComponent({
           </div>
         )}
         <div>
-          <Link href={isEvent ? `/events/${data?.id}` : `/venues/${data?.id}`} className="w-full">
-            <Button className="bg-[#0F172A] text-white hover:bg-[#d4af37] hover:text-white transition-colors rounded-lg px-6 w-full">
+          <Link
+            href={isEvent ? `/events/${data?.id}` : `/venues/${data?.id}`}
+            className="w-full"
+          >
+            <Button className="bg-[#0F172A] text-white hover:bg-[#d4af37] hover:text-white transition-colors rounded-lg px-6 w-full cursor-pointer">
               View Details
             </Button>
           </Link>

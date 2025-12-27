@@ -14,14 +14,29 @@ import { Input } from "@/components//ui/input";
 import { useState } from "react";
 import LoginForm from "@/components/forms/LoginForm";
 import RegisterForm from "./forms/RegisterForm";
-import { Sparkle } from "lucide-react";
+import { LogIn, Sparkle } from "lucide-react";
+import Link from "next/link";
 
-export function AuthOverlay() {
+export function AuthOverlay({ isNav }: { isNav?: boolean }) {
   const [regester, setRegester] = useState(false);
   return (
     <Dialog>
-      <DialogTrigger className="text-primary bg-secondary rounded-lg py-3 px-5">
-        Login
+      <DialogTrigger asChild>
+        {isNav ? (
+          <Link
+            href="/"
+            className="flex items-center gap-2 py-2 px-4 rounded-lg font-semibold
+          bg-[#d4af37] text-[#0F172A]
+          hover:bg-yellow-500 transition shadow-md"
+          >
+            <LogIn size={18} />
+            Login
+          </Link>
+        ) : (
+          <Link href="/" className="hover:underline">
+            Login
+          </Link>
+        )}
       </DialogTrigger>
       <DialogContent className="p-0 border-0 overflow-hidden">
         <DialogHeader className="flex justify-center items-center bg-primary py-10 px-5 text-white relative">
