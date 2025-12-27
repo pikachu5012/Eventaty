@@ -48,7 +48,7 @@ export default function VenueEvents({ events }: VenueEventsProps) {
         {uniqueDates.map((evt) => {
           if (!evt) return null;
           const isSelected = selectedDate === evt.date;
-          
+
           // Count events for this specific date
           const eventsCount = events.filter(e => e.date === evt.date).length;
 
@@ -58,8 +58,8 @@ export default function VenueEvents({ events }: VenueEventsProps) {
               onClick={() => setSelectedDate(evt.date)}
               className={`
                 flex-shrink-0 w-20 h-24 rounded-xl flex flex-col items-center justify-center transition-all duration-300 border
-                ${isSelected 
-                  ? "bg-eventaty-gold text-white shadow-md shadow-eventaty-gold/20 scale-105 border-transparent" 
+                ${isSelected
+                  ? "bg-eventaty-gold text-white shadow-md shadow-eventaty-gold/20 scale-105 border-transparent"
                   : "bg-eventaty-cream text-gray-400 border-gray-200 hover:border-eventaty-gold/50 hover:text-eventaty-gold"
                 }
               `}
@@ -67,7 +67,7 @@ export default function VenueEvents({ events }: VenueEventsProps) {
               <span className={`text-xs font-medium ${isSelected ? "opacity-90" : ""}`}>{evt.displayDate.day}</span>
               <span className="text-2xl font-bold">{evt.displayDate.date}</span>
               <span className={`text-xs ${isSelected ? "opacity-90" : "opacity-70"}`}>{evt.displayDate.month}</span>
-              
+
               {/* Event Counter Badge */}
               <span className={`mt-2 text-[10px] px-2 py-0.5 rounded-full ${isSelected ? "bg-black/20" : "bg-gray-200 text-gray-500"}`}>
                 {eventsCount} event{eventsCount > 1 ? 's' : ''}
@@ -84,9 +84,9 @@ export default function VenueEvents({ events }: VenueEventsProps) {
             <div key={event.id} className="group border border-eventaty-gold/30 rounded-xl p-4 flex flex-col md:flex-row gap-6 bg-eventaty-cream/30 hover:shadow-md hover:border-eventaty-gold transition-all duration-300">
               {/* Image Section */}
               <div className="w-full md:w-32 h-32 bg-gray-800 rounded-lg flex-shrink-0 overflow-hidden relative shadow-inner">
-                <div 
-                   className="w-full h-full bg-cover bg-center group-hover:scale-110 transition-transform duration-500"
-                   style={{ backgroundImage: `url(${event.image})` }} // Handling Images
+                <div
+                  className="w-full h-full bg-cover bg-center group-hover:scale-110 transition-transform duration-500"
+                  style={{ backgroundImage: `url(${event.image})` }} // Handling Images
                 />
               </div>
 

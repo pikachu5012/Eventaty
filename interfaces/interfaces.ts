@@ -36,3 +36,11 @@ export interface IVenue {
 	isFeatured?: boolean;
 	upcomingEvents?: number;
 }
+export interface ITicket {
+	id: string;
+	name: string;
+	description: string;
+	priceMultiplier: number;
+	features: string[];
+	price: number;
+}

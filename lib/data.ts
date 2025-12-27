@@ -1,4 +1,4 @@
-import { IEvent, IVenue } from "@/interfaces/interfaces";
+import { IEvent, IVenue, ITicket } from "@/interfaces/interfaces";
 
 export const categories = [
     "All",
@@ -203,5 +203,39 @@ export const venues: IVenue[] = [
         latitude: 40.7168,
         longitude: -74.0100,
         upcomingEvents: 0
+    }
+];
+export const TICKET_TYPES: ITicket[] = [
+    {
+        id: "1",
+        name: "General Admission",
+        description: "Standard entry to the event.",
+        priceMultiplier: 1,
+        features: ["Entry to event", "Standard seating", "Access to main areas"],
+        price: 100
+    },
+    {
+        id: "2",
+        name: "VIP Experience",
+        description: "VIP lounge access, premium viewing areas, complimentary drinks",
+        priceMultiplier: 2.5,
+        features: ["Priority entry", "VIP Lounge access", "Complimentary drinks", "Premium viewing area"],
+        price: 250
+    },
+    {
+        id: "3",
+        name: "VIP Experience",
+        description: "VIP lounge access, premium viewing areas, complimentary drinks",
+        priceMultiplier: 2.5,
+        features: ["Priority entry", "VIP Lounge access", "Complimentary drinks", "Premium viewing area"],
+        price: 250
+    },
+    {
+        id: "4",
+        name: "VIP Experience",
+        description: "VIP lounge access, premium viewing areas, complimentary drinks",
+        priceMultiplier: 2.5,
+        features: ["Priority entry", "VIP Lounge access", "Complimentary drinks", "Premium viewing area"],
+        price: 250
     }
 ];
