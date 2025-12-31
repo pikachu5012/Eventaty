@@ -21,14 +21,20 @@ export default function CardComponent({
     ? data?.title || "Blue Note Jazz Club"
     : data?.name || "Summer Music Festival 2025";
   const sub = isEvent ? "Featured" : data?.category || "Venue";
-
-  let dateAndTime = data?.date || "Will be announced";
-  if (data?.time || !data) {
-    dateAndTime = `${dateAndTime} at ${data?.time || "10:00 PM"}`;
+  let shownDate = data?.startDateTime
+    ? new Date(data?.startDateTime).toISOString().split("T")[0]
+    : "";
+  let shownTime = data?.startDateTime
+    ? new Date(data?.startDateTime).toISOString().split("T")[1].split(".")[0]
+    : "";
+  let dateAndTime = shownDate;
+  if (shownTime) {
+    dateAndTime = `${dateAndTime} at ${shownTime}`;
   }
 
   const locationOrCapacity =
-    data?.location ||
+    data?.venueId?.address ||
+    `${data?.city}, ${data?.country}` ||
     (isEvent ? "Grand Arena, Downtown" : "Capacity: 500 people");
   const price = data?.price || 99.99;
   // const description = data?.description || "Intimate jazz club with excellent acoustics and a cozy atmosphere. Perfect for live music performances.";
@@ -38,16 +44,29 @@ export default function CardComponent({
     <Card className="pt-0 rounded-xl overflow-hidden group bg-white border-none shadow-sm h-full flex flex-col">
       <CardHeader className="p-0 relative">
         <img
-          src={data?.image || "/ekko.png"}
+          src={data?.images[0] || "/ekko.png"}
           alt="Event Image"
           className="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105"
         />
-        <Badge
-          variant="secondary"
-          className="absolute top-0 right-0 m-4 bg-[#d4af37] text-white hover:bg-[#b5952f] border-none"
-        >
-          {sub}
-        </Badge>
+        {isEvent ? (
+          data?.featured ? (
+            <Badge
+              variant="secondary"
+              className="absolute top-0 right-0 m-4 bg-[#d4af37] text-white hover:bg-[#b5952f] border-none"
+            >
+              {sub}
+            </Badge>
+          ) : (
+            ""
+          )
+        ) : (
+          <Badge
+            variant="secondary"
+            className="absolute top-0 right-0 m-4 bg-[#d4af37] text-white hover:bg-[#b5952f] border-none"
+          >
+            {sub}
+          </Badge>
+        )}
         {isEvent && data?.isFeatured && (
           <Badge className="absolute top-0 left-0 m-4 bg-black/70 text-white hover:bg-black/80 border-none">
             Hot
@@ -70,7 +89,7 @@ export default function CardComponent({
             <MapPin className="w-4 h-4 text-[#d4af37]" />
           )}
           <p className="text-xs">
-            {isEvent ? dateAndTime : data?.location || "Unknown Location"}
+            {isEvent ? dateAndTime : locationOrCapacity || "Unknown Location"}
           </p>
         </div>
         <div className="text-sm text-muted-foreground flex gap-2 items-center">
@@ -89,20 +108,21 @@ export default function CardComponent({
           <div>
             <p className="text-xs text-muted-foreground">Starting from</p>
             <span className="font-bold text-xl text-[#d4af37]">
-              ${typeof price === "number" ? price.toFixed(2) : price}
-            </span>
+              {typeof price === "number" ? price.toFixed(2) : price}
+            </span>{" "}
+            <span className="font-semibold text-lg text-primary/70">EGP</span>
           </div>
         ) : (
           <div>
             <p className="text-xs text-muted-foreground">Upcoming Events</p>
             <span className="font-bold text-xl text-[#d4af37]">
-              {data?.upcomingEvents || 0}
+              {data?.events?.length || 0}
             </span>
           </div>
         )}
         <div>
           <Link
-            href={isEvent ? `/events/${data?.id}` : `/venues/${data?.id}`}
+            href={isEvent ? `/events/${data?._id}` : `/venues/${data?._id}`}
             className="w-full"
           >
             <Button className="bg-[#0F172A] text-white hover:bg-[#d4af37] hover:text-white transition-colors rounded-lg px-6 w-full cursor-pointer">

@@ -4,34 +4,60 @@ import { useState, useMemo, useEffect } from "react";
 import CardComponent from "@/components/CardComponent";
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
-import { events } from "@/lib/data";
 import EventFilters from "./EventsFilters";
+import axios from "axios";
+import { IEvent } from "@/types/event";
+import {
+  getCategoryName,
+  getVenueAddress,
+  getVenueCity,
+} from "@/lib/eventUtils";
 
 export default function EventsList({ category }: { category?: string }) {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState(category || "All");
   const [locationFilter, setLocationFilter] = useState("");
   const [dateFilter, setDateFilter] = useState("");
+  const [allEvents, setAllEvents] = useState<IEvent[]>([]);
 
   useEffect(() => {
     setSelectedCategory(category || "All");
   }, [category]);
 
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        const response = await axios.get(`/api/events`);
+        setAllEvents(response.data.data.events);
+      } catch (error) {
+        console.error("Error fetching events:", error);
+      }
+    };
+    fetchEvents();
+  }, []);
+
   const filteredEvents = useMemo(() => {
-    return events.filter((event) => {
+    return allEvents.filter((event) => {
       const matchesSearch = event.title
         .toLowerCase()
         .includes(searchQuery.toLowerCase());
+
+      // Use utility function to safely get category name (works with populated or unpopulated)
       const matchesCategory =
-        selectedCategory === "All" || event.category === selectedCategory;
-      const matchesLocation = event.location
-        .toLowerCase()
-        .includes(locationFilter.toLowerCase());
+        selectedCategory === "All" ||
+        getCategoryName(event) === selectedCategory;
+
+      // Use utility functions to safely get venue information
+      const venueAddress = getVenueAddress(event);
+      const venueCity = getVenueCity(event);
+      const matchesLocation =
+        venueAddress.toLowerCase().includes(locationFilter.toLowerCase()) ||
+        venueCity.toLowerCase().includes(locationFilter.toLowerCase());
 
       const matchesDate =
         !dateFilter ||
         (() => {
-          const eventDate = new Date(event.date);
+          const eventDate = new Date(event.startDateTime);
           const [year, month, day] = dateFilter.split("-").map(Number);
           const filterDate = new Date(year, month - 1, day);
 
@@ -44,7 +70,7 @@ export default function EventsList({ category }: { category?: string }) {
 
       return matchesSearch && matchesCategory && matchesLocation && matchesDate;
     });
-  }, [searchQuery, selectedCategory, locationFilter, dateFilter]);
+  }, [searchQuery, selectedCategory, locationFilter, dateFilter, allEvents]);
 
   const clearFilters = () => {
     setSelectedCategory("All");
@@ -93,11 +119,14 @@ export default function EventsList({ category }: { category?: string }) {
 
           {filteredEvents.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filteredEvents.map((event) => (
-                <div key={event.id} className="h-full">
-                  <CardComponent data={event} isEvent={true} />
-                </div>
-              ))}
+              {filteredEvents.map((event) => {
+                console.log(event);
+                return (
+                  <div key={event._id} className="h-full">
+                    <CardComponent data={event} isEvent={true} />
+                  </div>
+                );
+              })}
             </div>
           ) : (
             <div className="text-center py-20 bg-white rounded-xl shadow-sm">
