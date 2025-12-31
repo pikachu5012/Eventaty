@@ -11,6 +11,14 @@ import Link from "next/link";
 import { AuthOverlay } from "@/components/AuthOverlay";
 
 export default function Footer() {
+  const categories = [
+    "technology",
+    "business",
+    "health",
+    "education",
+    "entertainment",
+    "science",
+  ];
   return (
     <footer className="p-10 bg-primary">
       <div className="flex flex-wrap justify-between py-10 border-b-2 gap-1 space-y-10 border-muted-foreground">
@@ -59,46 +67,16 @@ export default function Footer() {
             Categories
           </h3>
           <ul className="space-y-2 text-ring">
-            <li>
-              <Link
-                href={`/events?category=${encodeURIComponent("Concert")}`}
-                className="hover:underline"
-              >
-                Concerts
-              </Link>
-            </li>
-            <li>
-              <Link
-                href={`/events?category=${encodeURIComponent("Conference")}`}
-                className="hover:underline"
-              >
-                Conferences
-              </Link>
-            </li>
-            <li>
-              <Link
-                href={`/events?category=${encodeURIComponent("Workshop")}`}
-                className="hover:underline"
-              >
-                Workshops
-              </Link>
-            </li>
-            <li>
-              <Link
-                href={`/events?category=${encodeURIComponent("Festival")}`}
-                className="hover:underline"
-              >
-                Festival
-              </Link>
-            </li>
-            <li>
-              <Link
-                href={`/events?category=${encodeURIComponent("Sports")}`}
-                className="hover:underline"
-              >
-                Sports
-              </Link>
-            </li>
+            {categories.map((category) => (
+              <li key={category}>
+                <Link
+                  href={`/events?category=${encodeURIComponent(category)}`}
+                  className="hover:underline"
+                >
+                  {category.charAt(0).toUpperCase() + category.slice(1)}
+                </Link>
+              </li>
+            ))}
           </ul>
         </div>
         <div className="w-full md:w-2/5 lg:w-3/13 space-y-2">

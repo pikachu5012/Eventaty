@@ -120,7 +120,6 @@ export default function EventsList({ category }: { category?: string }) {
           {filteredEvents.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {filteredEvents.map((event) => {
-                console.log(event);
                 return (
                   <div key={event._id} className="h-full">
                     <CardComponent data={event} isEvent={true} />
