@@ -8,6 +8,7 @@ type AuthContextType = {
   token: string | null;
   setUser: (user: IUser | null) => void;
   setToken: (token: string | null) => void;
+  isLoading: boolean;
   logout: () => void;
 };
 
@@ -54,7 +55,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   return (
-    <AuthContext.Provider value={{ user, token, setUser, setToken, logout }}>
+    <AuthContext.Provider
+      value={{ user, token, setUser, setToken, isLoading, logout }}
+    >
       {!isLoading && children}
     </AuthContext.Provider>
   );
