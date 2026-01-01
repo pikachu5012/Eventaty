@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Hammer, Headphones, Sparkles, Volleyball } from "lucide-react";
-import CategoryButton from "../CategoryButton";
+import CategoryButton from "@/components/CategoryButton";
 
 export default function BrowseByCategory() {
   return (
@@ -11,7 +11,7 @@ export default function BrowseByCategory() {
         </div>
         <div className="flex py-4 gap-4 flex-wrap justify-between">
           <CategoryButton
-            title="Music"
+            title="Concert"
             icon={<Headphones className="rounded-circle w-10! h-10!" />}
           />
           <CategoryButton

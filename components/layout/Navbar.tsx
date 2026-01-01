@@ -1,9 +1,9 @@
-
 "use client";
 import Link from "next/link";
 import Image from "next/image";
 import { LogIn, Sun } from "lucide-react";
 import { usePathname } from "next/navigation";
+import { AuthOverlay } from "@/components/AuthOverlay";
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -69,17 +69,6 @@ export default function Navbar() {
                 Contact
               </Link>
             </li>
-
-            <li>
-              <Link
-                href="/register"
-                className={`block py-2 px-3 ${pathname === "/register" ? "text-[#d4af37]" : "text-slate-300"
-                  } hover:text-[#d4af37] transition`}
-              >
-                Register
-              </Link>
-            </li>
-
             <li className="flex items-center gap-3">
               <button
                 type="button"
@@ -91,15 +80,7 @@ export default function Navbar() {
                 <Sun size={18} />
               </button>
 
-              <Link
-                href="/login"
-                className="flex items-center gap-2 py-2 px-4 rounded-lg font-semibold
-               bg-[#d4af37] text-[#0F172A]
-               hover:bg-yellow-500 transition shadow-md"
-              >
-                <LogIn size={18} />
-                Login
-              </Link>
+              <AuthOverlay isNav={true} />
             </li>
 
             {/* Logout */}

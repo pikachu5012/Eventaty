@@ -8,8 +8,17 @@ import {
   Twitter,
 } from "lucide-react";
 import Link from "next/link";
+import { AuthOverlay } from "@/components/AuthOverlay";
 
 export default function Footer() {
+  const categories = [
+    "technology",
+    "business",
+    "health",
+    "education",
+    "entertainment",
+    "science",
+  ];
   return (
     <footer className="p-10 bg-primary">
       <div className="flex flex-wrap justify-between py-10 border-b-2 gap-1 space-y-10 border-muted-foreground">
@@ -49,9 +58,7 @@ export default function Footer() {
               </Link>
             </li>
             <li>
-              <Link href="/login" className="hover:underline">
-                Login
-              </Link>
+              <AuthOverlay isNav={false} />
             </li>
           </ul>
         </div>
@@ -60,26 +67,16 @@ export default function Footer() {
             Categories
           </h3>
           <ul className="space-y-2 text-ring">
-            <li>
-              <Link href="/events" className="hover:underline">
-                Concerts
-              </Link>
-            </li>
-            <li>
-              <Link href="/events" className="hover:underline">
-                Workshops
-              </Link>
-            </li>
-            <li>
-              <Link href="/events" className="hover:underline">
-                Conferences
-              </Link>
-            </li>
-            <li>
-              <Link href="/events" className="hover:underline">
-                Sports
-              </Link>
-            </li>
+            {categories.map((category) => (
+              <li key={category}>
+                <Link
+                  href={`/events?category=${encodeURIComponent(category)}`}
+                  className="hover:underline"
+                >
+                  {category.charAt(0).toUpperCase() + category.slice(1)}
+                </Link>
+              </li>
+            ))}
           </ul>
         </div>
         <div className="w-full md:w-2/5 lg:w-3/13 space-y-2">
@@ -98,10 +95,19 @@ export default function Footer() {
             <MapPin className="inline-block me-2 text-secondary" size={16} />
             San Francisco, CA
           </p>
-          <div className="flex gap-4 text-white mt-4">
-            <Facebook size={20} />
-            <Twitter size={20} />
-            <Instagram size={20} />
+          <div className="flex gap-5 text-white mt-4">
+            <Facebook
+              size={25}
+              className="cursor-pointer hover:text-secondary"
+            />
+            <Twitter
+              size={25}
+              className="cursor-pointer hover:text-secondary"
+            />
+            <Instagram
+              size={25}
+              className="cursor-pointer hover:text-secondary"
+            />
           </div>
         </div>
       </div>

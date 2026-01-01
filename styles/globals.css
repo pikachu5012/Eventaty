@@ -130,9 +130,10 @@
 /* Add this inside the :root { ... } block */
 :root {
   /* ... existing variables ... */
-  --eventaty-gold: #D4AF37;
-  --eventaty-dark: #0F172A;
-  --eventaty-cream: #FDFBF7;
+  --eventaty-gold: #d4af37;
+  --eventaty-dark: #0f172a;
+  --eventaty-cream: #fdfbf7;
+  --eventaty-cancel: #ffc9c9;
 }
 
 /* Add this inside the @theme inline { ... } block */
@@ -141,6 +142,7 @@
   --color-eventaty-gold: var(--eventaty-gold);
   --color-eventaty-dark: var(--eventaty-dark);
   --color-eventaty-cream: var(--eventaty-cream);
+  --color-eventaty-cancel: var(--eventaty-cancel);
 }
 
 /*  */
