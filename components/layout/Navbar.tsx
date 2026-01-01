@@ -1,4 +1,4 @@
- 
+
 "use client";
 import Link from "next/link";
 import Image from "next/image";
@@ -6,7 +6,7 @@ import { LogIn, Sun } from "lucide-react";
 import { usePathname } from "next/navigation";
 
 export default function Navbar() {
-    const pathname = usePathname();
+  const pathname = usePathname();
   return (
     <nav className="bg-[#0F172A] border-b border-slate-800 w-full z-50">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
@@ -18,15 +18,14 @@ export default function Navbar() {
         {/* Links */}
         <div className="hidden w-full md:block md:w-auto">
           <ul
-             className="font-medium flex flex-col md:flex-row md:space-x-8
+            className="font-medium flex flex-col md:flex-row md:space-x-8
                        mt-4 md:mt-0"
           >
             <li>
               <Link
                 href="/"
-                className={`block py-2 px-3 ${
-                  pathname === "/" ? "text-[#d4af37]" : "text-slate-300"
-                } hover:text-[#d4af37] transition`}
+                className={`block py-2 px-3 ${pathname === "/" ? "text-[#d4af37]" : "text-slate-300"
+                  } hover:text-[#d4af37] transition`}
               >
                 Home
               </Link>
@@ -35,9 +34,8 @@ export default function Navbar() {
             <li>
               <Link
                 href="/events"
-                className={`block py-2 px-3 ${
-                  pathname === "/events" ? "text-[#d4af37]" : "text-slate-300"
-                } hover:text-[#d4af37] transition`}
+                className={`block py-2 px-3 ${pathname === "/events" ? "text-[#d4af37]" : "text-slate-300"
+                  } hover:text-[#d4af37] transition`}
               >
                 Events
               </Link>
@@ -46,20 +44,18 @@ export default function Navbar() {
             <li>
               <Link
                 href="/venues"
-                className={`block py-2 px-3 ${
-                  pathname === "/venues" ? "text-[#d4af37]" : "text-slate-300"
-                } hover:text-[#d4af37] transition`}
+                className={`block py-2 px-3 ${pathname === "/venues" ? "text-[#d4af37]" : "text-slate-300"
+                  } hover:text-[#d4af37] transition`}
               >
                 Venues
               </Link>
             </li>
 
-             <li>
+            <li>
               <Link
                 href="/about"
-                className={`block py-2 px-3 ${
-                  pathname === "/about" ? "text-[#d4af37]" : "text-slate-300"
-                } hover:text-[#d4af37] transition`}
+                className={`block py-2 px-3 ${pathname === "/about" ? "text-[#d4af37]" : "text-slate-300"
+                  } hover:text-[#d4af37] transition`}
               >
                 About
               </Link>
@@ -67,9 +63,8 @@ export default function Navbar() {
             <li>
               <Link
                 href="/contact"
-                className={`block py-2 px-3 ${
-                  pathname === "/contact" ? "text-[#d4af37]" : "text-slate-300"
-                } hover:text-[#d4af37] transition`}
+                className={`block py-2 px-3 ${pathname === "/contact" ? "text-[#d4af37]" : "text-slate-300"
+                  } hover:text-[#d4af37] transition`}
               >
                 Contact
               </Link>
@@ -78,9 +73,8 @@ export default function Navbar() {
             <li>
               <Link
                 href="/register"
-                className={`block py-2 px-3 ${
-                  pathname === "/register" ? "text-[#d4af37]" : "text-slate-300"
-                } hover:text-[#d4af37] transition`}
+                className={`block py-2 px-3 ${pathname === "/register" ? "text-[#d4af37]" : "text-slate-300"
+                  } hover:text-[#d4af37] transition`}
               >
                 Register
               </Link>
