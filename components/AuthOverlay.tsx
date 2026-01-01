@@ -11,11 +11,12 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components//ui/input";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import LoginForm from "@/components/forms/LoginForm";
 import RegisterForm from "./forms/RegisterForm";
 import { LogIn, Sparkle } from "lucide-react";
 import Link from "next/link";
+import { useAuth } from "@/context/AuthContext";
 
 export function AuthOverlay({
   isNav,
@@ -29,8 +30,21 @@ export function AuthOverlay({
   noTrigger?: boolean;
 }) {
   const [regester, setRegester] = useState(false);
+  const [internalOpen, setInternalOpen] = useState(false);
+  const { user } = useAuth();
+
+  const isControlled = open !== undefined;
+  const finalOpen = isControlled ? open : internalOpen;
+  const handleOpenChange = isControlled ? onOpenChange : setInternalOpen;
+
+  useEffect(() => {
+    if (user && handleOpenChange) {
+      handleOpenChange(false);
+    }
+  }, [user]);
+
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
+    <Dialog open={finalOpen} onOpenChange={handleOpenChange}>
       {!noTrigger && (
         <DialogTrigger asChild>
           {isNav ? (
