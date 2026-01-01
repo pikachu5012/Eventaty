@@ -3,17 +3,17 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import ProfileCard from "../ProfileCard";
 import { Edit, Mail, Phone, User } from "lucide-react";
 import { Button } from "../ui/button";
-import Image from "next/image";
 import { useState } from "react";
 import AccountForm from "../forms/AccountForm";
+import { useAuth } from "@/context/AuthContext";
 
 export default function UserDashboard() {
-  const imag = "";
   const [isEditing, setIsEditing] = useState(false);
+  const { user } = useAuth();
   return (
     <div className="container-fluid bg-muted py-10">
       <div className="flex flex-col lg:flex-row container mx-auto min-h-screen">
-        <div className="w-full lg:w-1/4 p-5 lg:sticky lg:top-12 lg:self-start rounded-lg bg-background shadow-lg my-5">
+        <div className="w-full lg:w-1/4 p-5 lg:sticky lg:top-8 lg:self-start rounded-lg bg-background shadow-lg my-5">
           <div className="flex items-center justify-between p-5 text-2xl">
             <p className={`${isEditing && "w-full text-center"}`}>My Profile</p>
             {!isEditing && (
@@ -27,21 +27,13 @@ export default function UserDashboard() {
             )}
           </div>
           <div className="bg-secondary rounded-full w-32 h-32 mx-auto mb-3 overflow-hidden">
-            {imag ? (
-              <Image
-                src="/ekko.png"
-                alt="ekko"
-                className="w-full h-full object-cover"
-                width={128}
-                height={128}
-              />
-            ) : (
-              <User className="w-full h-full object-cover p-5" />
-            )}
+            <User className="w-full h-full object-cover p-5" />
           </div>
           <div className="text-center mb-5">
-            <p className=" font-semibold">Ahmed</p>
-            <p className="text-muted-foreground">ahmed@example.com</p>
+            <p className=" font-semibold">
+              {user?.firstName + " " + user?.lastName}
+            </p>
+            <p className="text-muted-foreground">{user?.email}</p>
           </div>
           {isEditing ? (
             <AccountForm setIsEditing={setIsEditing} />
@@ -51,21 +43,21 @@ export default function UserDashboard() {
                 <Mail className="w-4 h-4 text-secondary mt-1" />
                 <div>
                   <p className="text-muted-foreground text-sm">Email</p>
-                  <p>ahmed@example.com</p>
+                  <p>{user?.email}</p>
                 </div>
               </div>
               <div className="flex gap-2">
                 <Phone className="w-4 h-4 text-secondary mt-1" />
                 <div>
                   <p className="text-muted-foreground text-sm">Phone</p>
-                  <p>010123456789</p>
+                  <p>{user?.phone || "Not provided"}</p>
                 </div>
               </div>
               <div className="flex gap-2">
                 <User className="w-4 h-4 text-secondary mt-1" />
                 <div>
                   <p className="text-muted-foreground text-sm">Account Type</p>
-                  <p>User</p>
+                  <p>{user?.role}</p>
                 </div>
               </div>
             </div>

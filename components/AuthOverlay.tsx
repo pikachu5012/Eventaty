@@ -17,29 +17,41 @@ import RegisterForm from "./forms/RegisterForm";
 import { LogIn, Sparkle } from "lucide-react";
 import Link from "next/link";
 
-export function AuthOverlay({ isNav }: { isNav?: boolean }) {
+export function AuthOverlay({
+  isNav,
+  open,
+  onOpenChange,
+  noTrigger,
+}: {
+  isNav?: boolean;
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
+  noTrigger?: boolean;
+}) {
   const [regester, setRegester] = useState(false);
   return (
-    <Dialog>
-      <DialogTrigger asChild>
-        {isNav ? (
-          <Link
-            href="/"
-            className="flex items-center gap-2 py-2 px-4 rounded-lg font-semibold
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      {!noTrigger && (
+        <DialogTrigger asChild>
+          {isNav ? (
+            <Link
+              href=""
+              className="flex items-center gap-2 py-2 px-4 rounded-lg font-semibold
           bg-[#d4af37] text-[#0F172A]
           hover:bg-yellow-500 transition shadow-md"
-          >
-            <LogIn size={18} />
-            Login
-          </Link>
-        ) : (
-          <Link href="/" className="hover:underline">
-            Login
-          </Link>
-        )}
-      </DialogTrigger>
+            >
+              <LogIn size={18} />
+              Login
+            </Link>
+          ) : (
+            <Link href="" className="hover:underline">
+              Login
+            </Link>
+          )}
+        </DialogTrigger>
+      )}
       <DialogContent className="p-0 border-0 overflow-hidden">
-        <DialogHeader className="flex justify-center items-center bg-primary py-10 px-5 text-white relative">
+        <DialogHeader className="flex justify-center items-center bg-primary py-5 px-5 text-white relative">
           <DialogTitle className="text-2xl pt-8">
             {regester ? "Welcome to Eventaty" : "Welcome Back"}
           </DialogTitle>

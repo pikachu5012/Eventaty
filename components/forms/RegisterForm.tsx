@@ -7,22 +7,37 @@ export default function RegisterForm() {
   const [showPassword, setShowPassword] = useState(false);
   return (
     <form className="w-full max-w-sm mx-auto px-6">
-      <div className="my-2 py-2">
-        <label htmlFor="name" className="block">
-          Full Name *
+      <div className="my-2 py-1">
+        <label htmlFor="firstName" className="block">
+          First Name *
         </label>
         <div className="relative py-2">
           <User className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-secondary" />
           <Input
             type="text"
             className="text-sm text-primary border-secondary py-4 pl-12"
-            id="name"
-            placeholder="Enter your name"
+            id="firstName"
+            placeholder="Enter your first name"
             required
           />
         </div>
       </div>
-      <div className="my-2 py-2">
+      <div className="my-2 py-1">
+        <label htmlFor="lastName" className="block">
+          Last Name *
+        </label>
+        <div className="relative py-2">
+          <User className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-secondary" />
+          <Input
+            type="text"
+            className="text-sm text-primary border-secondary py-4 pl-12"
+            id="lastName"
+            placeholder="Enter your last name"
+            required
+          />
+        </div>
+      </div>
+      <div className="my-2 py-1">
         <label htmlFor="email" className="block">
           Email Address *
         </label>
@@ -37,7 +52,7 @@ export default function RegisterForm() {
           />
         </div>
       </div>
-      <div className="my-2 py-2">
+      <div className="my-2 py-1">
         <label htmlFor="phone" className="block">
           Phone Number
         </label>
@@ -51,7 +66,7 @@ export default function RegisterForm() {
           />
         </div>
       </div>
-      <div className="my-2 py-2">
+      <div className="my-2 py-1">
         <label htmlFor="password" className="block">
           Password *
         </label>
