@@ -24,7 +24,7 @@ export function AuthOverlay({ isNav }: { isNav?: boolean }) {
       <DialogTrigger asChild>
         {isNav ? (
           <Link
-            href="/"
+            href=""
             className="flex items-center gap-2 py-2 px-4 rounded-lg font-semibold
           bg-[#d4af37] text-[#0F172A]
           hover:bg-yellow-500 transition shadow-md"
@@ -33,7 +33,7 @@ export function AuthOverlay({ isNav }: { isNav?: boolean }) {
             Login
           </Link>
         ) : (
-          <Link href="/" className="hover:underline">
+          <Link href="" className="hover:underline">
             Login
           </Link>
         )}

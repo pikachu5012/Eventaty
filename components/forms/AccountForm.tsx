@@ -1,4 +1,5 @@
 import { useState } from "react";
+import axios from "axios";
 import { Input } from "@/components/ui/input";
 import { Button } from "../ui/button";
 import { useAuth } from "@/context/AuthContext";
@@ -8,13 +9,13 @@ export default function AccountForm({
 }: {
   setIsEditing: (value: boolean) => void;
 }) {
-  const { user, setUser } = useAuth();
+  const { user, setUser, token } = useAuth();
   const [firstName, setFirstName] = useState(user?.firstName ?? "");
   const [lastName, setLastName] = useState(user?.lastName ?? "");
   const [email, setEmail] = useState(user?.email ?? "");
   const [phone, setPhone] = useState(user?.phone ?? 0);
-  const handleSave = () => {
-    setIsEditing(false);
+
+  const handleSave = async () => {
     if (!user) return;
 
     const finalFirstName = firstName || user.firstName || "";
@@ -27,14 +28,34 @@ export default function AccountForm({
     if (!email) setEmail(finalEmail);
     if (!phone) setPhone(finalPhone);
 
-    setUser({
-      ...user,
-      firstName: finalFirstName,
-      lastName: finalLastName,
-      email: finalEmail,
-      phone: finalPhone,
-    });
+    try {
+      const response = await axios.put(
+        "/api/user",
+        {
+          firstName: finalFirstName,
+          lastName: finalLastName,
+          email: finalEmail,
+          phone: finalPhone,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      const updatedUser = response.data.user || response.data;
+
+      setUser({
+        ...user,
+        ...updatedUser,
+      });
+      setIsEditing(false);
+    } catch (error) {
+      console.error("Failed to update user", error);
+    }
   };
+
   return (
     <div>
       <form action="" className="p-4 space-y-4">
@@ -84,7 +105,7 @@ export default function AccountForm({
         </div>
         <div className="flex justify-between mt-8">
           <Button
-            type="submit"
+            type="button"
             variant="secondary"
             className="w-5/11 cursor-pointer"
             onClick={() => handleSave()}

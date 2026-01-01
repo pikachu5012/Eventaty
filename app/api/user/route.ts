@@ -1,19 +1,22 @@
 import { NextResponse } from "next/server";
 import axios from "axios";
-import { useAuth } from "@/context/AuthContext";
 
 const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:5000";
-const { user, token } = useAuth();
+export async function PUT(request: Request) {
+  try {
+    const body = await request.json();
+    const token = request.headers.get("authorization");
 
-export async function PUT() {
-  const editedUser = await axios.put(
-    `${BACKEND_URL}/auth`,
-    {
+    const editedUser = await axios.put(`${BACKEND_URL}/auth`, body, {
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: token,
       },
-    },
-    user
-  );
-  return NextResponse.json(editedUser);
+    });
+    return NextResponse.json(editedUser.data);
+  } catch (error: any) {
+    return NextResponse.json(
+      { message: error?.response?.data?.message || "Failed to update user" },
+      { status: error?.response?.status || 500 }
+    );
+  }
 }

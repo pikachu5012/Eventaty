@@ -13,18 +13,49 @@ type AuthContextType = {
 
 const AuthContext = createContext<AuthContextType | null>(null);
 
+import { useRouter } from "next/navigation";
+
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [user, setUser] = useState<IUser | null>(null);
-  const [token, setToken] = useState<string | null>(null);
+  const [user, setUserState] = useState<IUser | null>(null);
+  const [token, setTokenState] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const router = useRouter();
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    const storedToken = localStorage.getItem("token");
+    if (storedUser) setUserState(JSON.parse(storedUser));
+    if (storedToken) setTokenState(storedToken);
+    setIsLoading(false);
+  }, []);
+
+  const setUser = (user: IUser | null) => {
+    setUserState(user);
+    if (user) {
+      localStorage.setItem("user", JSON.stringify(user));
+    } else {
+      localStorage.removeItem("user");
+    }
+  };
+
+  const setToken = (token: string | null) => {
+    setTokenState(token);
+    if (token) {
+      localStorage.setItem("token", token);
+    } else {
+      localStorage.removeItem("token");
+    }
+  };
 
   const logout = () => {
     setUser(null);
     setToken(null);
+    router.push("/");
   };
 
   return (
     <AuthContext.Provider value={{ user, token, setUser, setToken, logout }}>
-      {children}
+      {!isLoading && children}
     </AuthContext.Provider>
   );
 }
