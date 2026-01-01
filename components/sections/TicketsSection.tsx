@@ -22,11 +22,7 @@ export default function TicketsSection({
   const { user } = useAuth();
   const [isAuthOpen, setIsAuthOpen] = useState(false);
 
-  useEffect(() => {
-    if (user) {
-      setIsAuthOpen(false);
-    }
-  }, [user]);
+  /* useEffect removed: handled internally by AuthOverlay */
 
   const handleTicketClick = (ticket: ITicket) => {
     if (!user) {
