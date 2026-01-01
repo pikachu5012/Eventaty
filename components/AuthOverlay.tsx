@@ -39,7 +39,7 @@ export function AuthOverlay({ isNav }: { isNav?: boolean }) {
         )}
       </DialogTrigger>
       <DialogContent className="p-0 border-0 overflow-hidden">
-        <DialogHeader className="flex justify-center items-center bg-primary py-10 px-5 text-white relative">
+        <DialogHeader className="flex justify-center items-center bg-primary py-5 px-5 text-white relative">
           <DialogTitle className="text-2xl pt-8">
             {regester ? "Welcome to Eventaty" : "Welcome Back"}
           </DialogTitle>
