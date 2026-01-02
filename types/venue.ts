@@ -1,3 +1,12 @@
+import { IEvent } from "./event";
+
+export interface IAmenity {
+  name: string;
+  icon: string;
+  id?: string;
+  _id?: string;
+}
+
 export interface IVenue {
   _id: string;
   name: string;
@@ -11,4 +20,7 @@ export interface IVenue {
   latitude: number;
   capacity: number;
   description?: string;
+  amenities?: IAmenity[];
+  eventCount?: number;
+  events?: IEvent[];
 }

@@ -116,7 +116,7 @@ export default function CardComponent({
           <div>
             <p className="text-xs text-muted-foreground">Upcoming Events</p>
             <span className="font-bold text-xl text-[#d4af37]">
-              {data?.events?.length || 0}
+              {data?.eventCount || 0}
             </span>
           </div>
         )}

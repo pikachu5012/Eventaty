@@ -64,6 +64,7 @@ export default async function EventDetailsPage({
   const venueCity = getVenueCity(event);
   const venue = getVenue(event);
   const categoryName = getCategoryName(event);
+  console.log(venue);
 
   // Format date and time if they match standard Date format, otherwise keep as string
   let formattedDate = event.startDateTime;
@@ -174,7 +175,7 @@ export default async function EventDetailsPage({
                   Availability
                 </p>
                 <p className="text-gray-900 font-medium text-lg">
-                  220 tickets available
+                  {event.availableSeats} tickets available
                 </p>
               </div>
             </div>
@@ -187,7 +188,7 @@ export default async function EventDetailsPage({
             <p className="text-gray-500 leading-relaxed text-lg mb-8 max-w-4xl">
               {event.description || "No Description Available"}
             </p>
-            <div className="flex items-center gap-3">
+            {/* <div className="flex items-center gap-3">
               <div className="flex items-center gap-2 text-[#d4af37] mr-2">
                 <Tag size={20} className="rotate-90" />
                 <span className="font-bold text-gray-900">Tags</span>
@@ -202,7 +203,7 @@ export default async function EventDetailsPage({
                   </span>
                 ))}
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
 
@@ -226,7 +227,6 @@ export default async function EventDetailsPage({
                     {venue?.name || venueName}
                   </h3>
                 </div>
-
                 <p className="text-gray-500 leading-relaxed text-sm">
                   {venue?.description || `Event at ${venueName}`}
                 </p>
