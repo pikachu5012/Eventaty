@@ -2,49 +2,132 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
-import {
-  Calendar,
-  Check,
-  ShieldCheck
-} from "lucide-react";
-import { useRouter } from "next/navigation";
+import { Calendar, Check, ShieldCheck } from "lucide-react";
+import axios from "axios";
+import { useSearchParams, useRouter } from "next/navigation";
+import { useEffect } from "react";
+import { IEvent } from "@/types/event";
+import { useAuth } from "@/context/AuthContext";
 
 export default function CompleteBookingPage() {
   const [isAgreed, setIsAgreed] = useState(false);
-  const [formData, setFormData] = useState({
-    fullName: "Ahmed Mohammed",
-    email: "ahmed@gmail.com",
-    phone: "1234567890"
-  });
-
-  const orderSummary = {
-    eventName: "Tech Innovation Conference 2025",
-    date: "8/10/2025",
-    image: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?q=80&w=2070&auto=format&fit=crop",
-    ticketType: "Early Bird",
-    quantity: 1,
-    price: 199.00,
-    total: 199.00
-  };
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-  };
-
+  const { user, token } = useAuth();
   const router = useRouter();
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!isAgreed) return;
-    // alert("Booking Completed Successfully! 🚀");
-    router.push('/booking/success');
+  const searchParams = useSearchParams();
+  const eventId = searchParams.get("eventId");
+
+  const formData = {
+    fullName: user?.firstName + " " + user?.lastName,
+    email: user?.email,
+    phone: user?.phone || "Not Provided",
   };
-  // const handleCompleteBooking = () => {
-  //   router.push('/booking/success');
-  // };
+
+  const [orderSummary, setOrderSummary] = useState({
+    eventName: "Loading...",
+    date: "",
+    image: "",
+    ticketType: searchParams.get("ticketName") || "Standard Ticket",
+    quantity: Number(searchParams.get("quantity")) || 1,
+    price: Number(searchParams.get("price")) || 0,
+    total: 0,
+  });
+  const [isBooking, setIsBooking] = useState(false);
+
+  useEffect(() => {
+    if (eventId) {
+      const fetchEvent = async () => {
+        try {
+          const response = await axios.get(`/api/events/${eventId}`);
+          const event: IEvent =
+            response.data.data?.event ||
+            response.data.event ||
+            response.data ||
+            null;
+
+          if (event) {
+            let formattedDate = "";
+            let formattedTime = "";
+            if (event.startDateTime) {
+              try {
+                const eventDateObj = new Date(event.startDateTime);
+                formattedDate = eventDateObj.toLocaleDateString("en-US", {
+                  month: "2-digit",
+                  day: "2-digit",
+                  year: "numeric",
+                });
+                formattedTime = eventDateObj.toLocaleTimeString("en-US", {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                });
+              } catch (e) {
+                formattedDate = event.startDateTime;
+                formattedTime = event.startDateTime;
+              }
+            }
+
+            setOrderSummary((prev) => ({
+              ...prev,
+              eventName: event.title,
+              date: formattedDate,
+              time: formattedTime,
+              image: event.images?.[0] || "/ekko.png",
+              total: prev.quantity * prev.price,
+            }));
+          }
+        } catch (error) {
+          console.error("Error fetching event details:", error);
+        }
+      };
+      fetchEvent();
+    } else {
+      // Calculate total if eventId is missing but we have price/qty
+      setOrderSummary((prev) => ({
+        ...prev,
+        total: prev.quantity * prev.price,
+      }));
+    }
+  }, [searchParams]);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!isAgreed || !user) return;
+
+    setIsBooking(true);
+    try {
+      const res = await axios.post(
+        "/api/booking",
+        {
+          eventId,
+          seatsBooked: orderSummary.quantity,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      const bookingReference =
+        res.data.data.newBooking.bookingReference || res.data.bookingReference;
+
+      router.push(
+        `/booking/success?eventId=${eventId}&bookingReference=${bookingReference}&orderSummary=${JSON.stringify(
+          orderSummary
+        )}`
+      );
+    } catch (error: any) {
+      console.error("Booking failed:", error);
+      const message =
+        error?.response?.data?.message ||
+        error?.response?.data?.error ||
+        "Booking failed. Please try again.";
+      alert(message);
+    } finally {
+      setIsBooking(false);
+    }
+  };
   return (
     <div className="min-h-screen bg-eventaty-cream font-sans pb-20">
-
       {/* === HEADER SECTION === */}
       {/* pb-40: ارتفاع مناسب يسمح بالتداخل من غير ما يكون طويل زيادة */}
       <div className="bg-eventaty-dark text-white pt-20 pb-40 px-4 relative">
@@ -78,49 +161,59 @@ export default function CompleteBookingPage() {
       {/* max-w-5xl: نفس عرض الهيدر عشان يمشوا مسطرة واحدة */}
       <div className="container mx-auto max-w-5xl px-4 -mt-24 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-
           {/* --- LEFT COLUMN: Form --- */}
           <div className="lg:col-span-2">
             <div className="bg-white rounded-xl shadow-lg p-8">
-              <h2 className="text-xl font-bold text-eventaty-dark mb-6">Confirm Your Booking</h2>
+              <h2 className="text-xl font-bold text-eventaty-dark mb-6">
+                Confirm Your Personal Information
+              </h2>
 
               <form onSubmit={handleSubmit} className="space-y-5">
-
                 {/* Full Name */}
                 <div className="space-y-1.5">
-                  <label className="text-sm font-medium text-gray-600">Full Name *</label>
+                  <label className="text-sm font-medium text-gray-600">
+                    Full Name *
+                  </label>
                   <input
                     type="text"
                     name="fullName"
                     value={formData.fullName}
-                    onChange={handleInputChange}
-                    className="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:border-eventaty-gold focus:ring-1 focus:ring-eventaty-gold outline-none transition-all bg-white text-gray-800"
+                    className="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:border-eventaty-gold focus:ring-1 focus:ring-eventaty-gold outline-none transition-all bg-white text-muted-foreground"
+                    readOnly
                   />
                 </div>
 
                 {/* Email */}
                 <div className="space-y-1.5">
-                  <label className="text-sm font-medium text-gray-600">Email *</label>
+                  <label className="text-sm font-medium text-gray-600">
+                    Email *
+                  </label>
                   <input
                     type="email"
                     name="email"
                     value={formData.email}
-                    onChange={handleInputChange}
-                    className="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:border-eventaty-gold focus:ring-1 focus:ring-eventaty-gold outline-none transition-all bg-white text-gray-800"
+                    className="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:border-eventaty-gold focus:ring-1 focus:ring-eventaty-gold outline-none transition-all bg-white text-muted-foreground"
+                    readOnly
                   />
                 </div>
 
                 {/* Phone */}
                 <div className="space-y-1.5">
-                  <label className="text-sm font-medium text-gray-600">Phone *</label>
+                  <label className="text-sm font-medium text-gray-600">
+                    Phone *
+                  </label>
                   <input
                     type="tel"
                     name="phone"
                     value={formData.phone}
-                    onChange={handleInputChange}
-                    className="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:border-eventaty-gold focus:ring-1 focus:ring-eventaty-gold outline-none transition-all bg-white text-gray-800"
+                    className="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:border-eventaty-gold focus:ring-1 focus:ring-eventaty-gold outline-none transition-all bg-white text-muted-foreground"
+                    readOnly
                   />
                 </div>
+                <p className="text-xs text-muted-foreground text-center">
+                  For any change in the personal information, please go to the
+                  profile page
+                </p>
 
                 {/* Terms Checkbox */}
                 <div className="pt-2 flex items-start gap-3">
@@ -138,8 +231,12 @@ export default function CompleteBookingPage() {
                       strokeWidth={3}
                     />
                   </div>
-                  <label htmlFor="terms" className="text-xs text-gray-500 cursor-pointer select-none leading-tight">
-                    I agree to the terms and conditions and understand the cancellation policy
+                  <label
+                    htmlFor="terms"
+                    className="text-xs text-gray-500 cursor-pointer select-none leading-tight"
+                  >
+                    I agree to the terms and conditions and understand the
+                    cancellation policy
                   </label>
                 </div>
 
@@ -147,7 +244,8 @@ export default function CompleteBookingPage() {
                 <div className="flex flex-col-reverse sm:flex-row gap-4 pt-4">
                   <button
                     type="button"
-                    className="flex-1 py-3 px-6 rounded-lg bg-gray-100 text-gray-600 font-medium hover:bg-gray-200 transition-colors text-sm"
+                    className="flex-1 py-3 px-6 rounded-lg bg-gray-100 text-gray-600 font-medium hover:bg-gray-200 transition-colors text-sm cursor-pointer"
+                    onClick={() => router.push(`/events/${eventId}`)}
                   >
                     Back
                   </button>
@@ -155,20 +253,22 @@ export default function CompleteBookingPage() {
                   <button
                     onClick={handleSubmit}
                     type="submit"
-                    disabled={!isAgreed}
+                    disabled={!isAgreed || isBooking}
                     className={`
                       flex-1 py-3 px-6 rounded-lg font-bold text-white flex items-center justify-center gap-2 shadow-sm transition-all text-sm
-                      ${isAgreed
-                        ? "bg-eventaty-gold hover:bg-[#c29f2d] hover:shadow-md cursor-pointer"
-                        : "bg-[#E5DCC5] text-gray-400 cursor-not-allowed shadow-none"
+                      ${
+                        isAgreed && !isBooking
+                          ? "bg-eventaty-gold hover:bg-[#c29f2d] hover:shadow-md cursor-pointer"
+                          : "bg-[#E5DCC5] text-gray-400 cursor-not-allowed shadow-none"
                       }
                     `}
                   >
-                    <span>Complete Booking</span>
-                    {isAgreed && <ShieldCheck size={16} />}
+                    <span>
+                      {isBooking ? "Processing..." : "Complete Booking"}
+                    </span>
+                    {isAgreed && !isBooking && <ShieldCheck size={16} />}
                   </button>
                 </div>
-
               </form>
             </div>
           </div>
@@ -177,19 +277,26 @@ export default function CompleteBookingPage() {
           <div className="lg:col-span-1">
             <div className="bg-white rounded-xl shadow-lg border border-gray-50 overflow-hidden sticky top-8">
               <div className="p-6">
-                <h3 className="text-lg font-bold text-eventaty-dark mb-4">Order Summary</h3>
+                <h3 className="text-lg font-bold text-eventaty-dark mb-4">
+                  Order Summary
+                </h3>
 
                 <div className="flex gap-4 mb-6">
                   <div className="w-16 h-16 rounded-lg overflow-hidden flex-shrink-0 bg-gray-200 relative">
-                    <Image
-                      src={orderSummary.image}
-                      alt="Event"
-                      fill
-                      className="object-cover"
-                    />
+                    {orderSummary.image && (
+                      <Image
+                        src={orderSummary.image}
+                        alt="Event"
+                        fill
+                        className="object-cover"
+                        unoptimized
+                      />
+                    )}
                   </div>
                   <div>
-                    <h4 className="font-bold text-sm text-gray-800 leading-tight mb-2">{orderSummary.eventName}</h4>
+                    <h4 className="font-bold text-sm text-gray-800 leading-tight mb-2">
+                      {orderSummary.eventName}
+                    </h4>
                     <div className="flex items-center gap-1.5 text-xs text-gray-400">
                       <Calendar size={12} />
                       <span>{orderSummary.date}</span>
@@ -200,28 +307,35 @@ export default function CompleteBookingPage() {
                 <div className="space-y-3 pt-2 border-t border-gray-100">
                   <div className="flex justify-between text-xs text-gray-500 mt-4">
                     <span>Ticket Type</span>
-                    <span className="font-medium text-gray-900">{orderSummary.ticketType}</span>
+                    <span className="font-medium text-gray-900">
+                      {orderSummary.ticketType}
+                    </span>
                   </div>
                   <div className="flex justify-between text-xs text-gray-500">
                     <span>Quantity</span>
-                    <span className="font-medium text-gray-900">{orderSummary.quantity}</span>
+                    <span className="font-medium text-gray-900">
+                      {orderSummary.quantity}
+                    </span>
                   </div>
                   <div className="flex justify-between text-xs text-gray-500">
                     <span>Price per ticket</span>
-                    <span className="font-medium text-gray-900">${orderSummary.price.toFixed(2)}</span>
+                    <span className="font-medium text-gray-900">
+                      {orderSummary.price.toFixed(2)} EGP
+                    </span>
                   </div>
                 </div>
 
                 <div className="flex justify-between items-center mt-6 pt-4 border-t border-gray-100">
                   <span className="text-gray-900 font-bold text-sm">Total</span>
-                  <span className="text-xl font-bold text-eventaty-gold">${orderSummary.total.toFixed(2)}</span>
+                  <span className="text-xl font-bold text-eventaty-gold">
+                    {orderSummary.total.toFixed(2)} EGP
+                  </span>
                 </div>
               </div>
             </div>
           </div>
-
         </div>
       </div>
     </div>
   );
-}   
+}

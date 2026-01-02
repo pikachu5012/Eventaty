@@ -207,7 +207,11 @@ export default async function EventDetailsPage({
         </div>
 
         {/* Section 2: Tickets */}
-        <TicketsSection eventPrice={event.price} ticketTypes={TICKET_TYPES} />
+        <TicketsSection
+          eventPrice={event.price}
+          ticketTypes={TICKET_TYPES}
+          eventId={event._id}
+        />
 
         {/* Section 3: Venue Info */}
         <div className="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100/10">
