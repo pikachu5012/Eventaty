@@ -58,7 +58,7 @@ export function AuthOverlay({
               Login
             </Link>
           ) : (
-            <Link href="" className="hover:underline">
+            <Link href="" className="hover:underline hover:text-secondary">
               Login
             </Link>
           )}

@@ -20,7 +20,7 @@ export default function Footer() {
     "science",
   ];
   return (
-    <footer className="p-10 bg-primary">
+    <footer className="p-10 bg-navFooter">
       <div className="flex flex-wrap justify-between py-10 border-b-2 gap-1 space-y-10 border-muted-foreground">
         <div className="w-full md:w-2/5 lg:w-3/13 space-y-2">
           <img src="/Logo.svg" alt="logo" className="h-14 mb-6" />
@@ -38,22 +38,22 @@ export default function Footer() {
           </h3>
           <ul className="space-y-2 text-ring">
             <li>
-              <Link href="/events" className="hover:underline">
+              <Link href="/events" className="hover:underline hover:text-secondary">
                 Events
               </Link>
             </li>
             <li>
-              <Link href="/venues" className="hover:underline">
+              <Link href="/venues" className="hover:underline hover:text-secondary">
                 Venues
               </Link>
             </li>
             <li>
-              <Link href="/about" className="hover:underline">
+              <Link href="/about" className="hover:underline hover:text-secondary">
                 About Us
               </Link>
             </li>
             <li>
-              <Link href="/contact" className="hover:underline">
+              <Link href="/contact" className="hover:underline hover:text-secondary">
                 Contact
               </Link>
             </li>
@@ -71,7 +71,7 @@ export default function Footer() {
               <li key={category}>
                 <Link
                   href={`/events?category=${encodeURIComponent(category)}`}
-                  className="hover:underline"
+                  className="hover:underline hover:text-secondary"
                 >
                   {category.charAt(0).toUpperCase() + category.slice(1)}
                 </Link>

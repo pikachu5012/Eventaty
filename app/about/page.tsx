@@ -26,19 +26,19 @@ export default function About() {
             width={48}
             height={48}
           />
-          <h1 className="text-[#F7F3E9] px-1 text-2xl md:text-4xl text-center font-normal mt-5 md:mt-10">
+          <h1 className="text-strongCream px-1 text-2xl md:text-4xl text-center font-normal mt-5 md:mt-10">
             Your Gateway to{" "}
-            <span className="text-[#D4AF37]">Unforgettable</span> Experiences
+            <span className="text-eventaty-gold">Unforgettable</span> Experiences
           </h1>
-          <p className="text-[#F7F3E9] px-1 text-xs sm:text-base text-center font-thin max-w-xs md:max-w-lg mx-auto">
+          <p className="text-eventaty-cream px-1 text-xs sm:text-base text-center font-thin max-w-xs md:max-w-lg mx-auto">
             We&apos;re on a mission to connect people with amazing events and
             create memories that last a lifetime
           </p>
         </div>
 
         {/* Mission & Vision Section */}
-        <div className="mx-auto py-7 flex flex-col md:flex-row items-center md:items-stretch md:justify-center gap-x-16 gap-y-4 bg-[#F7F3E9]">
-          <div className="max-w-xs md:max-w-md ">
+        <div className="mx-auto py-7 flex flex-col md:flex-row items-center md:items-stretch md:justify-center gap-x-16 gap-y-4 bg-background">
+          <div className="max-w-xs md:max-w-md bg-card rounded-xl">
             <AboutCard
               icon={missionIcon}
               title="Our Mission"
@@ -47,10 +47,9 @@ export default function About() {
               height={40}
               alt="mission icon"
               allign="start"
-              backgroundColor="#FFFFFF"
             />
           </div>
-          <div className="max-w-xs md:max-w-md">
+          <div className="max-w-xs md:max-w-md bg-card rounded-xl">
             <AboutCard
               icon={visionIcon}
               title="Our Vision"
@@ -59,18 +58,17 @@ export default function About() {
               height={40}
               alt="vision icon"
               allign="start"
-              backgroundColor="#FFFFFF"
             />
           </div>
         </div>
 
         {/* Core Values Section */}
-        <div className="bg-[#FFFFFF] px-1 mx-auto">
+        <div className="bg-card px-1 mx-auto">
           <div className=" mt-4 mx-auto md:max-w-80 flex flex-col">
             <h2 className="text-[24px] font-bold text-center mt-5">
               Our Core Values
             </h2>
-            <p className="text-[16px] font-extralight text-center mt-2">
+            <p className="text-md font-extralight text-center mt-2">
               The principles that guide everything we do
             </p>
           </div>
@@ -112,16 +110,16 @@ export default function About() {
         </div>
 
         {/* Meet Our Team / Join Journey Section */}
-        <div className="bg-[#F7F3E9] pb-10">
+        <div className="bg-background pb-10">
           <div className=" mt-5 mx-auto px-6 flex flex-col">
-            <h2 className="text-[24px] font-bold text-center mt-12">
+            <h2 className="text-lg font-bold text-center mt-12">
               Meet Our Team
             </h2>
-            <p className="text-[16px] font-extralight text-center mb-6 my-2">
+            <p className="text-md font-extralight text-center mb-6 my-2">
               Passionate professionals dedicated to your event experience
             </p>
           </div>
-          <div className="mx-auto px-1 pt-1 flex flex-col items-center gap-y-1 lg:max-w-300 bg-[#FFFFFF] rounded-xl">
+          <div className="mx-auto px-1 pt-1 flex flex-col items-center gap-y-1 lg:max-w-300 bg-card rounded-xl">
             <div className="md:max-w-150">
               <AboutCard
                 icon={groupIcon}
@@ -134,7 +132,7 @@ export default function About() {
               />
             </div>
             <Button variant="secondary" className="mb-6 py-6" asChild>
-              <div className="text-[16px] px-6">Explore Careers</div>
+              <div className="text-md px-6">Explore Careers</div>
             </Button>
           </div>
         </div>

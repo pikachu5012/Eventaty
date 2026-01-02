@@ -6,7 +6,7 @@ import UpComingEvents from "@/components/sections/UpComingEvents";
 
 export default function Home() {
   return (
-    <div>
+    <div className="bg-background">
       <HomeSlider />
       <UpComingEvents />
       <BrowseByCategory />

@@ -4,7 +4,7 @@ import CategoryButton from "@/components/CategoryButton";
 
 export default function BrowseByCategory() {
   return (
-    <section className="bg-primary container-fluid">
+    <section className="bg-navFooter container-fluid">
       <div className="container mx-auto py-10">
         <div className="text-center text-5xl my-10 text-white ">
           Browse By Category

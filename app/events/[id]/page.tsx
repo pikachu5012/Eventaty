@@ -93,7 +93,7 @@ export default async function EventDetailsPage({
   }
 
   return (
-    <div className="min-h-screen bg-[#FFFBF4] pb-20">
+    <div className="min-h-screen bg-background pb-20">
       {/* Hero Image Section */}
       <div className="relative h-[400px] w-full bg-gray-900">
         <div
@@ -102,48 +102,48 @@ export default async function EventDetailsPage({
             backgroundImage: `url(${event.images?.[0] || "/ekko.png"})`,
           }}
         />
-        <div className="absolute inset-0 bg-linear-to-t from-[#FFFBF4] via-gray-900/40 to-transparent" />
+        <div className="absolute inset-0 bg-linear-to-t from-background via-gray-900/40 to-transparent" />
       </div>
 
       <div className="container mx-auto px-4 -mt-32 relative z-10">
         {/* Section 1: Event Details */}
-        <div className="bg-white rounded-2xl shadow-xl p-8 mb-12 border border-gray-100/10">
+        <div className="bg-card rounded-2xl shadow-xl p-8 mb-12 border border-gray-100/10 dark:bg-navy-background">
           <div className="flex flex-wrap items-center gap-3 mb-6">
-            <span className="px-5 py-2 rounded-full bg-[#FFFBF4] text-[#d4af37] border border-[#d4af37]/20 font-medium text-sm">
+            <span className="px-5 py-2 rounded-full bg-background text-secondary border border-secondary/20 font-medium text-sm">
               {categoryName}
             </span>
             {event.featured && (
-              <span className="px-5 py-2 rounded-full bg-[#0F172A] text-white font-medium text-sm flex items-center gap-2">
-                <div className="w-1.5 h-1.5 rounded-full bg-[#d4af37]" />
+              <span className="px-5 py-2 rounded-full bg-primary text-background font-medium text-sm flex items-center gap-2">
+                <div className="w-1.5 h-1.5 rounded-full bg-secondary" />
                 Featured
               </span>
             )}
           </div>
 
-          <h1 className="text-4xl md:text-5xl font-bold text-[#0F172A] mb-10 tracking-tight">
+          <h1 className="text-4xl md:text-5xl font-bold text-primary mb-10 tracking-tight">
             {event.title}
           </h1>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-x-12 gap-y-8 mb-12">
             <div className="flex items-start gap-4">
-              <div className="w-12 h-12 rounded-xl bg-[#FFFBF4] flex items-center justify-center text-[#d4af37] shrink-0 border border-[#d4af37]/10">
+              <div className="w-12 h-12 rounded-xl bg-background flex items-center justify-center text-secondary shrink-0 border border-secondary/10">
                 <Calendar size={24} strokeWidth={1.5} />
               </div>
               <div>
                 <p className="text-sm text-gray-400 mb-0.5 font-medium">Date</p>
-                <p className="text-gray-900 font-medium text-lg">
+                <p className="text-primary font-medium text-lg">
                   {formattedDate}
                 </p>
               </div>
             </div>
 
             <div className="flex items-start gap-4">
-              <div className="w-12 h-12 rounded-xl bg-[#FFFBF4] flex items-center justify-center text-[#d4af37] shrink-0 border border-[#d4af37]/10">
+              <div className="w-12 h-12 rounded-xl bg-background flex items-center justify-center text-secondary shrink-0 border border-secondary/10">
                 <Clock size={24} strokeWidth={1.5} />
               </div>
               <div>
                 <p className="text-sm text-gray-400 mb-0.5 font-medium">Time</p>
-                <p className="text-gray-900 font-medium text-lg">
+                <p className="text-primary font-medium text-lg">
                   {formattedTime}
                 </p>
               </div>
@@ -151,14 +151,14 @@ export default async function EventDetailsPage({
 
             {/* Venue */}
             <div className="flex items-start gap-4">
-              <div className="w-12 h-12 rounded-xl bg-[#FFFBF4] flex items-center justify-center text-[#d4af37] shrink-0 border border-[#d4af37]/10">
+              <div className="w-12 h-12 rounded-xl bg-background flex items-center justify-center text-secondary shrink-0 border border-secondary/10">
                 <MapPin size={24} strokeWidth={1.5} />
               </div>
               <div>
                 <p className="text-sm text-gray-400 mb-0.5 font-medium">
                   Venue
                 </p>
-                <p className="text-gray-900 font-medium text-lg">
+                <p className="text-primary font-medium text-lg">
                   {venueName}, {venueCity}
                 </p>
               </div>
@@ -166,14 +166,14 @@ export default async function EventDetailsPage({
 
             {/* Availability */}
             <div className="flex items-start gap-4">
-              <div className="w-12 h-12 rounded-xl bg-[#FFFBF4] flex items-center justify-center text-[#d4af37] shrink-0 border border-[#d4af37]/10">
+              <div className="w-12 h-12 rounded-xl bg-background flex items-center justify-center text-secondary shrink-0 border border-secondary/10">
                 <Users size={24} strokeWidth={1.5} />
               </div>
               <div>
                 <p className="text-sm text-gray-400 mb-0.5 font-medium">
                   Availability
                 </p>
-                <p className="text-gray-900 font-medium text-lg">
+                <p className="text-primary font-medium text-lg">
                   220 tickets available
                 </p>
               </div>
@@ -181,7 +181,7 @@ export default async function EventDetailsPage({
           </div>
 
           <div className="border-t border-gray-100 pt-10">
-            <h3 className="text-2xl font-bold text-[#0F172A] mb-4">
+            <h3 className="text-2xl font-bold text-primary mb-4">
               About This Event
             </h3>
             <p className="text-gray-500 leading-relaxed text-lg mb-8 max-w-4xl">
@@ -190,7 +190,7 @@ export default async function EventDetailsPage({
             <div className="flex items-center gap-3">
               <div className="flex items-center gap-2 text-[#d4af37] mr-2">
                 <Tag size={20} className="rotate-90" />
-                <span className="font-bold text-gray-900">Tags</span>
+                <span className="font-bold text-primary">Tags</span>
               </div>
               <div className="flex flex-wrap gap-2">
                 {["Music", "Festival", "Outdoor", "Multi-day"].map((tag) => (
@@ -210,12 +210,12 @@ export default async function EventDetailsPage({
         <TicketsSection eventPrice={event.price} ticketTypes={TICKET_TYPES} />
 
         {/* Section 3: Venue Info */}
-        <div className="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100/10">
+        <div className="bg-card rounded-2xl shadow-xl overflow-hidden border border-gray-100/10">
           <div className="p-8">
             <div className="flex flex-col md:flex-row gap-12 items-start">
               <div className="flex-1 space-y-4">
                 <div>
-                  <h2 className="text-2xl font-bold text-[#0F172A] mb-1">
+                  <h2 className="text-2xl font-bold text-primary mb-1">
                     Venue Information
                   </h2>
                   <h3 className="text-lg text-gray-700 font-medium">
@@ -247,14 +247,14 @@ export default async function EventDetailsPage({
                 <div className="pt-2">
                   <Link
                     href={venue ? `/venues/${venue._id}` : "#"}
-                    className="inline-flex items-center gap-2 text-[#d4af37] font-semibold hover:text-[#b5952f] transition-colors text-sm"
+                    className="inline-flex items-center gap-2 text-eventaty-gold font-semibold hover:text-white transition-colors text-sm"
                   >
                     View Venue Details
                     <ArrowRight size={16} />
                   </Link>
                 </div>
               </div>
-              <div className="w-full md:w-1/3 aspect-video bg-gray-100 rounded-xl overflow-hidden relative border-2 border-[#d4af37] shadow-sm">
+              <div className="w-full md:w-1/3 aspect-video bg-gray-100 rounded-xl overflow-hidden relative border-2 border-eventaty-gold shadow-sm">
                 <div
                   className="absolute inset-0 bg-cover bg-center"
                   style={{

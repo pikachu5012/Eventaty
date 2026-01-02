@@ -123,7 +123,7 @@ export default async function VenueDetails({
   };
 
   return (
-    <div className="min-h-screen bg-eventaty-cream text-eventaty-dark pb-20 font-sans">
+    <div className="min-h-screen bg-background text-eventaty-dark pb-20 font-sans">
       {/* Hero Section */}
       <div className="relative h-[300px] md:h-[400px] w-full bg-eventaty-dark">
         <div className="absolute inset-0 bg-gradient-to-t from-eventaty-dark/90 to-transparent z-10" />
@@ -138,17 +138,17 @@ export default async function VenueDetails({
           {/* LEFT COLUMN */}
           <div className="lg:col-span-2 space-y-6">
             {/* About Section */}
-            <div className="bg-white rounded-xl shadow-sm p-8 border border-white/50">
-              <h2 className="text-2xl font-bold mb-4 text-eventaty-dark">
+            <div className="bg-card rounded-xl shadow-sm p-8 border border-white/20 text-primary">
+              <h2 className="text-2xl font-bold mb-4">
                 About {apiData.name || "This Venue"}
               </h2>
-              <p className="text-gray-600 mb-8 leading-relaxed">
+              <p className="text-primary mb-8 leading-relaxed">
                 {venueData.description}
               </p>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="bg-eventaty-cream rounded-lg p-4 flex items-center gap-4 border border-gray-100">
-                  <div className="w-10 h-10 rounded-full bg-[#E8DCC2] flex items-center justify-center text-eventaty-dark/70">
+                <div className="bg-background  rounded-lg p-4 flex items-center gap-4 border border-white/20">
+                  <div className="w-10 h-10 rounded-full bg-strongCream flex items-center justify-center text-eventaty-dark/70">
                     <Users size={20} />
                   </div>
                   <div>
@@ -160,8 +160,8 @@ export default async function VenueDetails({
                     </p>
                   </div>
                 </div>
-                <div className="bg-eventaty-cream rounded-lg p-4 flex items-center gap-4 border border-gray-100">
-                  <div className="w-10 h-10 rounded-full bg-[#E8DCC2] flex items-center justify-center text-eventaty-dark/70">
+                <div className="bg-background rounded-lg p-4 flex items-center gap-4 border border-white/20">
+                  <div className="w-10 h-10 rounded-full bg-strongCream flex items-center justify-center text-eventaty-dark/70">
                     <MapPin size={20} />
                   </div>
                   <div>
@@ -175,18 +175,18 @@ export default async function VenueDetails({
             </div>
 
             {/* Amenities Section */}
-            <div className="bg-white rounded-xl shadow-sm p-8">
+            <div className="bg-card rounded-xl shadow-sm p-8 text-primary border border-white/20">
               <h2 className="text-2xl font-bold mb-6">Venue Amenities</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {venueData.amenities.map((item, index) => (
                   <div
                     key={index}
-                    className="bg-eventaty-cream rounded-lg p-4 flex items-center gap-3 border border-gray-100"
+                    className="bg-background rounded-lg p-4 flex items-center gap-3 border border-white/20"
                   >
                     <span className="text-eventaty-gold">
                       <IconMapper name={item.icon} />
                     </span>
-                    <span className="font-medium text-gray-700">
+                    <span className="font-medium">
                       {item.name}
                     </span>
                   </div>
@@ -200,8 +200,8 @@ export default async function VenueDetails({
 
           {/* RIGHT COLUMN (Sidebar) */}
           <div className="lg:col-span-1">
-            <div className="bg-white rounded-xl shadow-sm p-6 sticky top-8">
-              <div className="w-full h-64 bg-[#F0EFE9] rounded-lg mb-6 flex items-center justify-center border border-gray-100">
+            <div className="bg-card rounded-xl shadow-sm p-6 sticky top-8 text-primary">
+              <div className="w-full h-64 bg-background rounded-lg mb-6 flex items-center justify-center border border-eventaty-gold">
                 <div className="text-center">
                   <MapPin
                     className="mx-auto text-eventaty-gold mb-2"
@@ -216,7 +216,7 @@ export default async function VenueDetails({
                 <h4 className="text-xs text-gray-400 uppercase font-bold tracking-wider">
                   Address
                 </h4>
-                <p className="text-eventaty-dark font-medium text-sm">
+                <p className="font-medium text-sm">
                   {apiData.address || venueData.address}
                 </p>
               </div>

@@ -40,11 +40,11 @@ export default function VenueEvents({ events }: VenueEventsProps) {
   const filteredEvents = events.filter((event) => event.date === selectedDate);
 
   return (
-    <div className="bg-white rounded-xl shadow-sm p-8">
-      <h2 className="text-2xl font-bold mb-6 text-eventaty-dark">Upcoming Events at This Venue</h2>
+    <div className="bg-card rounded-xl shadow-sm p-8 border border-white/20">
+      <h2 className="text-2xl font-bold mb-6 text-primary">Upcoming Events at This Venue</h2>
 
       {/* --- Date Selector --- */}
-      <div className="flex gap-4 mb-8 overflow-x-auto pb-4 scrollbar-hide">
+      <div className="flex gap-4 mb-8 pb-4 scrollbar-hide">
         {uniqueDates.map((evt) => {
           if (!evt) return null;
           const isSelected = selectedDate === evt.date;
@@ -57,7 +57,7 @@ export default function VenueEvents({ events }: VenueEventsProps) {
               key={evt.date}
               onClick={() => setSelectedDate(evt.date)}
               className={`
-                flex-shrink-0 w-20 h-24 rounded-xl flex flex-col items-center justify-center transition-all duration-300 border
+                flex-shrink-0 w-20 h-30 rounded-2xl flex flex-col items-center justify-center transition-all duration-300 border
                 ${isSelected
                   ? "bg-eventaty-gold text-white shadow-md shadow-eventaty-gold/20 scale-105 border-transparent"
                   : "bg-eventaty-cream text-gray-400 border-gray-200 hover:border-eventaty-gold/50 hover:text-eventaty-gold"
@@ -81,7 +81,7 @@ export default function VenueEvents({ events }: VenueEventsProps) {
       <div className="space-y-4">
         {filteredEvents.length > 0 ? (
           filteredEvents.map((event) => (
-            <div key={event.id} className="group border border-eventaty-gold/30 rounded-xl p-4 flex flex-col md:flex-row gap-6 bg-eventaty-cream/30 hover:shadow-md hover:border-eventaty-gold transition-all duration-300">
+            <div key={event.id} className="group border border-eventaty-gold/30 rounded-xl p-4 flex flex-col md:flex-row gap-6 bg-eventaty-cream/20 hover:shadow-md hover:border-eventaty-gold transition-all duration-300">
               {/* Image Section */}
               <div className="w-full md:w-32 h-32 bg-gray-800 rounded-lg flex-shrink-0 overflow-hidden relative shadow-inner">
                 <div
@@ -102,19 +102,19 @@ export default function VenueEvents({ events }: VenueEventsProps) {
                   </div>
                 </div>
 
-                <div className="flex items-center gap-2 text-gray-500 text-sm mb-3 font-medium">
+                <div className="flex items-center gap-2 text-primary/70 text-sm mb-3 font-medium">
                   <Clock size={16} className="text-eventaty-gold" />
                   <span>{event.time}</span>
                 </div>
 
-                <p className="text-gray-600 text-sm leading-relaxed line-clamp-2">
+                <p className="text-primary/70 text-sm leading-relaxed line-clamp-2">
                   {event.description}
                 </p>
               </div>
             </div>
           ))
         ) : (
-          <div className="text-center py-10 text-gray-400">
+          <div className="text-center py-10 text-eventaty-gold">
             No events found for this date.
           </div>
         )}
