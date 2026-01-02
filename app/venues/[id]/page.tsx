@@ -11,7 +11,7 @@ import {
 } from "lucide-react";
 // Import the new Client Component
 import VenueEvents from "@/components/sections/VenueEvents";
-import { IVenue } from "@/types/venue";
+import { IVenue, IAmenity } from "@/types/venue";
 
 // --- Helper for Icons (Keep this as is) ---
 const IconMapper = ({ name }: { name: string }) => {
@@ -179,7 +179,7 @@ export default async function VenueDetails({
             <div className="bg-white rounded-xl shadow-sm p-8">
               <h2 className="text-2xl font-bold mb-6">Venue Amenities</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {apiData.amenities.map((item: IVenue, index: number) => (
+                {apiData.amenities.map((item: IAmenity, index: number) => (
                   <div
                     key={index}
                     className="bg-eventaty-cream rounded-lg p-4 flex items-center gap-3 border border-gray-100"
