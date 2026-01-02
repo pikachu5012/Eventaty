@@ -2,11 +2,46 @@ import { useState } from "react";
 import { Eye, EyeOff, Lock, Mail, Phone, User } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import axios from "axios";
 
-export default function RegisterForm() {
+export default function RegisterForm({
+  onSuccess,
+}: {
+  onSuccess?: () => void;
+}) {
   const [showPassword, setShowPassword] = useState(false);
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [registered, setRegistered] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    try {
+      await axios.post(`/api/auth/register`, {
+        firstName,
+        lastName,
+        email,
+        phone,
+        password,
+      });
+      setRegistered(true);
+      if (onSuccess) {
+        setTimeout(() => {
+          onSuccess();
+        }, 2000);
+      }
+    } catch (error) {
+      setError("Registration failed");
+      setRegistered(false);
+    }
+  };
+
   return (
-    <form className="w-full max-w-sm mx-auto px-6">
+    <form onSubmit={handleSubmit} className="w-full max-w-sm mx-auto px-6">
       <div className="my-2 py-1">
         <label htmlFor="firstName" className="block">
           First Name *
@@ -19,6 +54,8 @@ export default function RegisterForm() {
             id="firstName"
             placeholder="Enter your first name"
             required
+            value={firstName}
+            onChange={(e) => setFirstName(e.target.value)}
           />
         </div>
       </div>
@@ -34,6 +71,8 @@ export default function RegisterForm() {
             id="lastName"
             placeholder="Enter your last name"
             required
+            value={lastName}
+            onChange={(e) => setLastName(e.target.value)}
           />
         </div>
       </div>
@@ -49,6 +88,8 @@ export default function RegisterForm() {
             id="email"
             placeholder="Enter your email"
             required
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
           />
         </div>
       </div>
@@ -63,6 +104,8 @@ export default function RegisterForm() {
             className="text-sm text-primary border-secondary py-4 pl-12"
             id="phone"
             placeholder="Enter your phone number"
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
           />
         </div>
       </div>
@@ -78,6 +121,8 @@ export default function RegisterForm() {
             id="password"
             placeholder="Enter your password"
             required
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
           />
           <button
             type="button"
@@ -92,11 +137,19 @@ export default function RegisterForm() {
           </button>
         </div>
       </div>
+      {error && <p className="text-center text-red-500">{error}</p>}
+      {registered && (
+        <p className="text-center text-green-500">Registration successful</p>
+      )}
       <p className="text-sm text-muted-foreground p-4 bg-[#F7F3E9] rounded-md">
         By creating an account, you agree to our Terms of Service and Privacy
         Policy
       </p>
-      <Button variant="secondary" className="w-full mt-8 cursor-pointer">
+      <Button
+        type="submit"
+        variant="secondary"
+        className="w-full mt-8 cursor-pointer"
+      >
         Create Account
       </Button>
     </form>

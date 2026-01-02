@@ -43,6 +43,12 @@ export function AuthOverlay({
     }
   }, [user]);
 
+  useEffect(() => {
+    if (finalOpen) {
+      setRegester(false);
+    }
+  }, [finalOpen]);
+
   return (
     <Dialog open={finalOpen} onOpenChange={handleOpenChange}>
       {!noTrigger && (
@@ -75,7 +81,11 @@ export function AuthOverlay({
               : "Login to access your bookings and discover events"}
           </DialogDescription>
         </DialogHeader>
-        {regester ? <RegisterForm /> : <LoginForm />}
+        {regester ? (
+          <RegisterForm onSuccess={() => setRegester(false)} />
+        ) : (
+          <LoginForm />
+        )}
         <DialogFooter className="p-4">
           {regester ? (
             <div className="mx-auto flex gap-3">

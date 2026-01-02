@@ -11,18 +11,18 @@ import { AuthOverlay } from "../AuthOverlay";
 interface TicketsSectionProps {
   eventPrice: number;
   ticketTypes: ITicket[];
+  eventId: string;
 }
 
 export default function TicketsSection({
   eventPrice,
   ticketTypes,
+  eventId,
 }: TicketsSectionProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedTicket, setSelectedTicket] = useState<ITicket | null>(null);
   const { user } = useAuth();
   const [isAuthOpen, setIsAuthOpen] = useState(false);
-
-  /* useEffect removed: handled internally by AuthOverlay */
 
   const handleTicketClick = (ticket: ITicket) => {
     if (!user) {
@@ -61,7 +61,7 @@ export default function TicketsSection({
                 <TicketCard
                   title={ticket.name}
                   description={ticket.description}
-                  price={`$${finalPrice.toFixed(2)}`}
+                  price={`${finalPrice.toFixed(2)} EGP`}
                   className="filter drop-shadow-xl hover:-translate-y-1 transition-transform duration-300 ticket-shape"
                 />
               </div>
@@ -75,6 +75,8 @@ export default function TicketsSection({
         onClose={() => setIsModalOpen(false)}
         ticketName={selectedTicket?.name}
         price={selectedTicket ? calculatePrice(selectedTicket) : 0}
+        eventId={eventId}
+        ticketTypeId={selectedTicket?.id}
       />
       <AuthOverlay open={isAuthOpen} onOpenChange={setIsAuthOpen} noTrigger />
     </>

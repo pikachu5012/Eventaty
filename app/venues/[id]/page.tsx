@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 // Import the new Client Component
 import VenueEvents from "@/components/sections/VenueEvents";
+import { IVenue, IAmenity } from "@/types/venue";
 
 // --- Helper for Icons (Keep this as is) ---
 const IconMapper = ({ name }: { name: string }) => {
@@ -129,7 +130,7 @@ export default async function VenueDetails({
         <div className="absolute inset-0 bg-gradient-to-t from-eventaty-dark/90 to-transparent z-10" />
         <div
           className="w-full h-full bg-cover bg-center opacity-70"
-          style={{ backgroundImage: `url(${venueData.imageUrl})` }}
+          style={{ backgroundImage: `url(${apiData.images[0]})` }}
         />
       </div>
 
@@ -144,6 +145,9 @@ export default async function VenueDetails({
               </h2>
               <p className="text-primary mb-8 leading-relaxed">
                 {venueData.description}
+              </p>
+              <p className="text-primary mb-8 leading-relaxed">
+                {apiData.description}
               </p>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -178,7 +182,7 @@ export default async function VenueDetails({
             <div className="bg-card rounded-xl shadow-sm p-8 text-primary border border-white/20">
               <h2 className="text-2xl font-bold mb-6">Venue Amenities</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {venueData.amenities.map((item, index) => (
+                {apiData.amenities.map((item: IAmenity, index: number) => (
                   <div
                     key={index}
                     className="bg-background rounded-lg p-4 flex items-center gap-3 border border-white/20"
@@ -200,18 +204,31 @@ export default async function VenueDetails({
 
           {/* RIGHT COLUMN (Sidebar) */}
           <div className="lg:col-span-1">
-            <div className="bg-card rounded-xl shadow-sm p-6 sticky top-8 text-primary">
-              <div className="w-full h-64 bg-background rounded-lg mb-6 flex items-center justify-center border border-eventaty-gold">
-                <div className="text-center">
-                  <MapPin
-                    className="mx-auto text-eventaty-gold mb-2"
-                    size={32}
+            <div className="bg-white rounded-xl shadow-sm p-6 sticky top-8">
+              {/*Map view */}
+              {apiData.latitude && apiData.longitude ? (
+                <div className="w-full h-64 rounded-lg mb-6 overflow-hidden border border-gray-100">
+                  <iframe
+                    width="100%"
+                    height="100%"
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                    src={`https://www.google.com/maps?q=${apiData.latitude},${apiData.longitude}&z=15&output=embed`}
                   />
-                  <span className="text-gray-400 text-sm font-medium">
-                    Map View
-                  </span>
                 </div>
-              </div>
+              ) : (
+                <div className="w-full h-64 bg-[#F0EFE9] rounded-lg mb-6 flex items-center justify-center border border-gray-100">
+                  <div className="text-center">
+                    <MapPin
+                      className="mx-auto text-eventaty-gold mb-2"
+                      size={32}
+                    />
+                    <span className="text-gray-400 text-sm font-medium">
+                      Map View
+                    </span>
+                  </div>
+                </div>
+              )}
               <div className="space-y-4 mb-8">
                 <h4 className="text-xs text-gray-400 uppercase font-bold tracking-wider">
                   Address

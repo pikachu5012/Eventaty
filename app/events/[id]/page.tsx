@@ -64,6 +64,7 @@ export default async function EventDetailsPage({
   const venueCity = getVenueCity(event);
   const venue = getVenue(event);
   const categoryName = getCategoryName(event);
+  console.log(venue);
 
   // Format date and time if they match standard Date format, otherwise keep as string
   let formattedDate = event.startDateTime;
@@ -174,7 +175,7 @@ export default async function EventDetailsPage({
                   Availability
                 </p>
                 <p className="text-primary font-medium text-lg">
-                  220 tickets available
+                  {event.availableSeats} tickets available
                 </p>
               </div>
             </div>
@@ -187,7 +188,7 @@ export default async function EventDetailsPage({
             <p className="text-gray-500 leading-relaxed text-lg mb-8 max-w-4xl">
               {event.description || "No Description Available"}
             </p>
-            <div className="flex items-center gap-3">
+            {/* <div className="flex items-center gap-3">
               <div className="flex items-center gap-2 text-[#d4af37] mr-2">
                 <Tag size={20} className="rotate-90" />
                 <span className="font-bold text-primary">Tags</span>
@@ -202,12 +203,16 @@ export default async function EventDetailsPage({
                   </span>
                 ))}
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
 
         {/* Section 2: Tickets */}
-        <TicketsSection eventPrice={event.price} ticketTypes={TICKET_TYPES} />
+        <TicketsSection
+          eventPrice={event.price}
+          ticketTypes={TICKET_TYPES}
+          eventId={event._id}
+        />
 
         {/* Section 3: Venue Info */}
         <div className="bg-card rounded-2xl shadow-xl overflow-hidden border border-gray-100/10">
@@ -222,7 +227,6 @@ export default async function EventDetailsPage({
                     {venue?.name || venueName}
                   </h3>
                 </div>
-
                 <p className="text-gray-500 leading-relaxed text-sm">
                   {venue?.description || `Event at ${venueName}`}
                 </p>
