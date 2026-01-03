@@ -108,14 +108,14 @@ export default function VenueEvents({ events }: VenueEventsProps) {
         {filteredEvents.length > 0 ? (
           filteredEvents.map((event) => (
             <div
-              key={event.id}
+              key={event._id}
               className="group border border-eventaty-gold/30 rounded-xl p-4 flex flex-col md:flex-row gap-6 bg-eventaty-cream/20 hover:shadow-md hover:border-eventaty-gold transition-all duration-300"
             >
               {/* Image Section */}
               <div className="w-full md:w-32 h-32 bg-gray-800 rounded-lg flex-shrink-0 overflow-hidden relative shadow-inner">
                 <div
                   className="w-full h-full bg-cover bg-center group-hover:scale-110 transition-transform duration-500"
-                  style={{ backgroundImage: `url(${event.image})` }} // Handling Images
+                  style={{ backgroundImage: `url(${event.images[0]})` }} // Handling Images
                 />
               </div>
 
@@ -140,7 +140,7 @@ export default function VenueEvents({ events }: VenueEventsProps) {
 
                 <div className="flex items-center gap-2 text-primary/70 text-sm mb-3 font-medium">
                   <Clock size={16} className="text-eventaty-gold" />
-                  <span>{event.time}</span>
+                  <span>{new Date(event.startDateTime).toLocaleString()}</span>
                 </div>
 
                 <p className="text-primary/70 text-sm leading-relaxed line-clamp-2">
