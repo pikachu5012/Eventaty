@@ -40,10 +40,10 @@ export default function TicketsSection({
   return (
     <>
       {/* Section 2: Tickets */}
-      <div className="mb-12 p-8 rounded-3xl bg-[#FFFBF4] border border-[#d4af37]/10">
+      <div className="mb-12 p-8 rounded-3xl bg-card border border-secondary/10" id="tickets">
         <div className="flex items-center gap-3 mb-8">
-          <Ticket className="text-[#d4af37]" size={24} />
-          <h2 className="text-xl font-medium text-gray-800">
+          <Ticket className="text-secondary" size={24} />
+          <h2 className="text-xl font-medium text-primary">
             Ticket Types & Pricing
           </h2>
         </div>

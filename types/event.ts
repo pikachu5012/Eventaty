@@ -43,3 +43,12 @@ export interface IEventPopulated
   venueId: IVenue;
   tickets: ITicket[];
 }
+
+export type EventItem = {
+  id: string;
+  title: string;
+  startDateTime: string;
+  venueName: string | IVenue;
+  image: string[];
+  featured: boolean;
+}

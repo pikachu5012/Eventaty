@@ -1,61 +1,57 @@
-import Link from "next/link";
+import axios from "axios";
 import MySwiper from "../MySwiper/MySwiper";
 
-export default function HomeSlider() {
-  return (
-    <section className="bg-[#FAF7EF] py-16">
-      <div className="max-w-screen-xl mx-auto px-6 flex flex-col md:flex-row gap-10 items-center">
+export default async function HomeSlider() {
+  try {
+    let response;
+    try {
+      response = await axios.get("http://localhost:5000/events");
+    } catch (e) {
+      console.log("127.0.0.1 failed, trying localhost...");
+      response = await axios.get("http://localhost:5000/events");
+    }
 
-      {/** Left Content */}
-<div className="bg-white rounded-[32px] px-10 py-10 shadow-sm w-full md:w-[35%]">
-  
-  <h2 className="text-2xl font-semibold text-slate-900 leading-snug">
-    Summer Music Festival <br /> 2025
-  </h2>
+    let data = response.data;
 
-  <p className="text-slate-500 mt-4 text-sm">
-    Jul 15, 2025 at 18:00
-  </p>
+    let eventArray = null;
+    if (Array.isArray(data)) {
+      eventArray = data;
+    } else if (data?.events && Array.isArray(data.events)) {
+      eventArray = data.events;
+    } else if (data?.data?.events && Array.isArray(data.data.events)) {
+      eventArray = data.data.events;
+    } else if (data?.data && Array.isArray(data.data)) {
+      eventArray = data.data;
+    }
 
-  <p className="text-slate-400 text-sm mt-1">
-    Avenue Name
-  </p>
+    if (!eventArray || eventArray.length === 0) {
+      console.warn("HomeSlider: No events found in API response structure:", Object.keys(data || {}));
+      return <div className="p-10 text-center text-gray-500">No events found in database.</div>;
+    }
 
-  <div className="flex items-center gap-10 mt-10">
-  <Link href="/events">
-  
-     <button
-      className=" cursor-pointer px-8 py-2.5 rounded-full bg-[#d4af37]
-                 text-[#0F172A] text-sm font-medium
-                 hover:bg-yellow-500 transition shadow"
-    >
-      Book Now
-    </button>
-  </Link>
- 
- <Link href="/about">
- 
-    <button className="cursor-pointer text-slate-600 text-sm italic hover:underline">
-      More Info
-    </button>
- </Link>
+    const featuredEvents = eventArray.filter((e: any) =>
+      e.featured === true ||
+      e.featured === "true" ||
+      e.isFeatured === true ||
+      e.isFeatured === "true"
+    );
 
-  </div>
+    if (featuredEvents.length === 0) {
+      console.warn("HomeSlider: No featured events found among", eventArray.length, "total events.");
+      return <div className="p-10 text-center text-gray-500">No featured events marked.</div>;
+    }
 
-</div>
-
-        {/* Right Slider */}
-        <div className="w-full md:w-[70%] rounded-3xl overflow-hidden h-[320px] md:h-[380px]">
-          <MySwiper
-            imagesList={[
-              "/swipper1.png",
-              "/swipper2.jpg",
-              "/swipper3.jpg",
-            ]}
-          />
-        </div>
-
+    return (
+      <div className="w-full py-10">
+        <MySwiper events={featuredEvents} />
       </div>
-    </section>
-  );
+    );
+  } catch (error: any) {
+    console.error("HomeSlider CRITICAL ERROR:", error.message);
+    return (
+      <div className="p-10 text-center text-red-500 border border-dashed border-red-300 mx-auto max-w-2xl my-5 rounded-xl">
+        Unable to load slider. Please check if backend is running on port 5000.
+      </div>
+    );
+  }
 }

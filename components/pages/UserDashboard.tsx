@@ -43,9 +43,9 @@ export default function UserDashboard() {
   );
 
   return (
-    <div className="container-fluid bg-muted py-10">
+    <div className="container-fluid bg-background py-10">
       <div className="flex flex-col lg:flex-row container mx-auto min-h-screen">
-        <div className="w-full lg:w-1/4 p-5 lg:sticky lg:top-8 lg:self-start rounded-lg bg-background shadow-lg my-5">
+        <div className="w-full lg:w-1/4 p-5 lg:sticky lg:top-8 lg:self-start rounded-lg bg-card shadow-lg my-5">
           <div className="flex items-center justify-between p-5 text-2xl">
             <p className={`${isEditing && "w-full text-center"}`}>My Profile</p>
             {!isEditing && (
@@ -70,7 +70,7 @@ export default function UserDashboard() {
           {isEditing ? (
             <AccountForm setIsEditing={setIsEditing} />
           ) : (
-            <div className="bg-muted p-4 rounded-lg space-y-4">
+            <div className="bg-background p-4 rounded-lg space-y-4">
               <div className="flex gap-2">
                 <Mail className="w-4 h-4 text-secondary mt-1" />
                 <div>
@@ -111,7 +111,7 @@ export default function UserDashboard() {
             <TabsList className="w-full rounded-b-none border-b-0 overflow-hidden p-0 bg-background">
               <TabsTrigger
                 value="Upcoming"
-                className="text-muted-foreground data-[state=active]:text-secondary/80 border-0 data-[state=active]:rounded-none data-[state=active]:border-b-2 data-[state=active]:border-secondary bg-background data-[state=active]:shadow-none"
+                className="text-muted-foreground data-[state=active]:text-secondary/80 border-0 data-[state=active]:rounded-none data-[state=active]:border-b-2 data-[state=active]:border-secondary bg-backgroud data-[state=active]:shadow-none"
               >
                 Upcoming Events ({upcomingBookings.length})
               </TabsTrigger>

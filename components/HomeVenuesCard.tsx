@@ -1,3 +1,4 @@
+"use client";
 import { CircleChevronRight } from "lucide-react";
 
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
@@ -10,7 +11,7 @@ export default function HomeVenuesCard() {
         console.log("pls?");
       }}
     >
-      <Card className="p-2 rounded-xl overflow-hidden my-4 bg-primary hover:bg-muted cursor-pointer">
+      <Card className="p-2 rounded-xl overflow-hidden my-4 bg-navFooter hover:bg-eventaty-cream cursor-pointer">
         <CardHeader className="p-0 relative">
           <img
             src="/ekko.png"

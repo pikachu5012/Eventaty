@@ -128,11 +128,9 @@ export default function CompleteBookingPage() {
     }
   };
   return (
-    <div className="min-h-screen bg-eventaty-cream font-sans pb-20">
+    <div className="min-h-screen bg-background font-sans pb-20">
       {/* === HEADER SECTION === */}
-      {/* pb-40: ارتفاع مناسب يسمح بالتداخل من غير ما يكون طويل زيادة */}
-      <div className="bg-eventaty-dark text-white pt-20 pb-40 px-4 relative">
-        {/* max-w-5xl: عشان نلم المحتوى في النص زي التصميم بالظبط */}
+      <div className="bg-navFooter text-white pt-20 pb-40 px-4 relative">
         <div className="container mx-auto max-w-5xl">
           <h1 className="text-3xl font-bold mb-6">Complete Your Booking</h1>
 
@@ -158,8 +156,6 @@ export default function CompleteBookingPage() {
       </div>
 
       {/* === MAIN CONTENT === */}
-      {/* -mt-24: يرفع الكروت لفوق عشان تغطي جزء من الكحلي */}
-      {/* max-w-5xl: نفس عرض الهيدر عشان يمشوا مسطرة واحدة */}
       <div className="container mx-auto max-w-5xl px-4 -mt-24 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* --- LEFT COLUMN: Form --- */}

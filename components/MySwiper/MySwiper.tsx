@@ -1,16 +1,18 @@
 "use client";
-
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
-import Image from "next/image";
-
 import "swiper/css";
+import { EventItem } from "@/types/event";
+import EventSlide from "@/components/EventsSlide";
 
-interface MySwiperProps {
-  imagesList: string[];
+
+type EProps = {
+  events: EventItem[];
 }
 
-export default function MySwiper({ imagesList }: MySwiperProps) {
+export default function MySwiper({ events }: EProps) {
+  if (!events?.length) return null;
+
   return (
     <Swiper
       modules={[Autoplay]}
@@ -18,20 +20,11 @@ export default function MySwiper({ imagesList }: MySwiperProps) {
         delay: 3000,
         disableOnInteraction: false,
       }}
-      loop
-      className="w-full h-full"
+      loop={events.length > 1}
     >
-      {imagesList.map((img, index) => (
-        <SwiperSlide key={index}>
-          <div className="relative w-full h-full">
-            <Image
-              src={img}
-              alt={`slide-${index}`}
-              fill
-              className="object-cover"
-              priority={index === 0}
-            />
-          </div>
+      {events.map(event => (
+        <SwiperSlide key={event.id || (event as any)._id}>
+          <EventSlide event={event} />
         </SwiperSlide>
       ))}
     </Swiper>

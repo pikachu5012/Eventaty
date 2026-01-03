@@ -34,14 +34,14 @@ export default function CardComponent({
 
   const locationOrCapacity =
     data?.venueId?.address ||
-    `${data?.city}, ${data?.country}` ||
+    (data?.city && data?.country ? `${data.city}, ${data.country}` : data?.city || data?.country) ||
     (isEvent ? "Grand Arena, Downtown" : "Capacity: 500 people");
   const price = data?.price || 99.99;
   // const description = data?.description || "Intimate jazz club with excellent acoustics and a cozy atmosphere. Perfect for live music performances.";
   const capacity = data?.capacity || 500;
 
   return (
-    <Card className="pt-0 rounded-xl overflow-hidden group bg-white border-none shadow-sm h-full flex flex-col">
+    <Card className="pt-0 rounded-xl overflow-hidden group bg-card border-none shadow-sm h-full flex flex-col">
       <CardHeader className="p-0 relative">
         <img
           src={data?.images[0] || "/ekko.png"}
@@ -52,7 +52,7 @@ export default function CardComponent({
           data?.featured ? (
             <Badge
               variant="secondary"
-              className="absolute top-0 right-0 m-4 bg-[#d4af37] text-white hover:bg-[#b5952f] border-none"
+              className="absolute top-0 right-0 m-4 bg-eventaty-gold text-white hover:bg-secondary border-none"
             >
               {sub}
             </Badge>
@@ -62,7 +62,7 @@ export default function CardComponent({
         ) : (
           <Badge
             variant="secondary"
-            className="absolute top-0 right-0 m-4 bg-[#d4af37] text-white hover:bg-[#b5952f] border-none"
+            className="absolute top-0 right-0 m-4 bg-eventaty-gold text-white hover:bg-secondary border-none"
           >
             {sub}
           </Badge>
@@ -74,7 +74,7 @@ export default function CardComponent({
         )}
       </CardHeader>
       <CardContent className="flex-grow pt-5">
-        <h3 className="text-lg font-bold mb-3 group-hover:text-[#d4af37] transition-colors line-clamp-1">
+        <h3 className="text-lg font-bold mb-3 group-hover:text-secondary transition-colors line-clamp-1 text-dark-background">
           {title}
         </h3>
         {/* {!isEvent && (
@@ -84,9 +84,9 @@ export default function CardComponent({
         )} */}
         <div className="text-sm text-muted-foreground mb-2 flex gap-2 items-center">
           {isEvent ? (
-            <Calendar className="w-4 h-4 text-[#d4af37]" />
+            <Calendar className="w-4 h-4 text-eventaty-gold" />
           ) : (
-            <MapPin className="w-4 h-4 text-[#d4af37]" />
+            <MapPin className="w-4 h-4 text-eventaty-gold" />
           )}
           <p className="text-xs">
             {isEvent ? dateAndTime : locationOrCapacity || "Unknown Location"}
@@ -94,9 +94,9 @@ export default function CardComponent({
         </div>
         <div className="text-sm text-muted-foreground flex gap-2 items-center">
           {isEvent ? (
-            <MapPin className="w-4 h-4 text-[#d4af37]" />
+            <MapPin className="w-4 h-4 text-eventaty-gold" />
           ) : (
-            <Users className="w-4 h-4 text-[#d4af37]" />
+            <Users className="w-4 h-4 text-eventaty-gold" />
           )}
           <p className="text-xs">
             {isEvent ? locationOrCapacity : `Capacity: ${capacity}`}
@@ -107,15 +107,15 @@ export default function CardComponent({
         {isEvent ? (
           <div>
             <p className="text-xs text-muted-foreground">Starting from</p>
-            <span className="font-bold text-xl text-[#d4af37]">
+            <span className="font-bold text-xl text-eventaty-gold">
               {typeof price === "number" ? price.toFixed(2) : price}
             </span>{" "}
-            <span className="font-semibold text-lg text-primary/70">EGP</span>
+            <span className="font-semibold text-lg text-secondary/70">EGP</span>
           </div>
         ) : (
           <div>
             <p className="text-xs text-muted-foreground">Upcoming Events</p>
-            <span className="font-bold text-xl text-[#d4af37]">
+            <span className="font-bold text-xl text-eventaty-gold">
               {data?.eventCount || 0}
             </span>
           </div>
@@ -125,7 +125,7 @@ export default function CardComponent({
             href={isEvent ? `/events/${data?._id}` : `/venues/${data?._id}`}
             className="w-full"
           >
-            <Button className="bg-[#0F172A] text-white hover:bg-[#d4af37] hover:text-white transition-colors rounded-lg px-6 w-full cursor-pointer">
+            <Button className="bg-eventaty-dark text-white hover:bg-eventaty-gold hover:text-white transition-colors rounded-lg px-6 w-full cursor-pointer">
               View Details
             </Button>
           </Link>

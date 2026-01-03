@@ -57,7 +57,7 @@ export default function ProfileCard({
   };
 
   return (
-    <div className="flex lg:flex-row flex-wrap my-5 rounded-lg overflow-hidden shadow-lg">
+    <div className="flex lg:flex-row flex-wrap my-5 rounded-lg overflow-hidden shadow-lg bg-card border dark:border-eventaty-gold">
       <div className={`w-full lg:w-1/3  relative`}>
         <img
           src={data.eventId.images[0]}

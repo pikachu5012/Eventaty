@@ -79,13 +79,13 @@ export default function EventsList({ category }: { category?: string }) {
     setSearchQuery("");
   };
   return (
-    <div className="min-h-screen bg-[#fdfbf6] p-8">
+    <div className="min-h-screen bg-background p-8">
       {/*Search Bar*/}
       <div className="max-w-7xl mx-auto mb-8">
         <div className="relative">
           <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
           <Input
-            className="w-full pl-12 py-6 bg-[#f8f5f2] border-none rounded-xl text-lg shadow-sm focus-visible:ring-1 focus-visible:ring-[#d4af37]"
+            className="w-full pl-12 py-6 bg-background border border-secondary/30 rounded-xl text-lg shadow-sm focus-visible:ring-1 focus-visible:ring-eventaty-gold dark:bg-navFooter"
             placeholder="Search events..."
             value={searchQuery}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -111,8 +111,8 @@ export default function EventsList({ category }: { category?: string }) {
         {/* Main Event Grid */}
         <main className="flex-1">
           <div className="mb-6">
-            <h2 className="text-2xl font-bold text-gray-800">
-              <span className="text-[#d4af37]">{filteredEvents.length}</span>{" "}
+            <h2 className="text-2xl font-bold text-primary">
+              <span className="text-secondary">{filteredEvents.length}</span>{" "}
               events found
             </h2>
           </div>
