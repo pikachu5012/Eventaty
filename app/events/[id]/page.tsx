@@ -1,7 +1,6 @@
 import React from "react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { TICKET_TYPES } from "@/lib/data";
 import { Calendar, Clock, MapPin, Users, Tag, ArrowRight } from "lucide-react";
 import TicketsSection from "@/components/sections/TicketsSection";
 import axios from "axios";
@@ -210,7 +209,7 @@ export default async function EventDetailsPage({
         {/* Section 2: Tickets */}
         <TicketsSection
           eventPrice={event.price}
-          ticketTypes={TICKET_TYPES}
+          ticketTypes={event.tickets}
           eventId={event._id}
         />
 

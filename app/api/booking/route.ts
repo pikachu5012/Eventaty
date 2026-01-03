@@ -19,17 +19,14 @@ export async function GET() {
 export async function POST(request: NextRequest) {
   try {
     const token = request.headers.get("authorization");
-    const { userId, eventId, seatsBooked } = await request.json();
-    console.log(
-      `userId: ${userId}, eventId: ${eventId}, seatsBooked: ${seatsBooked}, token: ${token}`
-    );
+    const { eventId, seatsBooked, ticketType } = await request.json();
 
     const response = await axios.post(
       `${BACKEND_URL}/bookings`,
       {
-        userId,
         eventId,
         seatsBooked,
+        ticketType,
       },
       {
         headers: {

@@ -4,9 +4,9 @@ import React, { useState, useEffect } from "react";
 import { Ticket } from "lucide-react";
 import TicketCard from "@/components/ui/ticket";
 import TicketSelectionModal from "@/components/ui/TicketSelectionModal";
-import { ITicket } from "@/interfaces/interfaces";
 import { useAuth } from "@/context/AuthContext";
 import { AuthOverlay } from "../AuthOverlay";
+import { ITicket } from "@/types/event";
 
 interface TicketsSectionProps {
   eventPrice: number;
@@ -34,8 +34,7 @@ export default function TicketsSection({
   };
 
   const calculatePrice = (ticket: ITicket) => {
-    if (ticket.price) return ticket.price;
-    return eventPrice * ticket.priceMultiplier;
+    return eventPrice * ticket.multiplier;
   };
 
   return (
@@ -54,12 +53,12 @@ export default function TicketsSection({
             const finalPrice = calculatePrice(ticket);
             return (
               <div
-                key={ticket.id}
+                key={ticket._id}
                 onClick={() => handleTicketClick(ticket)}
                 className="cursor-pointer"
               >
                 <TicketCard
-                  title={ticket.name}
+                  title={ticket.type}
                   description={ticket.description}
                   price={`${finalPrice.toFixed(2)} EGP`}
                   className="filter drop-shadow-xl hover:-translate-y-1 transition-transform duration-300 ticket-shape"
@@ -73,10 +72,10 @@ export default function TicketsSection({
       <TicketSelectionModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        ticketName={selectedTicket?.name}
+        ticketName={selectedTicket?.type}
         price={selectedTicket ? calculatePrice(selectedTicket) : 0}
         eventId={eventId}
-        ticketTypeId={selectedTicket?.id}
+        ticketTypeId={selectedTicket?._id}
       />
       <AuthOverlay open={isAuthOpen} onOpenChange={setIsAuthOpen} noTrigger />
     </>

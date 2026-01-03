@@ -196,7 +196,7 @@ export default async function VenueDetails({
             </div>
 
             {/* --- HERE IS THE CHANGE: Using the Interactive Component --- */}
-            <VenueEvents events={venueData.events} />
+            <VenueEvents events={apiData.events} />
           </div>
 
           {/* RIGHT COLUMN (Sidebar) */}
@@ -234,7 +234,7 @@ export default async function VenueDetails({
                   {apiData.address || venueData.address}
                 </p>
               </div>
-              <button className="w-full bg-eventaty-gold text-white font-bold py-3.5 px-4 rounded-lg shadow-lg shadow-eventaty-gold/30">
+              <button className="w-full bg-eventaty-gold text-white font-bold py-3.5 px-4 rounded-lg shadow-lg shadow-eventaty-gold/30 hover:bg-eventaty-gold/90 transition-colors cursor-pointer">
                 Get Directions
               </button>
             </div>

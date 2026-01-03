@@ -99,6 +99,7 @@ export default function CompleteBookingPage() {
         {
           eventId,
           seatsBooked: orderSummary.quantity,
+          ticketType: orderSummary.ticketType,
         },
         {
           headers: {

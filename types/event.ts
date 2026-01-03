@@ -1,6 +1,13 @@
 import { IVenue } from "./venue";
 import { ICategory } from "./category";
 
+export interface ITicket {
+  _id: string;
+  type: string;
+  description: string;
+  multiplier: number;
+}
+
 export interface IEvent {
   _id: string;
   title: string;
@@ -26,6 +33,7 @@ export interface IEvent {
   };
   createdAt: string;
   updatedAt: string;
+  tickets: ITicket[];
 }
 
 // Helper type for fully populated events (when you know data is populated)
@@ -33,4 +41,5 @@ export interface IEventPopulated
   extends Omit<IEvent, "categoryId" | "venueId"> {
   categoryId: ICategory;
   venueId: IVenue;
+  tickets: ITicket[];
 }
