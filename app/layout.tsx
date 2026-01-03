@@ -27,7 +27,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning={true}>
       <body
         suppressHydrationWarning={true}
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
@@ -35,7 +35,7 @@ export default function RootLayout({
         <AuthProvider>
           <ThemeProvider>
             <Navbar />
-              {children}
+            {children}
             <Footer />
           </ThemeProvider>
         </AuthProvider>
