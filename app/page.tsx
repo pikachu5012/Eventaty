@@ -1,4 +1,3 @@
-"use client";
 import HomeSlider from "@/components/HomeSlider/HomeSlider";
 import BrowseByCategory from "@/components/sections/BrowseByCategory";
 import HomeVenues from "@/components/sections/HomeVenues";

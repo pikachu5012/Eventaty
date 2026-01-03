@@ -1,3 +1,4 @@
+"use client";
 import { CircleChevronRight } from "lucide-react";
 
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";

@@ -204,10 +204,10 @@ export default async function VenueDetails({
 
           {/* RIGHT COLUMN (Sidebar) */}
           <div className="lg:col-span-1">
-            <div className="bg-white rounded-xl shadow-sm p-6 sticky top-8">
+            <div className="bg-card rounded-xl shadow-sm p-6 sticky top-8 border border-eventaty-gold">
               {/*Map view */}
               {apiData.latitude && apiData.longitude ? (
-                <div className="w-full h-64 rounded-lg mb-6 overflow-hidden border border-gray-100">
+                <div className="w-full h-64 rounded-lg mb-6 overflow-hidden border border-eventaty-gold">
                   <iframe
                     width="100%"
                     height="100%"
@@ -217,7 +217,7 @@ export default async function VenueDetails({
                   />
                 </div>
               ) : (
-                <div className="w-full h-64 bg-[#F0EFE9] rounded-lg mb-6 flex items-center justify-center border border-gray-100">
+                <div className="w-full h-64 bg-card rounded-lg mb-6 flex items-center justify-center border border-eventaty-gold">
                   <div className="text-center">
                     <MapPin
                       className="mx-auto text-eventaty-gold mb-2"
@@ -230,14 +230,14 @@ export default async function VenueDetails({
                 </div>
               )}
               <div className="space-y-4 mb-8">
-                <h4 className="text-xs text-gray-400 uppercase font-bold tracking-wider">
+                <h4 className="text-xs text-primary uppercase font-bold tracking-wider">
                   Address
                 </h4>
-                <p className="font-medium text-sm">
+                <p className="font-medium text-sm text-primary/60">
                   {apiData.address || venueData.address}
                 </p>
               </div>
-              <button className="w-full bg-eventaty-gold text-white font-bold py-3.5 px-4 rounded-lg shadow-lg shadow-eventaty-gold/30">
+              <button className="w-full bg-eventaty-gold text-white font-bold py-3.5 px-4 rounded-lg shadow-lg shadow-eventaty-gold/30 cursor-pointer hover:bg-[#b5952f]">
                 Get Directions
               </button>
             </div>

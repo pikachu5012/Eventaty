@@ -9,7 +9,7 @@ export default function ProfileCard({ isPast }: { isPast?: boolean }) {
   const { SVG } = useQRCode();
 
   return (
-    <div className="flex lg:flex-row flex-wrap my-5 rounded-lg overflow-hidden shadow-lg">
+    <div className="flex lg:flex-row flex-wrap my-5 rounded-lg overflow-hidden shadow-lg bg-card border dark:border-eventaty-gold">
       <div className={`w-full lg:w-1/3  relative`}>
         <img
           src="/ninja.png"

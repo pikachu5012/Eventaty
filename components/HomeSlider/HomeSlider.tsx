@@ -1,120 +1,57 @@
-import { useEffect, useMemo, useState } from "react";
 import axios from "axios";
-import { IEvent } from "@/types/event";
 import MySwiper from "../MySwiper/MySwiper";
-import Link from "next/link";
 
-export default function HomeSlider() {
-  const [featuredEvents, setFeaturedEvents] = useState<IEvent[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchFeaturedEvents = async () => {
-      try {
-        const response = await axios.get(`/api/events/featured`);
-        setFeaturedEvents(response.data.data.events);
-      } catch (err) {
-        console.error("Error fetching events:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchFeaturedEvents();
-  }, []);
-console.log(featuredEvents.map(event => event.title));
-  const formatDate = (dateString: string) => {
+export default async function HomeSlider() {
+  try {
+    let response;
     try {
-      const date = new Date(dateString);
-      return new Intl.DateTimeFormat('en-US', {
-        year: 'numeric',
-        month: 'short',
-        day: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit',
-        hour12: true
-      }).format(date);
+      response = await axios.get("http://localhost:5000/events");
     } catch (e) {
-      return 'Date not available';
+      console.log("127.0.0.1 failed, trying localhost...");
+      response = await axios.get("http://localhost:5000/events");
     }
-  };
 
-  const getVenueName = (event: IEvent) => {
-    if (!event.venueId) return 'Venue TBD';
-    return typeof event.venueId === 'object' ? event.venueId.name : 'Venue TBD';
-  };
+    let data = response.data;
 
-  const imageUrls = useMemo(() => {
-    return featuredEvents
-      .map(event => event.images[0] || '')
-      .filter(Boolean);
-  }, [featuredEvents]);
+    let eventArray = null;
+    if (Array.isArray(data)) {
+      eventArray = data;
+    } else if (data?.events && Array.isArray(data.events)) {
+      eventArray = data.events;
+    } else if (data?.data?.events && Array.isArray(data.data.events)) {
+      eventArray = data.data.events;
+    } else if (data?.data && Array.isArray(data.data)) {
+      eventArray = data.data;
+    }
 
-  const eventInfo = useMemo(() => {
-    return featuredEvents
-    .map(event => ({
-      id: event._id,
-      title: event.title,
-      date: formatDate(event.startDateTime),
-      venue: getVenueName(event),
-      image: event.images[0] || ''
-    }));
-  }, [featuredEvents]);
+    if (!eventArray || eventArray.length === 0) {
+      console.warn("HomeSlider: No events found in API response structure:", Object.keys(data || {}));
+      return <div className="p-10 text-center text-gray-500">No events found in database.</div>;
+    }
 
-  // Keep imageUrls for the swiper component
+    const featuredEvents = eventArray.filter((e: any) =>
+      e.featured === true ||
+      e.featured === "true" ||
+      e.isFeatured === true ||
+      e.isFeatured === "true"
+    );
 
-  if (loading) {
+    if (featuredEvents.length === 0) {
+      console.warn("HomeSlider: No featured events found among", eventArray.length, "total events.");
+      return <div className="p-10 text-center text-gray-500">No featured events marked.</div>;
+    }
+
     return (
-      <section className="bg-background py-16">
-        <div className="max-w-screen-xl mx-auto px-6">
-          <div className="w-full h-[320px] md:h-[380px] rounded-3xl bg-gray-100 animate-pulse" />
-        </div>
-      </section>
+      <div className="w-full py-10">
+        <MySwiper events={featuredEvents} />
+      </div>
+    );
+  } catch (error: any) {
+    console.error("HomeSlider CRITICAL ERROR:", error.message);
+    return (
+      <div className="p-10 text-center text-red-500 border border-dashed border-red-300 mx-auto max-w-2xl my-5 rounded-xl">
+        Unable to load slider. Please check if backend is running on port 5000.
+      </div>
     );
   }
-
-  if (imageUrls.length === 0) {
-    return null; // Don't render anything if no images
-  }
-
-  return (
-    <section className="bg-background py-16">
-      <div className="max-w-screen-xl mx-auto px-6 flex items-center">
-        <div className="w-full lg:w-1/3 p-8 lg:p-10 flex flex-col">
-          <h2 className="text-3xl font-bold text-gray-900 mb-4 leading-tight">
-            {featuredEvents[0]?.title}
-          </h2>
-
-          <div className="space-y-2 mb-6">
-            <p className="text-gray-600 text-sm">
-              {formatDate(eventInfo[0]?.date)}
-            </p>
-            <p className="text-gray-400 text-sm">
-              {eventInfo[0]?.venue}
-            </p>
-          </div>
-          <div className="mt-auto space-y-4">
-            <Link
-              href={`/events/${eventInfo[0]?.id}`}
-              className="block w-full text-center px-6 py-3 rounded-full 
-                           bg-gradient-to-r from-[#d4af37] to-[#f0d36b] 
-                           text-[#0F172A] font-medium hover:opacity-90 
-                           transition-all shadow-lg"
-            >
-              Book Now
-            </Link>
-            <Link
-              href="/events"
-              className="block text-center text-gray-600 hover:text-gray-900 
-                           text-sm font-medium transition-colors"
-            >
-              More Info
-            </Link>
-          </div>
-        </div>
-        <div className="w-full rounded-3xl overflow-hidden h-[320px] md:h-[380px]">
-          <MySwiper imagesList={imageUrls} />
-        </div>
-      </div>
-    </section>
-  );
 }

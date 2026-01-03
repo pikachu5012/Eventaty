@@ -10,9 +10,9 @@ export default function BookingSuccessPage() {
   const bookingReference = searchParams.get("bookingReference") || "N/A";
 
   return (
-    <div className="min-h-screen bg-eventaty-cream flex items-center justify-center p-4 font-sans">
+    <div className="min-h-screen bg-background flex items-center justify-center p-4 font-sans">
       {/* Main Card */}
-      <div className="bg-white max-w-lg w-full rounded-2xl shadow-xl p-8 md:p-10 text-center animate-in fade-in zoom-in duration-500">
+      <div className="bg-card max-w-lg w-full rounded-2xl shadow-xl p-8 md:p-10 text-center animate-in fade-in zoom-in duration-500">
         {/* Success Icon */}
         <div className="w-16 h-16 bg-eventaty-gold rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg shadow-eventaty-gold/30">
           <Check className="text-eventaty-dark" size={32} strokeWidth={3} />
@@ -28,11 +28,11 @@ export default function BookingSuccessPage() {
         </p>
 
         {/* Details Box (Beige Background) */}
-        <div className="bg-[#F9F6F0] rounded-xl p-6 mb-8 text-left border border-[#EBE5D5]">
+        <div className="bg-background rounded-xl p-6 mb-8 text-left border border-eventaty-gold">
           <div className="grid grid-cols-2 gap-y-6">
             {/* Booking Number */}
             <div className="col-span-1">
-              <p className="text-xs text-gray-500 mb-1">Booking Reference</p>
+              <p className="text-xs text-primary/60 mb-1">Booking Reference</p>
               <p className="text-sm font-bold text-eventaty-gold tracking-wide">
                 {bookingReference}
               </p>
@@ -40,24 +40,24 @@ export default function BookingSuccessPage() {
 
             {/* Event Name */}
             <div className="col-span-1">
-              <p className="text-xs text-gray-500 mb-1">Event</p>
-              <p className="text-sm font-semibold text-eventaty-dark truncate">
+              <p className="text-xs text-primary/60 mb-1">Event</p>
+              <p className="text-sm font-semibold text-primary truncate">
                 {orderSummary.eventName}
               </p>
             </div>
 
             {/* Date & Time */}
             <div className="col-span-1">
-              <p className="text-xs text-gray-500 mb-1">Date & Time</p>
-              <p className="text-sm font-medium text-gray-700">
+              <p className="text-xs text-primary/60 mb-1">Date & Time</p>
+              <p className="text-sm font-medium text-primary">
                 {orderSummary.date} {orderSummary.time}
               </p>
             </div>
 
             {/* Tickets */}
             <div className="col-span-1">
-              <p className="text-xs text-gray-500 mb-1">Tickets</p>
-              <p className="text-sm font-medium text-gray-700">
+              <p className="text-xs text-primary/60 mb-1">Tickets</p>
+              <p className="text-sm font-medium text-primary">
                 {orderSummary.quantity} × {orderSummary.ticketType}
               </p>
             </div>
@@ -65,7 +65,7 @@ export default function BookingSuccessPage() {
             {/* Total Paid */}
             <div className="col-span-2 pt-4 border-t border-gray-200/60 mt-2">
               <div className="flex justify-between items-end">
-                <span className="text-xs text-gray-500">Total Paid</span>
+                <span className="text-xs text-primary">Total Paid</span>
                 <span className="text-xl font-bold text-eventaty-gold">
                   {orderSummary.total.toFixed(2)} EGP
                 </span>
@@ -79,7 +79,7 @@ export default function BookingSuccessPage() {
           {/* View My Bookings Button */}
           <Link
             href="/dashboard"
-            className="flex-1 py-3 px-6 rounded-lg bg-eventaty-gold hover:bg-[#c29f2d] text-eventaty-dark font-bold text-sm shadow-md transition-all hover:shadow-lg"
+            className="flex-1 py-3 px-6 rounded-lg bg-eventaty-gold hover:bg-[#b5952f] text-eventaty-dark font-bold text-sm shadow-md transition-all hover:shadow-lg"
           >
             View My Bookings
           </Link>

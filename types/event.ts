@@ -34,3 +34,12 @@ export interface IEventPopulated
   categoryId: ICategory;
   venueId: IVenue;
 }
+
+export type EventItem = {
+  id: string;
+  title: string;
+  startDateTime: string;
+  venueName: string | IVenue;
+  image: string[];
+  featured: boolean;
+}

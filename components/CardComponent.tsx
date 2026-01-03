@@ -34,7 +34,7 @@ export default function CardComponent({
 
   const locationOrCapacity =
     data?.venueId?.address ||
-    `${data?.city}, ${data?.country}` ||
+    (data?.city && data?.country ? `${data.city}, ${data.country}` : data?.city || data?.country) ||
     (isEvent ? "Grand Arena, Downtown" : "Capacity: 500 people");
   const price = data?.price || 99.99;
   // const description = data?.description || "Intimate jazz club with excellent acoustics and a cozy atmosphere. Perfect for live music performances.";
