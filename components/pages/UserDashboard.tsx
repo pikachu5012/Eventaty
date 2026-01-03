@@ -3,13 +3,45 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import ProfileCard from "../ProfileCard";
 import { Edit, Mail, Phone, User } from "lucide-react";
 import { Button } from "../ui/button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AccountForm from "../forms/AccountForm";
 import { useAuth } from "@/context/AuthContext";
+import axios from "axios";
+import { IBooking } from "@/types/booking";
 
 export default function UserDashboard() {
   const [isEditing, setIsEditing] = useState(false);
-  const { user } = useAuth();
+  const { user, token } = useAuth();
+  const [myBookings, setMyBookings] = useState<IBooking[]>([]);
+
+  const fetchMyBookings = async () => {
+    try {
+      const response = await axios.get(`/api/booking/me`, {
+        headers: {
+          Authorization: token,
+        },
+      });
+      setMyBookings(response.data.data.bookings);
+    } catch (error) {
+      console.error("Error fetching my bookings:", error);
+    }
+  };
+
+  useEffect(() => {
+    if (token) fetchMyBookings();
+  }, [token]);
+
+  const upcomingBookings = myBookings.filter(
+    (booking: IBooking) =>
+      booking.status !== "cancelled" &&
+      new Date(booking.eventId.startDateTime) >= new Date()
+  );
+  const pastBookings = myBookings.filter(
+    (booking: IBooking) =>
+      booking.status === "cancelled" ||
+      new Date(booking.eventId.startDateTime) < new Date()
+  );
+
   return (
     <div className="container-fluid bg-muted py-10">
       <div className="flex flex-col lg:flex-row container mx-auto min-h-screen">
@@ -64,10 +96,13 @@ export default function UserDashboard() {
           )}
           <div className="flex justify-around text-center p-5 my-5">
             <p className="text-muted-foreground">
-              <span className="block text-secondary text-3xl">0</span>Upcoming
+              <span className="block text-secondary text-3xl">
+                {upcomingBookings.length}
+              </span>
+              Upcoming
             </p>
             <p className="text-muted-foreground">
-              <span className="block text-3xl">0</span>Past
+              <span className="block text-3xl">{pastBookings.length}</span>Past
             </p>
           </div>
         </div>
@@ -78,23 +113,50 @@ export default function UserDashboard() {
                 value="Upcoming"
                 className="text-muted-foreground data-[state=active]:text-secondary/80 border-0 data-[state=active]:rounded-none data-[state=active]:border-b-2 data-[state=active]:border-secondary bg-background data-[state=active]:shadow-none"
               >
-                Upcoming Events (0)
+                Upcoming Events ({upcomingBookings.length})
               </TabsTrigger>
               <TabsTrigger
                 value="Past"
                 className="text-muted-foreground data-[state=active]:text-secondary/80 border-0 data-[state=active]:rounded-none data-[state=active]:border-b-2 data-[state=active]:border-secondary bg-background data-[state=active]:shadow-none"
               >
-                Past Events (0)
+                Past Events ({pastBookings.length})
               </TabsTrigger>
             </TabsList>
             <TabsContent value="Upcoming">
-              <ProfileCard />
-              <ProfileCard />
-              <ProfileCard />
+              {upcomingBookings.length > 0 ? (
+                upcomingBookings.map((booking: IBooking) => (
+                  <ProfileCard
+                    key={booking._id}
+                    data={booking}
+                    isPast={false}
+                    onAction={fetchMyBookings}
+                  />
+                ))
+              ) : (
+                <div className="p-5 m-5 rounded-lg shadow-lg bg-eventaty-cream">
+                  <p className="text-center text-lg font-semibold text-eventaty-gold my-10 ">
+                    No Upcoming Events
+                  </p>
+                </div>
+              )}
             </TabsContent>
             <TabsContent value="Past">
-              <ProfileCard isPast />
-              <ProfileCard isPast />
+              {pastBookings.length > 0 ? (
+                pastBookings.map((booking: IBooking) => (
+                  <ProfileCard
+                    key={booking._id}
+                    data={booking}
+                    isPast={true}
+                    onAction={fetchMyBookings}
+                  />
+                ))
+              ) : (
+                <div className="p-5 m-5 rounded-lg shadow-lg bg-eventaty-cream">
+                  <p className="text-center text-lg font-semibold text-eventaty-gold my-10 ">
+                    No Past Events
+                  </p>
+                </div>
+              )}
             </TabsContent>
           </Tabs>
         </div>

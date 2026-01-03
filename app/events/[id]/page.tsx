@@ -63,7 +63,6 @@ export default async function EventDetailsPage({
   const venueCity = getVenueCity(event);
   const venue = getVenue(event);
   const categoryName = getCategoryName(event);
-  console.log(venue);
 
   // Format date and time if they match standard Date format, otherwise keep as string
   let formattedDate = event.startDateTime;
