@@ -111,13 +111,13 @@ export default function UserDashboard() {
             <TabsList className="w-full rounded-b-none border-b-0 overflow-hidden p-0 bg-background">
               <TabsTrigger
                 value="Upcoming"
-                className="text-muted-foreground data-[state=active]:text-secondary/80 border-0 data-[state=active]:rounded-none data-[state=active]:border-b-2 data-[state=active]:border-secondary bg-backgroud data-[state=active]:shadow-none"
+                className="text-muted-foreground data-[state=active]:text-secondary/80 border-0 data-[state=active]:rounded-none data-[state=active]:border-b-2 data-[state=active]:border-secondary bg-foreground/10 data-[state=active]:shadow-none"
               >
                 Upcoming Events ({upcomingBookings.length})
               </TabsTrigger>
               <TabsTrigger
                 value="Past"
-                className="text-muted-foreground data-[state=active]:text-secondary/80 border-0 data-[state=active]:rounded-none data-[state=active]:border-b-2 data-[state=active]:border-secondary bg-background data-[state=active]:shadow-none"
+                className="text-muted-foreground data-[state=active]:text-secondary/80 border-0 data-[state=active]:rounded-none data-[state=active]:border-b-2 data-[state=active]:border-secondary bg-foreground/10 data-[state=active]:shadow-none"
               >
                 Past Events ({pastBookings.length})
               </TabsTrigger>

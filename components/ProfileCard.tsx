@@ -106,7 +106,7 @@ export default function ProfileCard({
               <p>
                 {data.ticketType} x {data.seatsBooked}
               </p>
-              <p className="text-secondary">{data.totalAmount}</p>
+              <p className="text-secondary">{data.totalAmount} EGP</p>
             </div>
           </div>
         </div>
@@ -137,7 +137,7 @@ export default function ProfileCard({
 
             <Button
               variant="destructive"
-              className="w-full bg-eventaty-cancel/50 text-destructive hover:bg-eventaty-cancel/90 cursor-pointer"
+              className="w-full bg-destructive  hover:bg-destructive/80 cursor-pointer"
               disabled={!data.cancellationAllowed}
               onClick={handleCancelBooking}
             >

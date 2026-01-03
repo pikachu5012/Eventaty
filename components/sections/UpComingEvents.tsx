@@ -10,7 +10,9 @@ export default async function UpComingEvents() {
   try {
     const response = await axios.get("http://localhost:3000/api/events");
     const data = response.data;
-    events = Array.isArray(data) ? data : (data?.data?.events || data?.events || data?.data || []);
+    events = Array.isArray(data)
+      ? data
+      : data?.data?.events || data?.events || data?.data || [];
   } catch (error) {
     console.error("Error fetching upcoming events:", error);
   }
@@ -19,7 +21,9 @@ export default async function UpComingEvents() {
 
   return (
     <section className="container mx-auto">
-      <div className="text-center text-5xl my-10 font-bold">Up Coming Events</div>
+      <div className="text-center text-5xl my-10 font-bold">
+        Up Coming Events
+      </div>
       <div className="flex py-4 gap-4 flex-wrap justify-center">
         {displayedEvents.length > 0 ? (
           displayedEvents.map((event) => (
@@ -31,7 +35,7 @@ export default async function UpComingEvents() {
           <div className="text-primary py-10">No upcoming events found.</div>
         )}
       </div>
-      <Link href='/events'>
+      <Link href="/events">
         <Button className="mx-auto my-10 py-7 flex cursor-pointer">
           <p className="flex font-normal items-center gap-2 p-6 text-secondary">
             Explore All Events <ArrowRight />
