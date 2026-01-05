@@ -3,11 +3,13 @@
 import Link from "next/link";
 import { Check } from "lucide-react";
 import { useSearchParams } from "next/navigation";
+import { useQRCode } from "next-qrcode";
 
 export default function BookingSuccessPage() {
   const searchParams = useSearchParams();
   const orderSummary = JSON.parse(searchParams.get("orderSummary") || "{}");
   const bookingReference = searchParams.get("bookingReference") || "N/A";
+  const { SVG } = useQRCode();
 
   return (
     <div className="min-h-screen bg-background flex items-center justify-center p-4 font-sans">
@@ -19,7 +21,7 @@ export default function BookingSuccessPage() {
         </div>
 
         {/* Title & Subtitle */}
-        <h1 className="text-2xl md:text-3xl font-bold text-eventaty-dark mb-3">
+        <h1 className="text-2xl md:text-3xl font-bold text-primary mb-3">
           Booking Confirmed!
         </h1>
         <p className="text-gray-500 text-sm mb-8 leading-relaxed">
@@ -39,7 +41,7 @@ export default function BookingSuccessPage() {
             </div>
 
             {/* Event Name */}
-            <div className="col-span-1">
+            <div className="col-span-1 ps-2">
               <p className="text-xs text-primary/60 mb-1">Event</p>
               <p className="text-sm font-semibold text-primary truncate">
                 {orderSummary.eventName}
@@ -55,17 +57,31 @@ export default function BookingSuccessPage() {
             </div>
 
             {/* Tickets */}
-            <div className="col-span-1">
+            <div className="col-span-1 ps-2">
               <p className="text-xs text-primary/60 mb-1">Tickets</p>
               <p className="text-sm font-medium text-primary">
                 {orderSummary.quantity} × {orderSummary.ticketType}
               </p>
             </div>
+            {/* Venue */}
+            <div className="col-span-2 mx-auto pe-4">
+              <SVG
+                text={bookingReference}
+                options={{
+                  margin: 3,
+                  width: 100,
+                  color: {
+                    dark: "#000000",
+                    light: "#ffffff",
+                  },
+                }}
+              />
+            </div>
 
             {/* Total Paid */}
             <div className="col-span-2 pt-4 border-t border-gray-200/60 mt-2">
               <div className="flex justify-between items-end">
-                <span className="text-xs text-primary">Total Paid</span>
+                <span className="text-xs text-primary">Total</span>
                 <span className="text-xl font-bold text-eventaty-gold">
                   {orderSummary.total.toFixed(2)} EGP
                 </span>

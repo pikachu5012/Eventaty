@@ -19,7 +19,7 @@ export default function CompleteBookingPage() {
   const formData = {
     fullName: user?.firstName + " " + user?.lastName,
     email: user?.email,
-    phone: user?.phone || "Not Provided",
+    phone: user?.phone || "Phone Number must be provided in profile",
   };
 
   const [orderSummary, setOrderSummary] = useState({

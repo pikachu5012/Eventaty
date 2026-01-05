@@ -95,7 +95,7 @@ export default function RegisterForm({
       </div>
       <div className="my-2 py-1">
         <label htmlFor="phone" className="block">
-          Phone Number
+          Phone Number *
         </label>
         <div className="relative py-2">
           <Phone className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-secondary" />
@@ -104,6 +104,7 @@ export default function RegisterForm({
             className="text-sm text-primary border-secondary py-4 pl-12"
             id="phone"
             placeholder="Enter your phone number"
+            required
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
           />

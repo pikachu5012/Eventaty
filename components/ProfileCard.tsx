@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import { Badge } from "@/components/ui/badge";
-import { Calendar, Delete, Download, Navigation, Ticket } from "lucide-react";
+import { Calendar, Delete, Navigation, Ticket } from "lucide-react";
 import { useQRCode } from "next-qrcode";
 import { Button } from "@/components/ui/button";
 import { IBooking } from "@/types/booking";
