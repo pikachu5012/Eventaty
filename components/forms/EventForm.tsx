@@ -26,7 +26,6 @@ import {
 import { IEvent } from "@/types/event";
 import { IVenue } from "@/types/venue";
 import { format } from "date-fns";
-import { cn } from "@/lib/utils";
 
 interface EventFormProps {
   open: boolean;

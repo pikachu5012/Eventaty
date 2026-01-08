@@ -1,8 +1,6 @@
 "use client";
-import { Button } from "@/components/ui/button";
 import {
   Dialog,
-  DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
@@ -10,11 +8,10 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Input } from "@/components//ui/input";
 import { useState, useEffect } from "react";
 import LoginForm from "@/components/forms/LoginForm";
 import RegisterForm from "./forms/RegisterForm";
-import { LogIn, Sparkle } from "lucide-react";
+import { LogIn } from "lucide-react";
 import Link from "next/link";
 import { useAuth } from "@/context/AuthContext";
 

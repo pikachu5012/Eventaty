@@ -6,9 +6,12 @@ import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 
 export default async function UpComingEvents() {
+  const APP_URL = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
   let events: IEvent[] = [];
   try {
-    const response = await axios.get("http://localhost:3000/api/events");
+    const response = await axios.get(`${APP_URL}/api/events`, {
+      headers: { "Cache-Control": "no-cache" },
+    });
     const data = response.data;
     events = Array.isArray(data)
       ? data

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Ticket } from "lucide-react";
 import TicketCard from "@/components/ui/ticket";
 import TicketSelectionModal from "@/components/ui/TicketSelectionModal";
@@ -40,7 +40,10 @@ export default function TicketsSection({
   return (
     <>
       {/* Section 2: Tickets */}
-      <div className="mb-12 p-8 rounded-3xl bg-card border border-secondary/10" id="tickets">
+      <div
+        className="mb-12 p-8 rounded-3xl bg-card border border-secondary/10"
+        id="tickets"
+      >
         <div className="flex items-center gap-3 mb-8">
           <Ticket className="text-secondary" size={24} />
           <h2 className="text-xl font-medium text-primary">

@@ -2,7 +2,6 @@ import Link from "next/link";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
 } from "@/components/ui/card";
@@ -38,9 +37,8 @@ export default function CardComponent({
       ? `${data.city}, ${data.country}`
       : data?.city || data?.country) ||
     (isEvent ? "Grand Arena, Downtown" : "Capacity: 500 people");
-  const price = data?.price || 99.99;
-  // const description = data?.description || "Intimate jazz club with excellent acoustics and a cozy atmosphere. Perfect for live music performances.";
-  const capacity = data?.capacity || 500;
+  const price = data?.price;
+  const capacity = data?.capacity;
 
   return (
     <Card className="pt-0 rounded-xl overflow-hidden group bg-card border-none shadow-sm h-full flex flex-col">
@@ -79,11 +77,6 @@ export default function CardComponent({
         <h3 className="text-lg font-bold mb-3 group-hover:text-secondary transition-colors line-clamp-1 text-dark-background">
           {title}
         </h3>
-        {/* {!isEvent && (
-          <CardDescription className="line-clamp-2 mb-4">
-            {description}
-          </CardDescription>
-        )} */}
         <div className="text-sm text-muted-foreground mb-2 flex gap-2 items-center">
           {isEvent ? (
             <Calendar className="w-4 h-4 text-eventaty-gold" />

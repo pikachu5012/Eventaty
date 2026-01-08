@@ -1,12 +1,11 @@
 "use client";
 import Link from "next/link";
 import Image from "next/image";
-import { LogOut, Menu, Sun, User } from "lucide-react";
+import { LogOut, Menu, User } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { AuthOverlay } from "@/components/AuthOverlay";
 import { useState } from "react";
 import { useAuth } from "@/context/AuthContext";
-import { ThemeProvider } from "@/components/ThemeProvider";
 import { ThemeToggle } from "../ThemeToggle";
 import { toast } from "sonner";
 

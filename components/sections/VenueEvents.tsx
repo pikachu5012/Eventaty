@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Clock } from "lucide-react";
 import { IEvent } from "@/types/event";
 import { useRouter } from "next/navigation";
@@ -66,7 +66,7 @@ export default function VenueEvents({ events }: VenueEventsProps) {
               key={evt.startDateTime}
               onClick={() => setSelectedDate(evt.startDateTime)}
               className={`
-                flex-shrink-0 w-20 h-30 rounded-2xl flex flex-col items-center justify-center transition-all duration-300 border
+                shrink-0 w-20 h-30 rounded-2xl flex flex-col items-center justify-center transition-all duration-300 border
                 ${
                   isSelected
                     ? "bg-eventaty-gold text-white shadow-md shadow-eventaty-gold/20 scale-105 border-transparent"
@@ -112,7 +112,7 @@ export default function VenueEvents({ events }: VenueEventsProps) {
               className="group border border-eventaty-gold/30 rounded-xl p-4 flex flex-col md:flex-row gap-6 bg-eventaty-cream/20 hover:shadow-md hover:border-eventaty-gold transition-all duration-300"
             >
               {/* Image Section */}
-              <div className="w-full md:w-32 h-32 bg-gray-800 rounded-lg flex-shrink-0 overflow-hidden relative shadow-inner">
+              <div className="w-full md:w-32 h-32 bg-gray-800 rounded-lg shrink-0 overflow-hidden relative shadow-inner">
                 <div
                   className="w-full h-full bg-cover bg-center group-hover:scale-110 transition-transform duration-500"
                   style={{ backgroundImage: `url(${event.images[0]})` }} // Handling Images

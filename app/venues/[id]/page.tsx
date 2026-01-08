@@ -11,7 +11,7 @@ import {
 } from "lucide-react";
 // Import the new Client Component
 import VenueEvents from "@/components/sections/VenueEvents";
-import { IVenue, IAmenity } from "@/types/venue";
+import { IAmenity } from "@/types/venue";
 
 // --- Helper for Icons (Keep this as is) ---
 const IconMapper = ({ name }: { name: string }) => {
@@ -57,72 +57,6 @@ export default async function VenueDetails({
 
   const apiData = await response.json().then((data) => data.data.venue);
 
-  // Map API data to component structure
-  const venueData = {
-    id: id,
-    name: "Grand Celebration Hall",
-    description:
-      "A premier venue for large-scale events, concerts, and conferences.",
-    capacity: 5000,
-    location: "San Francisco, CA",
-    address: "123 Main Street, San Francisco, CA",
-    imageUrl:
-      "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?q=80&w=2070&auto=format&fit=crop",
-    amenities: [
-      { name: "Parking", icon: "parking" },
-      { name: "WiFi", icon: "wifi" },
-      { name: "Food Court", icon: "food" },
-      { name: "VIP Lounge", icon: "vip" },
-    ],
-    // NOTICE: I added 'date' and 'displayDate' fields here
-    events: [
-      {
-        id: 1,
-        title: "Epic Rock & Pop Festival",
-        time: "15:00",
-        price: 129.99,
-        description: "Afternoon rock and pop extravaganza.",
-        image:
-          "https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?auto=format&fit=crop&q=80&w=1000",
-        date: "2024-12-27",
-        displayDate: { day: "Sat", date: "27", month: "Dec" },
-      },
-      {
-        id: 2,
-        title: "Electronic Dance Night",
-        time: "21:00",
-        price: 89.99,
-        description: "The biggest EDM night of the year!",
-        image:
-          "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&q=80&w=1000",
-        date: "2024-12-27",
-        displayDate: { day: "Sat", date: "27", month: "Dec" },
-      },
-      {
-        id: 3,
-        title: "New Year Jazz Gala",
-        time: "19:00",
-        price: 150.0,
-        description: "Smooth jazz to welcome the new year.",
-        image:
-          "https://images.unsplash.com/photo-1511192336575-5a79af67a629?auto=format&fit=crop&q=80&w=1000",
-        date: "2024-12-31",
-        displayDate: { day: "Wed", date: "31", month: "Dec" },
-      },
-      {
-        id: 4,
-        title: "Classical Symphony",
-        time: "18:00",
-        price: 75.5,
-        description: "A relaxing evening with Mozart and Bach.",
-        image:
-          "https://images.unsplash.com/photo-1507838153414-b4b713384ebd?auto=format&fit=crop&q=80&w=1000",
-        date: "2025-01-02",
-        displayDate: { day: "Fri", date: "02", month: "Jan" },
-      },
-    ],
-  };
-
   return (
     <div className="min-h-screen bg-background text-eventaty-dark pb-20 font-sans">
       {/* Hero Section */}
@@ -143,9 +77,6 @@ export default async function VenueDetails({
               <h2 className="text-2xl font-bold mb-4">
                 About {apiData.name || "This Venue"}
               </h2>
-              <p className="text-primary mb-8 leading-relaxed">
-                {venueData.description}
-              </p>
               <p className="text-primary mb-8 leading-relaxed">
                 {apiData.description}
               </p>
@@ -232,7 +163,7 @@ export default async function VenueDetails({
                   Address
                 </h4>
                 <p className="font-medium text-sm text-primary/60">
-                  {apiData.address || venueData.address}
+                  {apiData.address}
                 </p>
               </div>
               <button className="w-full bg-eventaty-gold text-white font-bold py-3.5 px-4 rounded-lg shadow-lg shadow-eventaty-gold/30 hover:bg-eventaty-gold/90 transition-colors cursor-pointer">

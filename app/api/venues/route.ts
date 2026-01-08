@@ -1,6 +1,5 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import axios from "axios";
-import { IVenue } from "@/types/venue";
 
 const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:5000";
 
@@ -17,17 +16,44 @@ export async function GET() {
   }
 }
 
-export async function POST(venue: IVenue) {
-  const postedVenue = await axios.post(`${BACKEND_URL}/venues`, venue);
-  return NextResponse.json(postedVenue);
+export async function POST(request: NextRequest) {
+  try {
+    const venue = await request.json();
+    const postedVenue = await axios.post(`${BACKEND_URL}/venues`, venue);
+    return NextResponse.json(postedVenue);
+  } catch (error) {
+    console.error("Error creating venue:", error);
+    return NextResponse.json(
+      { error: "Failed to create venue" },
+      { status: 500 }
+    );
+  }
 }
 
-export async function PUT(id: string, venue: IVenue) {
-  const updatedVenue = await axios.put(`${BACKEND_URL}/venues/${id}`, venue);
-  return NextResponse.json(updatedVenue);
+export async function PUT(request: NextRequest) {
+  try {
+    const { id, ...venue } = await request.json();
+    const updatedVenue = await axios.put(`${BACKEND_URL}/venues/${id}`, venue);
+    return NextResponse.json(updatedVenue);
+  } catch (error) {
+    console.error("Error updating venue:", error);
+    return NextResponse.json(
+      { error: "Failed to update venue" },
+      { status: 500 }
+    );
+  }
 }
 
-export async function DELETE(id: string) {
-  const venue = await axios.delete(`${BACKEND_URL}/venues/${id}`);
-  return NextResponse.json(venue);
+export async function DELETE(request: NextRequest) {
+  try {
+    const { id } = await request.json();
+    const venue = await axios.delete(`${BACKEND_URL}/venues/${id}`);
+    return NextResponse.json(venue);
+  } catch (error) {
+    console.error("Error deleting venue:", error);
+    return NextResponse.json(
+      { error: "Failed to delete venue" },
+      { status: 500 }
+    );
+  }
 }

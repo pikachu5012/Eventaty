@@ -5,7 +5,6 @@ import CardComponent from "@/components/CardComponent";
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
 import { IVenue } from "@/types/venue";
-import { GET } from "@/app/api/venues/route";
 
 export default function VenuesList() {
   const [searchQuery, setSearchQuery] = useState("");

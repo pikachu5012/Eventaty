@@ -6,15 +6,18 @@ import axios from "axios";
 import { IVenue } from "@/types/venue";
 
 export default async function HomeVenues() {
+  const APP_URL = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
   let venues: IVenue[] = [];
   try {
-    const response = await axios.get("http://localhost:3000/api/venues");
+    const response = await axios.get(`${APP_URL}/api/venues`, {
+      headers: { "Cache-Control": "no-cache" },
+    });
     const data = response.data;
     venues = Array.isArray(data)
       ? data
       : data?.data?.venues || data?.venues || data?.data || [];
   } catch (error) {
-    console.error("Error fetching upcoming events:", error);
+    console.error("Error fetching venues:", error);
   }
   const displayedVenues = venues.slice(0, 4);
   return (
