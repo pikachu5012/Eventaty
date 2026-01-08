@@ -6,11 +6,14 @@ import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
 import { AuthOverlay } from "@/components/AuthOverlay";
 import AdminDashboard from "@/components/pages/AdminDashboard";
+import { useState } from "react";
+import AccountTypeOverlay from "@/components/AccountTypeOverlay";
 
 export default function Dashboard() {
   const { user, isLoading } = useAuth();
   const router = useRouter();
   const isAdmin = user?.role === "admin";
+  const [asUser, setAsUser] = useState(false);
 
   if (isLoading) {
     return (
@@ -42,5 +45,18 @@ export default function Dashboard() {
     );
   }
 
-    return <div>{isAdmin ? <AdminDashboard />: <UserDashboard />}</div>;
-  }
+  return (
+    <div>
+      {isAdmin && <AccountTypeOverlay asUser={asUser} setAsUser={setAsUser} />}
+      {isAdmin ? (
+        asUser ? (
+          <UserDashboard />
+        ) : (
+          <AdminDashboard />
+        )
+      ) : (
+        <UserDashboard />
+      )}
+    </div>
+  );
+}

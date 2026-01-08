@@ -2,7 +2,15 @@
 
 import { useState, useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
-import { X, Image as ImageIcon, Plus, Trash2, Edit, Calendar as CalendarIcon, Clock } from "lucide-react";
+import {
+  X,
+  Image as ImageIcon,
+  Plus,
+  Trash2,
+  Edit,
+  Calendar as CalendarIcon,
+  Clock,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -72,31 +80,66 @@ export function EventForm({
     totalCapacity: 0,
     price: 0,
     eventType: "In-person",
-    status: "draft",
+    status: "published",
     featured: false,
-    tickets: [{ type: "General Admission", description: "Standing room, main floor access", multiplier: 1 }],
+    tickets: [
+      {
+        type: "General Admission",
+        description: "Standing room, main floor access",
+        multiplier: 1,
+      },
+    ],
   };
 
-  const { register, handleSubmit, control, setValue, watch, formState: { errors } } = useForm<FormData>({
-    defaultValues: event ? {
-      title: event.title,
-      description: event.description,
-      images: event.images || [""],
-      startDateTime: event.startDateTime ? format(new Date(event.startDateTime), "yyyy-MM-dd'T'HH:mm") : "",
-      endDateTime: event.endDateTime ? format(new Date(event.endDateTime), "yyyy-MM-dd'T'HH:mm") : "",
-      categoryId: (typeof event.categoryId === 'object' && event.categoryId !== null && '_id' in event.categoryId) ? event.categoryId._id : (event.categoryId as string) || "",
-      venueId: (typeof event.venueId === 'object' && event.venueId !== null && '_id' in event.venueId) ? event.venueId._id : (event.venueId as string) || "",
-      totalCapacity: event.totalCapacity,
-      price: event.price,
-      eventType: (event.eventType as "In-person" | "Online" | "Hybrid") || "In-person",
-      status: (event.status as "draft" | "published" | "cancelled") || "draft",
-      featured: event.featured,
-      tickets: event.tickets && event.tickets.length > 0 ? event.tickets.map(t => ({
-        type: t.type,
-        description: t.description,
-        multiplier: t.multiplier
-      })) : defaultValues.tickets,
-    } : defaultValues,
+  const {
+    register,
+    handleSubmit,
+    control,
+    setValue,
+    watch,
+    formState: { errors },
+  } = useForm<FormData>({
+    defaultValues: event
+      ? {
+          title: event.title,
+          description: event.description,
+          images: event.images || [""],
+          startDateTime: event.startDateTime
+            ? format(new Date(event.startDateTime), "yyyy-MM-dd'T'HH:mm")
+            : "",
+          endDateTime: event.endDateTime
+            ? format(new Date(event.endDateTime), "yyyy-MM-dd'T'HH:mm")
+            : "",
+          categoryId:
+            typeof event.categoryId === "object" &&
+            event.categoryId !== null &&
+            "_id" in event.categoryId
+              ? event.categoryId._id
+              : (event.categoryId as string) || "",
+          venueId:
+            typeof event.venueId === "object" &&
+            event.venueId !== null &&
+            "_id" in event.venueId
+              ? event.venueId._id
+              : (event.venueId as string) || "",
+          totalCapacity: event.totalCapacity,
+          price: event.price,
+          eventType:
+            (event.eventType as "In-person" | "Online" | "Hybrid") ||
+            "In-person",
+          status:
+            (event.status as "draft" | "published" | "cancelled") || "draft",
+          featured: event.featured,
+          tickets:
+            event.tickets && event.tickets.length > 0
+              ? event.tickets.map((t) => ({
+                  type: t.type,
+                  description: t.description,
+                  multiplier: t.multiplier,
+                }))
+              : defaultValues.tickets,
+        }
+      : defaultValues,
   });
 
   const [imageUrls, setImageUrls] = useState<string[]>([""]);
@@ -120,7 +163,10 @@ export function EventForm({
     const newImageUrls = [...imageUrls];
     newImageUrls.splice(index, 1);
     setImageUrls(newImageUrls);
-    setValue("images", newImageUrls.filter(url => url));
+    setValue(
+      "images",
+      newImageUrls.filter((url) => url)
+    );
 
     const newImagePreviews = [...imagePreviews];
     newImagePreviews.splice(index, 1);
@@ -131,7 +177,10 @@ export function EventForm({
     const newImageUrls = [...imageUrls];
     newImageUrls[index] = value;
     setImageUrls(newImageUrls);
-    setValue("images", newImageUrls.filter(url => url));
+    setValue(
+      "images",
+      newImageUrls.filter((url) => url)
+    );
 
     if (value.match(/\.(jpeg|jpg|gif|png|webp)$/i) != null) {
       const newImagePreviews = [...imagePreviews];
@@ -144,7 +193,7 @@ export function EventForm({
     const currentTickets = watch("tickets") || [];
     setValue("tickets", [
       ...currentTickets,
-      { type: "General", description: "", multiplier: 1 } // Reset new ticket defaults
+      { type: "General", description: "", multiplier: 1 }, // Reset new ticket defaults
     ]);
   };
 
@@ -163,10 +212,10 @@ export function EventForm({
       price: Number(data.price),
       // Set availableSeats to totalCapacity for new events
       ...(!event ? { availableSeats: Number(data.totalCapacity) } : {}),
-      tickets: data.tickets.map(ticket => ({
+      tickets: data.tickets.map((ticket) => ({
         ...ticket,
-        multiplier: Number(ticket.multiplier) || 1
-      }))
+        multiplier: Number(ticket.multiplier) || 1,
+      })),
     };
     onSubmit(formattedData);
   };
@@ -176,7 +225,6 @@ export function EventForm({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-in fade-in duration-200">
       <div className="w-full max-w-2xl max-h-[90vh] flex flex-col bg-card rounded-xl shadow-2xl overflow-hidden">
-
         {/* Header */}
         <div className="flex items-center justify-between px-6 py-4 bg-navFooter text-white shrink-0">
           <div className="flex items-center gap-3">
@@ -188,7 +236,9 @@ export function EventForm({
                 {event ? "Edit Event" : "Create Event"}
               </h2>
               <p className="text-xs text-gray-400 mt-1">
-                {event ? "Update event information" : "Add details for a new event"}
+                {event
+                  ? "Update event information"
+                  : "Add details for a new event"}
               </p>
             </div>
           </div>
@@ -202,15 +252,24 @@ export function EventForm({
 
         {/* Scrollable Form Content */}
         <div className="flex-1 overflow-y-auto p-6 space-y-8 custom-scrollbar">
-          <form id="event-form" onSubmit={handleSubmit(onFormSubmit)} className="space-y-8">
-
+          <form
+            id="event-form"
+            onSubmit={handleSubmit(onFormSubmit)}
+            className="space-y-8"
+          >
             {/* Image Section */}
             <div className="space-y-3">
-              <Label className="text-xs font-semibold text-primary/50 uppercase tracking-wide">Event Image URL</Label>
+              <Label className="text-xs font-semibold text-primary/50 uppercase tracking-wide">
+                Event Image URL
+              </Label>
               <div className="flex gap-4 items-start p-4 bg-background/50 border border-eventaty-gold/20 rounded-xl">
                 <div className="w-24 h-24 shrink-0 bg-gray-100 rounded-lg overflow-hidden border border-gray-200 flex items-center justify-center">
                   {imagePreviews[0] ? (
-                    <img src={imagePreviews[0]} alt="Preview" className="w-full h-full object-cover" />
+                    <img
+                      src={imagePreviews[0]}
+                      alt="Preview"
+                      className="w-full h-full object-cover"
+                    />
                   ) : (
                     <ImageIcon className="h-8 w-8 text-gray-300" />
                   )}
@@ -233,7 +292,9 @@ export function EventForm({
             <div className="space-y-6">
               {/* Title */}
               <div className="space-y-2">
-                <Label htmlFor="title" className="text-primary/70 text-sm">Event Title</Label>
+                <Label htmlFor="title" className="text-primary/70 text-sm">
+                  Event Title
+                </Label>
                 <Input
                   id="title"
                   placeholder="e.g. Rock Concert: The Legends"
@@ -251,21 +312,38 @@ export function EventForm({
                     control={control}
                     rules={{ required: "Category is required" }}
                     render={({ field }) => (
-                      <Select onValueChange={field.onChange} value={field.value}>
-                        <SelectTrigger className={`h-11 rounded-lg border-gray-200 focus:ring-eventaty-gold/20 ${errors.categoryId ? "border-red-500" : ""}`}>
+                      <Select
+                        onValueChange={field.onChange}
+                        value={field.value}
+                      >
+                        <SelectTrigger
+                          className={`h-11 rounded-lg border-gray-200 focus:ring-eventaty-gold/20 ${
+                            errors.categoryId ? "border-red-500" : ""
+                          }`}
+                        >
                           <SelectValue placeholder="Select Category" />
                         </SelectTrigger>
                         <SelectContent>
-                          {categories.map(c => <SelectItem key={c._id} value={c._id}>{c.name}</SelectItem>)}
+                          {categories.map((c) => (
+                            <SelectItem key={c._id} value={c._id}>
+                              {c.name}
+                            </SelectItem>
+                          ))}
                         </SelectContent>
                       </Select>
                     )}
                   />
-                  {errors.categoryId && <span className="text-xs text-red-500">Category is required</span>}
+                  {errors.categoryId && (
+                    <span className="text-xs text-red-500">
+                      Category is required
+                    </span>
+                  )}
                 </div>
                 {/* Price */}
                 <div className="space-y-2">
-                  <Label className="text-primary/70 text-sm">Base Price ($)</Label>
+                  <Label className="text-primary/70 text-sm">
+                    Base Price ($)
+                  </Label>
                   <Input
                     type="number"
                     step="0.01"
@@ -279,7 +357,9 @@ export function EventForm({
               {/* Date & Time */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div className="space-y-2">
-                  <Label className="text-primary/70 text-sm">Start Date & Time</Label>
+                  <Label className="text-primary/70 text-sm">
+                    Start Date & Time
+                  </Label>
                   <div className="relative">
                     <Input
                       type="datetime-local"
@@ -290,7 +370,9 @@ export function EventForm({
                   </div>
                 </div>
                 <div className="space-y-2">
-                  <Label className="text-primary/70 text-sm">End Date & Time</Label>
+                  <Label className="text-primary/70 text-sm">
+                    End Date & Time
+                  </Label>
                   <div className="relative">
                     <Input
                       type="datetime-local"
@@ -311,19 +393,32 @@ export function EventForm({
                     control={control}
                     rules={{ required: "Venue is required" }}
                     render={({ field }) => (
-                      <Select onValueChange={field.onChange} value={field.value}>
-                        <SelectTrigger className={`h-11 rounded-lg border-gray-200 focus:ring-eventaty-gold/20 ${errors.venueId ? "border-red-500" : ""}`}>
+                      <Select
+                        onValueChange={field.onChange}
+                        value={field.value}
+                      >
+                        <SelectTrigger
+                          className={`h-11 rounded-lg border-gray-200 focus:ring-eventaty-gold/20 ${
+                            errors.venueId ? "border-red-500" : ""
+                          }`}
+                        >
                           <SelectValue placeholder="Select Venue" />
                         </SelectTrigger>
                         <SelectContent>
-                          {venues.map(v => (
-                            <SelectItem key={v._id} value={v._id}>{v.name}</SelectItem>
+                          {venues.map((v) => (
+                            <SelectItem key={v._id} value={v._id}>
+                              {v.name}
+                            </SelectItem>
                           ))}
                         </SelectContent>
                       </Select>
                     )}
                   />
-                  {errors.venueId && <span className="text-xs text-red-500">Venue is required</span>}
+                  {errors.venueId && (
+                    <span className="text-xs text-red-500">
+                      Venue is required
+                    </span>
+                  )}
                 </div>
                 <div className="space-y-2">
                   <Label className="text-primary/70 text-sm">Capacity</Label>
@@ -373,7 +468,9 @@ export function EventForm({
             {/* Tickets Section */}
             <div className="space-y-4 pt-4 border-t border-gray-100">
               <div className="flex items-center justify-between">
-                <h3 className="text-sm font-bold text-gray-800 uppercase tracking-wide">Ticket Types</h3>
+                <h3 className="text-sm font-bold text-gray-800 uppercase tracking-wide">
+                  Ticket Types
+                </h3>
                 <Button
                   type="button"
                   onClick={handleAddTicket}
@@ -386,9 +483,14 @@ export function EventForm({
 
               <div className="grid gap-4">
                 {watch("tickets")?.map((ticket, index) => (
-                  <div key={index} className="group relative bg-background border border-transparent hover:border-eventaty-gold/30 rounded-xl p-5 transition-all">
+                  <div
+                    key={index}
+                    className="group relative bg-background border border-transparent hover:border-eventaty-gold/30 rounded-xl p-5 transition-all"
+                  >
                     <div className="flex justify-between items-center mb-4">
-                      <span className="text-xs font-bold text-gray-400 uppercase">Ticket #{index + 1}</span>
+                      <span className="text-xs font-bold text-gray-400 uppercase">
+                        Ticket #{index + 1}
+                      </span>
                       {watch("tickets").length > 1 && (
                         <button
                           type="button"
@@ -402,13 +504,18 @@ export function EventForm({
 
                     <div className="space-y-4">
                       <div>
-                        <Label className="text-xs text-primary/50 mb-1.5 block">Ticket Type Name</Label>
+                        <Label className="text-xs text-primary/50 mb-1.5 block">
+                          Ticket Type Name
+                        </Label>
                         <Controller
                           name={`tickets.${index}.type` as const}
                           control={control}
                           rules={{ required: true }}
                           render={({ field }) => (
-                            <Select onValueChange={field.onChange} value={field.value}>
+                            <Select
+                              onValueChange={field.onChange}
+                              value={field.value}
+                            >
                               <SelectTrigger className="h-10 bg-card border-gray-200">
                                 <SelectValue placeholder="Select Type" />
                               </SelectTrigger>
@@ -424,21 +531,31 @@ export function EventForm({
 
                       <div className="grid grid-cols-2 gap-4">
                         <div>
-                          <Label className="text-xs text-primary/50 mb-1.5 block">Multiplier (Price Factor)</Label>
+                          <Label className="text-xs text-primary/50 mb-1.5 block">
+                            Multiplier (Price Factor)
+                          </Label>
                           <Input
                             type="number"
                             step="0.1"
                             placeholder="1.0"
                             className="h-10 bg-card border-gray-200"
-                            {...register(`tickets.${index}.multiplier` as const, { required: true })}
+                            {...register(
+                              `tickets.${index}.multiplier` as const,
+                              { required: true }
+                            )}
                           />
                         </div>
                         <div>
-                          <Label className="text-xs text-primary/50 mb-1.5 block">Description</Label>
+                          <Label className="text-xs text-primary/50 mb-1.5 block">
+                            Description
+                          </Label>
                           <Input // Short description
                             placeholder="Brief info"
                             className="h-10 bg-card border-gray-200"
-                            {...register(`tickets.${index}.description` as const, { required: true })}
+                            {...register(
+                              `tickets.${index}.description` as const,
+                              { required: true }
+                            )}
                           />
                         </div>
                       </div>
@@ -447,7 +564,6 @@ export function EventForm({
                 ))}
               </div>
             </div>
-
           </form>
         </div>
 
@@ -470,7 +586,6 @@ export function EventForm({
             {loading ? "Saving..." : "Save Changes"}
           </Button>
         </div>
-
       </div>
     </div>
   );

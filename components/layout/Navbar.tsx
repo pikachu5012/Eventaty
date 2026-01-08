@@ -133,7 +133,7 @@ export default function Navbar() {
                   </div>
                 </Link>
                 <span
-                  className="block border border-red-400 rounded-lg py-2 px-3 cursor-pointer text-red-400 hover:bg-red-400 hover:text-white transition flex items-center gap-2"
+                  className="border border-red-400 rounded-lg py-2 px-3 cursor-pointer text-red-400 hover:bg-red-400 hover:text-white transition flex items-center gap-2"
                   onClick={() => logout()}
                 >
                   <LogOut size={18} />

@@ -17,7 +17,14 @@ export default async function UpComingEvents() {
     console.error("Error fetching upcoming events:", error);
   }
 
-  const displayedEvents = events.slice(0, 3);
+  const displayedEvents = events
+    .filter((event) => event.featured === true)
+    .sort(
+      (a, b) =>
+        new Date(a.startDateTime).getTime() -
+        new Date(b.startDateTime).getTime()
+    )
+    .slice(0, 3);
 
   return (
     <section className="container mx-auto">
