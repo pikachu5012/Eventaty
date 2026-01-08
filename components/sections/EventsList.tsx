@@ -68,7 +68,14 @@ export default function EventsList({ category }: { category?: string }) {
           );
         })();
 
-      return matchesSearch && matchesCategory && matchesLocation && matchesDate;
+      const matchesNotStarted = new Date(event.startDateTime) > new Date();
+      return (
+        matchesSearch &&
+        matchesCategory &&
+        matchesLocation &&
+        matchesDate &&
+        matchesNotStarted
+      );
     });
   }, [searchQuery, selectedCategory, locationFilter, dateFilter, allEvents]);
 

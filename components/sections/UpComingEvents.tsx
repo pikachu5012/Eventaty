@@ -18,7 +18,10 @@ export default async function UpComingEvents() {
   }
 
   const displayedEvents = events
-    .filter((event) => event.featured === true)
+    .filter(
+      (event) =>
+        event.featured === true && new Date(event.startDateTime) > new Date()
+    )
     .sort(
       (a, b) =>
         new Date(a.startDateTime).getTime() -

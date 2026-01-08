@@ -35,7 +35,7 @@ export default function AccountTypeOverlay({
                 setAsUser(true);
                 setOpen(false);
               }}
-              className="w-4/9 px-4 py-2 rounded-lg bg-secondary text-primary hover:bg-primary hover:text-secondary transition"
+              className="w-4/9 px-4 py-2 cursor-pointer rounded-lg bg-secondary text-primary hover:bg-primary hover:text-secondary transition"
             >
               User
             </button>
@@ -46,7 +46,7 @@ export default function AccountTypeOverlay({
                 setAsUser(false);
                 setOpen(false);
               }}
-              className="w-4/9 px-4 py-2 rounded-lg bg-secondary text-primary hover:bg-primary hover:text-secondary transition"
+              className="w-4/9 px-4 py-2 cursor-pointer rounded-lg bg-secondary text-primary hover:bg-primary hover:text-secondary transition"
             >
               Admin
             </button>

@@ -34,7 +34,9 @@ export default function CardComponent({
 
   const locationOrCapacity =
     data?.venueId?.address ||
-    (data?.city && data?.country ? `${data.city}, ${data.country}` : data?.city || data?.country) ||
+    (data?.city && data?.country
+      ? `${data.city}, ${data.country}`
+      : data?.city || data?.country) ||
     (isEvent ? "Grand Arena, Downtown" : "Capacity: 500 people");
   const price = data?.price || 99.99;
   // const description = data?.description || "Intimate jazz club with excellent acoustics and a cozy atmosphere. Perfect for live music performances.";
@@ -73,7 +75,7 @@ export default function CardComponent({
           </Badge>
         )}
       </CardHeader>
-      <CardContent className="flex-grow pt-5">
+      <CardContent className="grow pt-5">
         <h3 className="text-lg font-bold mb-3 group-hover:text-secondary transition-colors line-clamp-1 text-dark-background">
           {title}
         </h3>
