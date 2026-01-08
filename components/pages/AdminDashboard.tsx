@@ -431,8 +431,8 @@ export default function AdminDashboard() {
 
                         {/* Pagination Controls */}
                         {totalPages > 1 && (
-                            <div className="p-6 border-t border-eventaty-gold flex items-center justify-between bg-card">
-                                <div className="text-sm text-primary/70">
+                            <div className="p-4 md:p-6 border-t border-eventaty-gold flex flex-col md:flex-row items-center justify-between gap-4 bg-card">
+                                <div className="text-xs md:text-sm text-primary/70 text-center md:text-left">
                                     Showing <span className="font-semibold text-primary">{startIndex + 1}</span> to{" "}
                                     <span className="font-semibold text-primary">
                                         {Math.min(startIndex + itemsPerPage, filteredEvents.length)}
@@ -443,16 +443,16 @@ export default function AdminDashboard() {
                                     <button
                                         onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
                                         disabled={currentPage === 1}
-                                        className="px-4 py-2 text-sm font-medium text-gray-600 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                                        className="px-3 md:px-4 py-2 text-xs md:text-sm font-medium text-gray-600 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                                     >
                                         Previous
                                     </button>
-                                    <div className="flex items-center gap-1">
+                                    <div className="hidden sm:flex items-center gap-1">
                                         {[...Array(totalPages)].map((_, i) => (
                                             <button
                                                 key={i + 1}
                                                 onClick={() => setCurrentPage(i + 1)}
-                                                className={`w-9 h-9 flex items-center justify-center text-sm font-medium rounded-lg transition-all ${currentPage === i + 1
+                                                className={`w-8 h-8 md:w-9 md:h-9 flex items-center justify-center text-xs md:text-sm font-medium rounded-lg transition-all ${currentPage === i + 1
                                                     ? "bg-secondary text-white shadow-sm shadow-secondary/30"
                                                     : "text-gray-600 hover:bg-gray-50 hover:text-secondary"
                                                     }`}
@@ -461,10 +461,13 @@ export default function AdminDashboard() {
                                             </button>
                                         ))}
                                     </div>
+                                    <div className="sm:hidden text-xs font-medium text-gray-600">
+                                        Page {currentPage} of {totalPages}
+                                    </div>
                                     <button
                                         onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
                                         disabled={currentPage === totalPages}
-                                        className="px-4 py-2 text-sm font-medium text-gray-600 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                                        className="px-3 md:px-4 py-2 text-xs md:text-sm font-medium text-gray-600 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                                     >
                                         Next
                                     </button>

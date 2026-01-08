@@ -175,10 +175,10 @@ export function EventForm({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-in fade-in duration-200">
-      <div className="w-full max-w-2xl max-h-[90vh] flex flex-col bg-white rounded-xl shadow-2xl overflow-hidden">
+      <div className="w-full max-w-2xl max-h-[90vh] flex flex-col bg-card rounded-xl shadow-2xl overflow-hidden">
 
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 bg-[#1a1f2c] text-white shrink-0">
+        <div className="flex items-center justify-between px-6 py-4 bg-navFooter text-white shrink-0">
           <div className="flex items-center gap-3">
             <div className="p-2 bg-white/10 rounded-lg">
               <Edit className="h-5 w-5 text-eventaty-gold" />
@@ -206,8 +206,8 @@ export function EventForm({
 
             {/* Image Section */}
             <div className="space-y-3">
-              <Label className="text-xs font-semibold text-gray-500 uppercase tracking-wide">Event Image URL</Label>
-              <div className="flex gap-4 items-start p-4 bg-[#fdfaf3]/50 border border-eventaty-gold/20 rounded-xl">
+              <Label className="text-xs font-semibold text-primary/50 uppercase tracking-wide">Event Image URL</Label>
+              <div className="flex gap-4 items-start p-4 bg-background/50 border border-eventaty-gold/20 rounded-xl">
                 <div className="w-24 h-24 shrink-0 bg-gray-100 rounded-lg overflow-hidden border border-gray-200 flex items-center justify-center">
                   {imagePreviews[0] ? (
                     <img src={imagePreviews[0]} alt="Preview" className="w-full h-full object-cover" />
@@ -220,9 +220,9 @@ export function EventForm({
                     placeholder="https://example.com/image.jpg"
                     value={imageUrls[0]}
                     onChange={(e) => handleImageUrlChange(0, e.target.value)}
-                    className="bg-white border-gray-200 focus:border-eventaty-gold focus:ring-eventaty-gold/20"
+                    className="bg-background border-gray-200 focus:border-eventaty-gold focus:ring-eventaty-gold/20"
                   />
-                  <p className="text-[11px] text-gray-400">
+                  <p className="text-[11px] text-primary/70">
                     Enter a valid Image URL. Preview will update automatically.
                   </p>
                 </div>
@@ -233,11 +233,11 @@ export function EventForm({
             <div className="space-y-6">
               {/* Title */}
               <div className="space-y-2">
-                <Label htmlFor="title" className="text-gray-600 text-sm">Event Title</Label>
+                <Label htmlFor="title" className="text-primary/70 text-sm">Event Title</Label>
                 <Input
                   id="title"
                   placeholder="e.g. Rock Concert: The Legends"
-                  className="h-11 rounded-lg border-gray-200 focus:border-eventaty-gold focus:ring-eventaty-gold/20 font-medium"
+                  className="h-11 rounded-lg border-gray-200 focus:border-eventaty-gold focus:ring-eventaty-gold/20 font-medium bg-background"
                   {...register("title", { required: true })}
                 />
               </div>
@@ -245,7 +245,7 @@ export function EventForm({
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 {/* Category */}
                 <div className="space-y-2">
-                  <Label className="text-gray-600 text-sm">Category</Label>
+                  <Label className="text-primary/70 text-sm">Category</Label>
                   <Controller
                     name="categoryId"
                     control={control}
@@ -265,12 +265,12 @@ export function EventForm({
                 </div>
                 {/* Price */}
                 <div className="space-y-2">
-                  <Label className="text-gray-600 text-sm">Base Price ($)</Label>
+                  <Label className="text-primary/70 text-sm">Base Price ($)</Label>
                   <Input
                     type="number"
                     step="0.01"
                     placeholder="0.00"
-                    className="h-11 rounded-lg border-gray-200 focus:border-eventaty-gold focus:ring-eventaty-gold/20"
+                    className="h-11 rounded-lg border-gray-200 focus:border-eventaty-gold focus:ring-eventaty-gold/20 bg-background"
                     {...register("price", { required: true })}
                   />
                 </div>
@@ -279,22 +279,22 @@ export function EventForm({
               {/* Date & Time */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div className="space-y-2">
-                  <Label className="text-gray-600 text-sm">Start Date & Time</Label>
+                  <Label className="text-primary/70 text-sm">Start Date & Time</Label>
                   <div className="relative">
                     <Input
                       type="datetime-local"
-                      className="h-11 rounded-lg border-gray-200 focus:border-eventaty-gold focus:ring-eventaty-gold/20 pl-10"
+                      className="h-11 rounded-lg border-gray-200 focus:border-eventaty-gold focus:ring-eventaty-gold/20 pl-10 bg-background"
                       {...register("startDateTime", { required: true })}
                     />
                     <CalendarIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
                   </div>
                 </div>
                 <div className="space-y-2">
-                  <Label className="text-gray-600 text-sm">End Date & Time</Label>
+                  <Label className="text-primary/70 text-sm">End Date & Time</Label>
                   <div className="relative">
                     <Input
                       type="datetime-local"
-                      className="h-11 rounded-lg border-gray-200 focus:border-eventaty-gold focus:ring-eventaty-gold/20 pl-10"
+                      className="h-11 rounded-lg border-gray-200 focus:border-eventaty-gold focus:ring-eventaty-gold/20 pl-10 bg-background"
                       {...register("endDateTime", { required: true })}
                     />
                     <Clock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
@@ -305,7 +305,7 @@ export function EventForm({
               {/* Venue & Capacity */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div className="space-y-2">
-                  <Label className="text-gray-600 text-sm">Venue</Label>
+                  <Label className="text-primary/70 text-sm">Venue</Label>
                   <Controller
                     name="venueId"
                     control={control}
@@ -326,11 +326,11 @@ export function EventForm({
                   {errors.venueId && <span className="text-xs text-red-500">Venue is required</span>}
                 </div>
                 <div className="space-y-2">
-                  <Label className="text-gray-600 text-sm">Capacity</Label>
+                  <Label className="text-primary/70 text-sm">Capacity</Label>
                   <Input
                     type="number"
                     placeholder="Total seats"
-                    className="h-11 rounded-lg border-gray-200 focus:border-eventaty-gold focus:ring-eventaty-gold/20"
+                    className="h-11 rounded-lg border-gray-200 focus:border-eventaty-gold focus:ring-eventaty-gold/20 bg-background"
                     {...register("totalCapacity", { required: true })}
                   />
                 </div>
@@ -338,7 +338,7 @@ export function EventForm({
 
               {/* Description */}
               <div className="space-y-2">
-                <Label className="text-gray-600 text-sm">Description</Label>
+                <Label className="text-primary/70 text-sm">Description</Label>
                 <Textarea
                   placeholder="Event details..."
                   rows={4}
@@ -363,7 +363,7 @@ export function EventForm({
                 />
                 <label
                   htmlFor="featured"
-                  className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-gray-700"
+                  className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-primary/80"
                 >
                   Mark as Featured Event
                 </label>
@@ -378,7 +378,7 @@ export function EventForm({
                   type="button"
                   onClick={handleAddTicket}
                   size="sm"
-                  className="bg-[#fdfaf3] text-eventaty-gold border border-eventaty-gold/30 hover:bg-eventaty-gold hover:text-white transition-all shadow-sm"
+                  className="bg-background text-eventaty-gold border border-eventaty-gold/30 hover:bg-eventaty-gold hover:text-white transition-all shadow-sm"
                 >
                   <Plus className="h-3.5 w-3.5 mr-1.5" /> Add Ticket
                 </Button>
@@ -386,7 +386,7 @@ export function EventForm({
 
               <div className="grid gap-4">
                 {watch("tickets")?.map((ticket, index) => (
-                  <div key={index} className="group relative bg-[#f9f9f9] border border-transparent hover:border-eventaty-gold/30 rounded-xl p-5 transition-all">
+                  <div key={index} className="group relative bg-background border border-transparent hover:border-eventaty-gold/30 rounded-xl p-5 transition-all">
                     <div className="flex justify-between items-center mb-4">
                       <span className="text-xs font-bold text-gray-400 uppercase">Ticket #{index + 1}</span>
                       {watch("tickets").length > 1 && (
@@ -402,17 +402,18 @@ export function EventForm({
 
                     <div className="space-y-4">
                       <div>
-                        <Label className="text-xs text-gray-500 mb-1.5 block">Ticket Type Name</Label>
+                        <Label className="text-xs text-primary/50 mb-1.5 block">Ticket Type Name</Label>
                         <Controller
                           name={`tickets.${index}.type` as const}
                           control={control}
                           rules={{ required: true }}
                           render={({ field }) => (
                             <Select onValueChange={field.onChange} value={field.value}>
-                              <SelectTrigger className="h-10 bg-white border-gray-200">
+                              <SelectTrigger className="h-10 bg-card border-gray-200">
                                 <SelectValue placeholder="Select Type" />
                               </SelectTrigger>
                               <SelectContent>
+                                {/* static */}
                                 <SelectItem value="General">General</SelectItem>
                                 <SelectItem value="VIP">VIP</SelectItem>
                               </SelectContent>
@@ -423,20 +424,20 @@ export function EventForm({
 
                       <div className="grid grid-cols-2 gap-4">
                         <div>
-                          <Label className="text-xs text-gray-500 mb-1.5 block">Multiplier (Price Factor)</Label>
+                          <Label className="text-xs text-primary/50 mb-1.5 block">Multiplier (Price Factor)</Label>
                           <Input
                             type="number"
                             step="0.1"
                             placeholder="1.0"
-                            className="h-10 bg-white border-gray-200"
+                            className="h-10 bg-card border-gray-200"
                             {...register(`tickets.${index}.multiplier` as const, { required: true })}
                           />
                         </div>
                         <div>
-                          <Label className="text-xs text-gray-500 mb-1.5 block">Description</Label>
+                          <Label className="text-xs text-primary/50 mb-1.5 block">Description</Label>
                           <Input // Short description
                             placeholder="Brief info"
-                            className="h-10 bg-white border-gray-200"
+                            className="h-10 bg-card border-gray-200"
                             {...register(`tickets.${index}.description` as const, { required: true })}
                           />
                         </div>
@@ -451,12 +452,12 @@ export function EventForm({
         </div>
 
         {/* Footer */}
-        <div className="flex items-center justify-end gap-3 px-6 py-4 bg-gray-50/50 border-t border-gray-100 shrink-0">
+        <div className="flex items-center justify-end gap-3 px-6 py-4 bg-card border-t border-gray-100 shrink-0">
           <Button
             type="button"
             variant="outline"
             onClick={() => onOpenChange(false)}
-            className="h-11 px-6 rounded-lg border-gray-200 text-gray-600 hover:text-gray-900 hover:bg-gray-50 hover:border-gray-300"
+            className="h-11 px-6 rounded-lg border-gray-200 text-primary/70 hover:text-gray-900 hover:bg-gray-50 hover:border-gray-300"
           >
             Cancel
           </Button>
