@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import axios from "axios";
 import { useAuth } from "@/context/AuthContext";
+import { toast } from "sonner";
 
 export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
@@ -24,8 +25,10 @@ export default function LoginForm() {
       setUser(response.data.user);
       setToken(response.data.token);
       setError("");
+      toast.success("Login successful");
     } catch (error) {
       setError("Invalid email or password");
+      toast.error("Invalid email or password");
     }
   };
 

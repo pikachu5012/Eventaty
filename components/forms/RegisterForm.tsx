@@ -3,6 +3,7 @@ import { Eye, EyeOff, Lock, Mail, Phone, User } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import axios from "axios";
+import { toast } from "sonner";
 
 export default function RegisterForm({
   onSuccess,
@@ -34,9 +35,11 @@ export default function RegisterForm({
           onSuccess();
         }, 2000);
       }
+      toast.success("Registration successful");
     } catch (error) {
       setError("Registration failed");
       setRegistered(false);
+      toast.error("Registration failed");
     }
   };
 

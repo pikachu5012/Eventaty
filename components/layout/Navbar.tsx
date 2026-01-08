@@ -8,6 +8,7 @@ import { useState } from "react";
 import { useAuth } from "@/context/AuthContext";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { ThemeToggle } from "../ThemeToggle";
+import { toast } from "sonner";
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -134,7 +135,10 @@ export default function Navbar() {
                 </Link>
                 <span
                   className="border border-red-400 rounded-lg py-2 px-3 cursor-pointer text-red-400 hover:bg-red-400 hover:text-white transition flex items-center gap-2"
-                  onClick={() => logout()}
+                  onClick={() => {
+                    logout();
+                    toast.success("Logout successful");
+                  }}
                 >
                   <LogOut size={18} />
                   Logout
