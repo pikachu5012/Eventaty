@@ -20,6 +20,21 @@ export default function ProfileCard({
   const { SVG } = useQRCode();
   const { token } = useAuth();
 
+  // Handle case where event has been deleted
+  if (!data.eventId) {
+    return (
+      <div className="flex lg:flex-row flex-wrap my-5 rounded-lg overflow-hidden shadow-lg bg-card border dark:border-eventaty-gold">
+        <div className="w-full p-6 text-center">
+          <p className="text-muted-foreground">Event information unavailable (event may have been deleted)</p>
+          <div className="mt-4">
+            <p className="text-sm text-muted-foreground">Booking Reference</p>
+            <p className="text-secondary font-semibold">{data.bookingReference}</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   const formatedDate = new Date(data.eventId.startDateTime).toLocaleDateString(
     "en-GB",
     {
@@ -75,9 +90,8 @@ export default function ProfileCard({
         )}
       </div>
       <div
-        className={`${
-          isPast ? "w-full lg:w-2/3" : "w-full md:w-1/2 lg:w-1/3"
-        } bg-background p-4`}
+        className={`${isPast ? "w-full lg:w-2/3" : "w-full md:w-1/2 lg:w-1/3"
+          } bg-background p-4`}
       >
         <h3 className="text-lg font-semibold">{data.eventId.title}</h3>
         <div className="border-b">

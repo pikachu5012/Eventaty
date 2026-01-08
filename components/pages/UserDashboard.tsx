@@ -34,11 +34,13 @@ export default function UserDashboard() {
   const upcomingBookings = myBookings.filter(
     (booking: IBooking) =>
       booking.status !== "cancelled" &&
+      booking.eventId &&
       new Date(booking.eventId.startDateTime) >= new Date()
   );
   const pastBookings = myBookings.filter(
     (booking: IBooking) =>
       booking.status === "cancelled" ||
+      !booking.eventId ||
       new Date(booking.eventId.startDateTime) < new Date()
   );
 

@@ -8,6 +8,7 @@ import { useSearchParams, useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { IEvent } from "@/types/event";
 import { useAuth } from "@/context/AuthContext";
+import { toast } from "sonner";
 
 export default function CompleteBookingPage() {
   const [isAgreed, setIsAgreed] = useState(false);
@@ -122,7 +123,7 @@ export default function CompleteBookingPage() {
         error?.response?.data?.message ||
         error?.response?.data?.error ||
         "Booking failed. Please try again.";
-      alert(message);
+      toast.error(message);
     } finally {
       setIsBooking(false);
     }
@@ -253,10 +254,9 @@ export default function CompleteBookingPage() {
                     disabled={!isAgreed || isBooking}
                     className={`
                       flex-1 py-3 px-6 rounded-lg font-bold text-white flex items-center justify-center gap-2 shadow-sm transition-all text-sm
-                      ${
-                        isAgreed && !isBooking
-                          ? "bg-eventaty-gold hover:bg-[#c29f2d] hover:shadow-md cursor-pointer"
-                          : "bg-[#E5DCC5] text-gray-400 cursor-not-allowed shadow-none"
+                      ${isAgreed && !isBooking
+                        ? "bg-eventaty-gold hover:bg-[#c29f2d] hover:shadow-md cursor-pointer"
+                        : "bg-[#E5DCC5] text-gray-400 cursor-not-allowed shadow-none"
                       }
                     `}
                   >

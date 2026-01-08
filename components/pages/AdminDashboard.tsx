@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import { toast } from "sonner";
 import { DollarSign, Calendar, Users, Search, Plus, Eye, Pencil, Trash2, Loader2 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import MetricCard from "@/components/MetricCard";
@@ -100,9 +101,11 @@ export default function AdminDashboard() {
             if (selectedEvent) {
                 // Update existing event
                 await axios.put(`/api/events/${selectedEvent._id}`, data, config);
+                toast.success("Event updated successfully");
             } else {
                 // Create new event
                 await axios.post("/api/events", data, config);
+                toast.success("Event created successfully");
             }
 
             // Refresh data and close form
@@ -111,27 +114,32 @@ export default function AdminDashboard() {
             setSelectedEvent(undefined);
         } catch (err) {
             console.error("Error saving event:", err);
-            // You might want to show a toast here
-            alert("Failed to save event. Please check the console for details.");
+            toast.error("Failed to save event. Please check the console for details.");
         } finally {
             setIsFormLoading(false);
         }
     };
 
-    const handleDeleteEvent = async (eventId: string) => {
-        if (!confirm("Are you sure you want to delete this event?")) return;
+    const handleDeleteEvent = (eventId: string) => {
+        toast("Are you sure you want to delete this event?", {
+            action: {
+                label: "Delete",
+                onClick: async () => {
+                    try {
+                        const config = token ? {
+                            headers: { Authorization: `Bearer ${token}` }
+                        } : {};
 
-        try {
-            const config = token ? {
-                headers: { Authorization: `Bearer ${token}` }
-            } : {};
-
-            await axios.delete(`/api/events/${eventId}`, config);
-            fetchData();
-        } catch (err) {
-            console.error("Error deleting event:", err);
-            alert("Failed to delete event.");
-        }
+                        await axios.delete(`/api/events/${eventId}`, config);
+                        toast.success("Event deleted successfully");
+                        fetchData();
+                    } catch (err) {
+                        console.error("Error deleting event:", err);
+                        toast.error("Failed to delete event.");
+                    }
+                }
+            }
+        });
     };
 
     const filteredEvents = events.filter((event) =>
@@ -252,7 +260,65 @@ export default function AdminDashboard() {
                     </div>
                 ) : (
                     <div className="flex flex-col">
-                        <div className="overflow-x-auto">
+                        {/* Mobile Card View */}
+                        <div className="block md:hidden divide-y divide-eventaty-gold/30">
+                            {paginatedEvents.map((event) => (
+                                <div key={event._id} className="p-4 space-y-3">
+                                    <div className="flex justify-between items-start">
+                                        <div>
+                                            <h3 className="font-semibold text-primary">{event.title}</h3>
+                                            <p className="text-xs text-primary/70">{getCategoryName(event)}</p>
+                                        </div>
+                                        <span className="text-sm font-bold text-secondary">${event.price}</span>
+                                    </div>
+
+                                    <div className="space-y-1 text-sm text-primary/70">
+                                        <div className="flex items-center gap-2">
+                                            <Calendar className="h-3 w-3 text-eventaty-gold" />
+                                            <span>{new Date(event.startDateTime).toLocaleDateString()}</span>
+                                        </div>
+                                        <div className="flex items-center gap-2">
+                                            <div className="h-3 w-3 rounded-full border border-eventaty-gold flex items-center justify-center">
+                                                <div className="h-1 w-1 bg-eventaty-gold rounded-full"></div>
+                                            </div>
+                                            <span className="truncate max-w-[200px]">{getVenueName(event)}</span>
+                                        </div>
+                                    </div>
+
+                                    <div className="flex items-center justify-between pt-2">
+                                        <span className="text-xs text-gray-500">{event.availableSeats} seats left</span>
+                                        <div className="flex items-center gap-2">
+                                            <Link
+                                                href={`/events/${event._id}`}
+                                                className="p-1.5 text-gray-400 hover:text-blue-600 bg-gray-50 rounded-lg"
+                                            >
+                                                <Eye className="h-4 w-4" />
+                                            </Link>
+                                            <button
+                                                onClick={() => handleEditEvent(event)}
+                                                className="p-1.5 text-gray-400 hover:text-secondary bg-gray-50 rounded-lg"
+                                            >
+                                                <Pencil className="h-4 w-4" />
+                                            </button>
+                                            <button
+                                                onClick={() => handleDeleteEvent(event._id)}
+                                                className="p-1.5 text-gray-400 hover:text-red-500 bg-gray-50 rounded-lg"
+                                            >
+                                                <Trash2 className="h-4 w-4" />
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                            {filteredEvents.length === 0 && (
+                                <div className="text-center py-10 px-6">
+                                    <p className="text-gray-400">No events found.</p>
+                                </div>
+                            )}
+                        </div>
+
+                        {/* Desktop Table View */}
+                        <div className="hidden md:block overflow-x-auto">
                             <table className="w-full text-left border-collapse">
                                 <thead>
                                     <tr className="bg-background">
