@@ -523,6 +523,8 @@ export function EventForm({
                                 {/* static */}
                                 <SelectItem value="General">General</SelectItem>
                                 <SelectItem value="VIP">VIP</SelectItem>
+                                <SelectItem value="VIP Gold">VIP Gold</SelectItem>
+                                <SelectItem value="VIP Platinum">VIP Platinum</SelectItem>
                               </SelectContent>
                             </Select>
                           )}
