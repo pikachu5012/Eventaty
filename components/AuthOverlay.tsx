@@ -1,8 +1,6 @@
 "use client";
-import { Button } from "@/components/ui/button";
 import {
   Dialog,
-  DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
@@ -10,11 +8,10 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Input } from "@/components//ui/input";
 import { useState, useEffect } from "react";
 import LoginForm from "@/components/forms/LoginForm";
 import RegisterForm from "./forms/RegisterForm";
-import { LogIn, Sparkle } from "lucide-react";
+import { LogIn } from "lucide-react";
 import Link from "next/link";
 import { useAuth } from "@/context/AuthContext";
 
@@ -70,8 +67,8 @@ export function AuthOverlay({
           )}
         </DialogTrigger>
       )}
-      <DialogContent className="p-0 border-0 overflow-hidden">
-        <DialogHeader className="flex justify-center items-center bg-primary py-5 px-5 text-background relative">
+      <DialogContent className="p-0 border-0 overflow-hidden max-h-[90vh] flex flex-col">
+        <DialogHeader className="flex justify-center items-center bg-primary py-5 px-5 text-background relative shrink-0">
           <DialogTitle className="text-2xl pt-8">
             {regester ? "Welcome to Eventaty" : "Welcome Back"}
           </DialogTitle>
@@ -81,12 +78,14 @@ export function AuthOverlay({
               : "Login to access your bookings and discover events"}
           </DialogDescription>
         </DialogHeader>
-        {regester ? (
-          <RegisterForm onSuccess={() => setRegester(false)} />
-        ) : (
-          <LoginForm />
-        )}
-        <DialogFooter className="p-4">
+        <div className="flex-1 overflow-y-auto">
+          {regester ? (
+            <RegisterForm onSuccess={() => setRegester(false)} />
+          ) : (
+            <LoginForm />
+          )}
+        </div>
+        <DialogFooter className="p-4 shrink-0">
           {regester ? (
             <div className="mx-auto flex gap-3">
               <span>Already have an account?</span>

@@ -68,7 +68,14 @@ export default function EventsList({ category }: { category?: string }) {
           );
         })();
 
-      return matchesSearch && matchesCategory && matchesLocation && matchesDate;
+      const matchesNotStarted = new Date(event.startDateTime) > new Date();
+      return (
+        matchesSearch &&
+        matchesCategory &&
+        matchesLocation &&
+        matchesDate &&
+        matchesNotStarted
+      );
     });
   }, [searchQuery, selectedCategory, locationFilter, dateFilter, allEvents]);
 
@@ -96,7 +103,7 @@ export default function EventsList({ category }: { category?: string }) {
       </div>
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row gap-8">
         {/* Sidebar Filters */}
-        <aside className="w-full md:w-80 flex-shrink-0">
+        <aside className="w-full md:w-80 shrink-0">
           <EventFilters
             selectedCategory={selectedCategory}
             setSelectedCategory={setSelectedCategory}

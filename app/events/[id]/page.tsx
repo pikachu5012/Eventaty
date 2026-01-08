@@ -13,28 +13,6 @@ import {
   getCategoryName,
 } from "@/lib/eventUtils";
 
-const InfoBadge = ({
-  icon: Icon,
-  label,
-  value,
-}: {
-  icon: any;
-  label: string;
-  value: string;
-}) => (
-  <div className="flex items-start gap-4 p-4 rounded-xl bg-orange-50 border border-orange-100/50 hover:border-orange-200 transition-colors">
-    <div className="w-10 h-10 rounded-full bg-orange-100 flex items-center justify-center text-orange-600 shrink-0">
-      <Icon size={20} />
-    </div>
-    <div>
-      <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-0.5">
-        {label}
-      </p>
-      <p className="text-gray-900 font-medium">{value}</p>
-    </div>
-  </div>
-);
-
 export default async function EventDetailsPage({
   params,
 }: {
@@ -186,22 +164,6 @@ export default async function EventDetailsPage({
             <p className="text-gray-500 leading-relaxed text-lg mb-8 max-w-4xl">
               {event.description || "No Description Available"}
             </p>
-            {/* <div className="flex items-center gap-3">
-              <div className="flex items-center gap-2 text-[#d4af37] mr-2">
-                <Tag size={20} className="rotate-90" />
-                <span className="font-bold text-primary">Tags</span>
-              </div>
-              <div className="flex flex-wrap gap-2">
-                {["Music", "Festival", "Outdoor", "Multi-day"].map((tag) => (
-                  <span
-                    key={tag}
-                    className="px-4 py-1.5 rounded-full bg-[#f3f4f6] text-gray-600 text-sm font-medium hover:bg-gray-200 transition-colors cursor-default"
-                  >
-                    {tag}
-                  </span>
-                ))}
-              </div>
-            </div> */}
           </div>
         </div>
 

@@ -280,7 +280,7 @@ export default function CompleteBookingPage() {
                 </h3>
 
                 <div className="flex gap-4 mb-6">
-                  <div className="w-16 h-16 rounded-lg overflow-hidden flex-shrink-0 bg-gray-200 relative">
+                  <div className="w-16 h-16 rounded-lg overflow-hidden shrink-0 bg-gray-200 relative">
                     {orderSummary.image && (
                       <Image
                         src={orderSummary.image}

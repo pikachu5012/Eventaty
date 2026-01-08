@@ -1,8 +1,17 @@
 import { Input } from "@/components/ui/input";
-import { IEventFiltersProps } from "@/interfaces/interfaces";
 import { ICategory } from "@/types/category";
 import axios from "axios";
 import { useEffect, useState } from "react";
+
+export interface IEventFiltersProps {
+  selectedCategory: string;
+  setSelectedCategory: (category: string) => void;
+  location: string;
+  setLocation: (location: string) => void;
+  date: string;
+  setDate: (date: string) => void;
+  onClear: () => void;
+}
 
 export default function EventFilters({
   selectedCategory,

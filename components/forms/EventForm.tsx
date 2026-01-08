@@ -26,7 +26,6 @@ import {
 import { IEvent } from "@/types/event";
 import { IVenue } from "@/types/venue";
 import { format } from "date-fns";
-import { cn } from "@/lib/utils";
 
 interface EventFormProps {
   open: boolean;
@@ -244,7 +243,7 @@ export function EventForm({
           </div>
           <button
             onClick={() => onOpenChange(false)}
-            className="text-gray-400 hover:text-white transition-colors p-1"
+            className="text-gray-400 hover:text-white transition-colors p-1 cursor-pointer"
           >
             <X className="h-5 w-5" />
           </button>
@@ -342,7 +341,7 @@ export function EventForm({
                 {/* Price */}
                 <div className="space-y-2">
                   <Label className="text-primary/70 text-sm">
-                    Base Price ($)
+                    Base Price (EGP)
                   </Label>
                   <Input
                     type="number"
@@ -475,7 +474,7 @@ export function EventForm({
                   type="button"
                   onClick={handleAddTicket}
                   size="sm"
-                  className="bg-background text-eventaty-gold border border-eventaty-gold/30 hover:bg-eventaty-gold hover:text-white transition-all shadow-sm"
+                  className="bg-background text-eventaty-gold border border-eventaty-gold/30 hover:bg-eventaty-gold hover:text-white transition-all shadow-sm cursor-pointer"
                 >
                   <Plus className="h-3.5 w-3.5 mr-1.5" /> Add Ticket
                 </Button>
@@ -575,7 +574,7 @@ export function EventForm({
             type="button"
             variant="outline"
             onClick={() => onOpenChange(false)}
-            className="h-11 px-6 rounded-lg border-gray-200 text-primary/70 hover:text-gray-900 hover:bg-gray-50 hover:border-gray-300"
+            className="h-11 px-6 rounded-lg border-gray-200 text-primary/70 hover:text-gray-900 hover:bg-gray-50 hover:border-gray-300 cursor-pointer"
           >
             Cancel
           </Button>
@@ -583,7 +582,7 @@ export function EventForm({
             type="submit"
             form="event-form"
             disabled={loading}
-            className="h-11 px-8 rounded-lg bg-eventaty-gold text-white hover:bg-[#b8962c] shadow-lg shadow-eventaty-gold/20"
+            className="h-11 px-8 rounded-lg bg-eventaty-gold text-white hover:bg-[#b8962c] shadow-lg shadow-eventaty-gold/20 cursor-pointer"
           >
             {loading ? "Saving..." : "Save Changes"}
           </Button>
