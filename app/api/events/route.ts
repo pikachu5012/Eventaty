@@ -7,7 +7,6 @@ const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:5000";
 export async function GET() {
   try {
     const response = await axios.get(`${BACKEND_URL}/events`);
-    console.log("All events:", response.data);
     return NextResponse.json(response.data);
   } catch (error) {
     console.error("Error fetching events:", error);

@@ -25,7 +25,7 @@ export default function VenuesList() {
         const data = await response.json();
         setAllVenues(data.data.venues);
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
     };
 

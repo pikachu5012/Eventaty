@@ -7,7 +7,6 @@ export default async function HomeSlider() {
     try {
       response = await axios.get("http://localhost:5000/events");
     } catch (e) {
-      console.log("127.0.0.1 failed, trying localhost...");
       response = await axios.get("http://localhost:5000/events");
     }
 

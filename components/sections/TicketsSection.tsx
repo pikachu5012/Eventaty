@@ -24,6 +24,21 @@ export default function TicketsSection({
   const { user } = useAuth();
   const [isAuthOpen, setIsAuthOpen] = useState(false);
 
+  // Sort tickets in the specified order: General, VIP, VIP Gold, VIP Platinum
+  const sortTickets = (tickets: ITicket[]) => {
+    const order = ["General", "VIP", "VIP Gold", "VIP Platinum"];
+    return [...tickets].sort((a, b) => {
+      const indexA = order.indexOf(a.type);
+      const indexB = order.indexOf(b.type);
+      // If type not found in order array, put it at the end
+      const posA = indexA === -1 ? order.length : indexA;
+      const posB = indexB === -1 ? order.length : indexB;
+      return posA - posB;
+    });
+  };
+
+  const sortedTickets = sortTickets(ticketTypes);
+
   const handleTicketClick = (ticket: ITicket) => {
     if (!user) {
       setIsAuthOpen(true);
@@ -52,7 +67,7 @@ export default function TicketsSection({
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {ticketTypes.map((ticket) => {
+          {sortedTickets.map((ticket) => {
             const finalPrice = calculatePrice(ticket);
             return (
               <div

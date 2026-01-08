@@ -10,7 +10,6 @@ export async function GET(
   try {
     const { id } = await params;
     const response = await axios.get(`${BACKEND_URL}/events/${id}`);
-    console.log("Event by ID:", response.data);
     return NextResponse.json(response.data);
   } catch (error) {
     console.error("Error fetching event:", error);
