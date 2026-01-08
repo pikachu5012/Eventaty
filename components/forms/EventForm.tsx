@@ -342,7 +342,7 @@ export function EventForm({
                 {/* Price */}
                 <div className="space-y-2">
                   <Label className="text-primary/70 text-sm">
-                    Base Price ($)
+                    Base Price (EGP)
                   </Label>
                   <Input
                     type="number"
