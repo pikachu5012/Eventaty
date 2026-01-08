@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import axios from "axios";
-import { IEvent } from "@/types/event";
+
 
 const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:5000";
 
@@ -18,17 +18,22 @@ export async function GET() {
   }
 }
 
-export async function POST(event: IEvent) {
-  const postedEvent = await axios.post(`${BACKEND_URL}/events`, event);
-  return NextResponse.json(postedEvent);
-}
+export async function POST(request: Request) {
+  try {
+    const body = await request.json();
+    const token = request.headers.get("authorization");
 
-export async function PUT(id: string, event: IEvent) {
-  const updatedEvent = await axios.put(`${BACKEND_URL}/events/${id}`, event);
-  return NextResponse.json(updatedEvent);
-}
-
-export async function DELETE(id: string) {
-  const deletedEvent = await axios.delete(`${BACKEND_URL}/events/${id}`);
-  return NextResponse.json(deletedEvent);
+    const response = await axios.post(`${BACKEND_URL}/events`, body, {
+      headers: {
+        Authorization: token,
+      },
+    });
+    return NextResponse.json(response.data);
+  } catch (error: any) {
+    console.error("Error creating event:", error?.response?.data || error.message);
+    return NextResponse.json(
+      { error: "Failed to create event" },
+      { status: error?.response?.status || 500 }
+    );
+  }
 }

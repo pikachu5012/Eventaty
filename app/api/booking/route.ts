@@ -3,9 +3,14 @@ import axios from "axios";
 
 const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:5000";
 
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
-    const response = await axios.get(`${BACKEND_URL}/bookings`);
+    const token = request.headers.get("authorization");
+    const response = await axios.get(`${BACKEND_URL}/bookings`, {
+      headers: {
+        Authorization: token,
+      },
+    });
     return NextResponse.json(response.data);
   } catch (error) {
     console.error("Error fetching bookings:", error);

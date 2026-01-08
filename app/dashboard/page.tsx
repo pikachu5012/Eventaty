@@ -5,6 +5,7 @@ import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
 import { AuthOverlay } from "@/components/AuthOverlay";
+import AdminDashboard from "@/components/pages/AdminDashboard";
 
 export default function Dashboard() {
   const { user, isLoading } = useAuth();
@@ -41,5 +42,5 @@ export default function Dashboard() {
     );
   }
 
-  return <div>{isAdmin ? <h1>Admin Dashboard</h1> : <UserDashboard />}</div>;
-}
+    return <div>{isAdmin ? <AdminDashboard />: <UserDashboard />}</div>;
+  }
