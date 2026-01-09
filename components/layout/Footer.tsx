@@ -8,6 +8,7 @@ import {
   Twitter,
 } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 import { AuthOverlay } from "@/components/AuthOverlay";
 
 export default function Footer() {
@@ -23,7 +24,13 @@ export default function Footer() {
     <footer className="p-10 bg-navFooter">
       <div className="flex flex-wrap justify-between py-10 border-b-2 gap-1 space-y-10 border-muted-foreground">
         <div className="w-full md:w-2/5 lg:w-3/13 space-y-2">
-          <img src="/Logo.svg" alt="logo" className="h-14 mb-6" />
+          <Image
+            src="/Logo.svg"
+            alt="logo"
+            width={200}
+            height={56}
+            className="h-14 w-auto mb-6"
+          />
           <p className="text-ring">
             Your premier destination for discovering and booking amazing events.
             From concerts to conferences, we've got you covered.

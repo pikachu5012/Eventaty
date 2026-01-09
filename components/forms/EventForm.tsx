@@ -26,6 +26,7 @@ import {
 import { IEvent } from "@/types/event";
 import { IVenue } from "@/types/venue";
 import { format } from "date-fns";
+import Image from "next/image";
 
 interface EventFormProps {
   open: boolean;
@@ -283,12 +284,14 @@ export function EventForm({
               </Label>
 
               <div className="flex gap-4 items-start p-4 bg-background/50 border border-eventaty-gold/20 rounded-xl">
-                <div className="w-24 h-24 shrink-0 bg-gray-100 rounded-lg overflow-hidden border border-gray-200 flex items-center justify-center">
+                <div className="w-24 h-24 shrink-0 bg-gray-100 rounded-lg overflow-hidden border border-gray-200 flex items-center justify-center relative">
                   {imagePreviews[0] ? (
-                    <img
+                    <Image
                       src={imagePreviews[0]}
                       alt="Preview"
-                      className="w-full h-full object-cover"
+                      fill
+                      unoptimized
+                      className="object-cover"
                     />
                   ) : (
                     <ImageIcon className="h-8 w-8 text-gray-300" />

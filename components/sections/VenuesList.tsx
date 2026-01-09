@@ -5,6 +5,7 @@ import CardComponent from "@/components/CardComponent";
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
 import { IVenue } from "@/types/venue";
+import { motion } from "framer-motion";
 
 export default function VenuesList() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -28,7 +29,6 @@ export default function VenuesList() {
         console.error(error);
       }
     };
-
     fetchVenues();
   }, []);
 
@@ -54,10 +54,21 @@ export default function VenuesList() {
       <main className="max-w-7xl mx-auto">
         {filteredVenues.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredVenues.map((venue: IVenue) => (
-              <div key={venue._id} className="h-full">
+            {filteredVenues.map((venue: IVenue, index) => (
+              <motion.div
+                key={venue._id}
+                className="h-full"
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: false, amount: 0.1 }}
+                transition={{
+                  duration: 0.3,
+                  delay: index * 0.02,
+                  ease: "easeOut",
+                }}
+              >
                 <CardComponent data={venue} isEvent={false} />
-              </div>
+              </motion.div>
             ))}
           </div>
         ) : (

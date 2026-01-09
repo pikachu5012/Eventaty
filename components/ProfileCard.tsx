@@ -1,5 +1,6 @@
 "use client";
 import React from "react";
+import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 import { Calendar, Delete, Navigation, Ticket } from "lucide-react";
 import { useQRCode } from "next-qrcode";
@@ -73,11 +74,13 @@ export default function ProfileCard({
 
   return (
     <div className="flex lg:flex-row flex-wrap my-5 rounded-lg overflow-hidden shadow-lg bg-card border dark:border-eventaty-gold">
-      <div className={`w-full lg:w-1/3  relative`}>
-        <img
+      <div className={`w-full lg:w-1/3 relative min-h-[200px]`}>
+        <Image
           src={data.eventId.images[0]}
           alt="event1"
-          className="w-full h-full object-cover"
+          fill
+          unoptimized
+          className="object-cover"
         />
         {isPast ? (
           <Badge variant="destructive" className="absolute top-3 right-3">

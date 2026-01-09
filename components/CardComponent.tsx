@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import {
   Card,
   CardContent,
@@ -42,11 +43,13 @@ export default function CardComponent({
 
   return (
     <Card className="pt-0 rounded-xl overflow-hidden group bg-card border-none shadow-sm h-full flex flex-col">
-      <CardHeader className="p-0 relative">
-        <img
+      <CardHeader className="p-0 relative h-48 overflow-hidden">
+        <Image
           src={data?.images[0] || "/ekko.png"}
           alt="Event Image"
-          className="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105"
+          fill
+          unoptimized
+          className="object-cover transition-transform duration-300 group-hover:scale-105"
         />
         {isEvent ? (
           data?.featured ? (

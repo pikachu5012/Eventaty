@@ -12,6 +12,7 @@ import {
   getVenueAddress,
   getVenueCity,
 } from "@/lib/eventUtils";
+import { motion } from "framer-motion";
 
 export default function EventsList({ category }: { category?: string }) {
   const [searchQuery, setSearchQuery] = useState("");
@@ -126,11 +127,22 @@ export default function EventsList({ category }: { category?: string }) {
 
           {filteredEvents.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filteredEvents.map((event) => {
+              {filteredEvents.map((event, index) => {
                 return (
-                  <div key={event._id} className="h-full">
+                  <motion.div
+                    key={event._id}
+                    className="h-full"
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: false, amount: 0.1 }}
+                    transition={{
+                      duration: 0.3,
+                      delay: index * 0.02,
+                      ease: "easeOut",
+                    }}
+                  >
                     <CardComponent data={event} isEvent={true} />
-                  </div>
+                  </motion.div>
                 );
               })}
             </div>

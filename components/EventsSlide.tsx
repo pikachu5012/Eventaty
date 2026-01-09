@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { EventItem } from "@/types/event";
 
 type EProps = {
@@ -39,8 +40,8 @@ export default function EventSlide({ event }: EProps) {
 
   const formattedDate = event.startDateTime
     ? new Date(event.startDateTime)
-        .toLocaleString("en-US", dateOptions)
-        .replace(",", "")
+      .toLocaleString("en-US", dateOptions)
+      .replace(",", "")
     : "Date TBD";
 
   return (
@@ -79,10 +80,12 @@ export default function EventSlide({ event }: EProps) {
       {/* right side */}
       <div className="relative h-[350px] w-full md:w-1/2 lg:w-2/3 overflow-hidden rounded-[56px] bg-gray-200">
         {imageUrl ? (
-          <img
+          <Image
             src={imageUrl}
             alt={event.title}
-            className="h-full w-full object-cover"
+            fill
+            unoptimized
+            className="object-cover"
           />
         ) : (
           <div className="flex h-full w-full items-center justify-center text-gray-400">
