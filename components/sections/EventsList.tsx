@@ -20,6 +20,7 @@ export default function EventsList({ category }: { category?: string }) {
   const [locationFilter, setLocationFilter] = useState("");
   const [dateFilter, setDateFilter] = useState("");
   const [allEvents, setAllEvents] = useState<IEvent[]>([]);
+  const [isFiltersOpen, setIsFiltersOpen] = useState(false);
 
   useEffect(() => {
     setSelectedCategory(category || "All");
@@ -89,11 +90,21 @@ export default function EventsList({ category }: { category?: string }) {
   return (
     <div className="min-h-screen bg-background p-8">
       {/*Search Bar*/}
-      <div className="max-w-7xl mx-auto mb-8">
-        <div className="relative">
+      <div className="max-w-7xl mx-auto mb-8 flex flex-row items-center gap-3">
+        {/* Mobile Toggle Button */}
+        <button
+          onClick={() => setIsFiltersOpen(!isFiltersOpen)}
+          className="md:hidden flex items-center justify-center bg-background border border-secondary/30 rounded-xl text-primary hover:bg-secondary/10 transition-colors w-14 h-[60px] shrink-0 dark:bg-navFooter"
+        >
+          <svg className="w-6 h-6 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+          </svg>
+        </button>
+
+        <div className="relative flex-1">
           <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
           <Input
-            className="w-full pl-12 py-6 bg-background border border-secondary/30 rounded-xl text-lg shadow-sm focus-visible:ring-1 focus-visible:ring-eventaty-gold dark:bg-navFooter"
+            className="w-full pl-12 py-6 bg-background border border-secondary/30 rounded-xl text-lg shadow-sm focus-visible:ring-1 focus-visible:ring-eventaty-gold dark:bg-navFooter h-[60px]"
             placeholder="Search events..."
             value={searchQuery}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -102,19 +113,29 @@ export default function EventsList({ category }: { category?: string }) {
           />
         </div>
       </div>
+
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row gap-8">
         {/* Sidebar Filters */}
-        <aside className="w-full md:w-80 shrink-0">
-          <EventFilters
-            selectedCategory={selectedCategory}
-            setSelectedCategory={setSelectedCategory}
-            location={locationFilter}
-            setLocation={setLocationFilter}
-            date={dateFilter}
-            setDate={setDateFilter}
-            onClear={clearFilters}
-          />
-        </aside>
+        <motion.aside
+          className="w-full md:w-80 shrink-0"
+          initial={false}
+          animate={{ height: isFiltersOpen || (typeof window !== "undefined" && window.innerWidth >= 768) ? "auto" : 0, opacity: isFiltersOpen || (typeof window !== "undefined" && window.innerWidth >= 768) ? 1 : 0 }}
+          style={{ overflow: "hidden" }}
+          transition={{ duration: 0.3, ease: "easeInOut" }}
+        >
+          {/* Mobile vs Desktop logic for filters visibility */}
+          <div className={`${isFiltersOpen ? "block" : "hidden md:block"}`}>
+            <EventFilters
+              selectedCategory={selectedCategory}
+              setSelectedCategory={setSelectedCategory}
+              location={locationFilter}
+              setLocation={setLocationFilter}
+              date={dateFilter}
+              setDate={setDateFilter}
+              onClear={clearFilters}
+            />
+          </div>
+        </motion.aside>
 
         {/* Main Event Grid */}
         <main className="flex-1">

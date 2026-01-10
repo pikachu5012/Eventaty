@@ -2,6 +2,13 @@ import { Input } from "@/components/ui/input";
 import { ICategory } from "@/types/category";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 export interface IEventFiltersProps {
   selectedCategory: string;
@@ -49,14 +56,32 @@ export default function EventFilters({
       {/* Category Section */}
       <div className="space-y-3">
         <h4 className="text-sm font-medium">Category</h4>
-        <div className="flex flex-col gap-2">
+
+        {/* Mobile View: Select Dropdown */}
+        <div className="md:hidden">
+          <Select value={selectedCategory} onValueChange={setSelectedCategory}>
+            <SelectTrigger className="w-full bg-eventaty-cream border-secondary h-12 rounded-lg text-navFooter">
+              <SelectValue placeholder="Select Category" />
+            </SelectTrigger>
+            <SelectContent className="bg-card border-secondary/20 text-primary">
+              <SelectItem value="All">All Categories</SelectItem>
+              {categories.map((category: ICategory) => (
+                <SelectItem key={category._id} value={category.name}>
+                  {category.name.charAt(0).toUpperCase() + category.name.slice(1)}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+
+        {/* Desktop View: Button List */}
+        <div className="hidden md:flex flex-col gap-2">
           <button
             onClick={() => setSelectedCategory("All")}
-            className={`text-left px-4 py-3 rounded-lg text-sm transition-colors ${
-              selectedCategory === "All"
+            className={`text-left px-4 py-3 rounded-lg text-sm transition-colors ${selectedCategory === "All"
                 ? "bg-eventaty-gold text-white shadow-md"
-                : "bg-eventaty-cream text-gray-600 hover:bg-gray-100"
-            }`}
+                : "bg-eventaty-cream text-gray-600 hover:bg-gray-100 dark:hover:bg-secondary"
+              }`}
           >
             All
           </button>
@@ -64,11 +89,10 @@ export default function EventFilters({
             <button
               key={category._id}
               onClick={() => setSelectedCategory(category.name)}
-              className={`text-left px-4 py-3 rounded-lg text-sm transition-colors ${
-                selectedCategory === category.name
+              className={`text-left px-4 py-3 rounded-lg text-sm transition-colors ${selectedCategory === category.name
                   ? "bg-eventaty-gold text-white shadow-md"
-                  : "bg-eventaty-cream text-gray-600 hover:bg-gray-100"
-              }`}
+                  : "bg-eventaty-cream text-gray-600 hover:bg-gray-100 dark:hover:bg-secondary"
+                }`}
             >
               {category.name.charAt(0).toUpperCase() + category.name.slice(1)}
             </button>

@@ -37,8 +37,10 @@ export default function RootLayout({
         <AuthProvider>
           <ThemeProvider>
             <Navbar />
-            <SmoothScrolling>{children}</SmoothScrolling>
-            <Footer />
+            <div className="pt-20">
+              <SmoothScrolling>{children}</SmoothScrolling>
+              <Footer />
+            </div>
             <Toaster />
           </ThemeProvider>
         </AuthProvider>
