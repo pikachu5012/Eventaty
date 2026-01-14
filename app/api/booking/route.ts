@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import axios from "axios";
+import { sendBookingConfirmation } from "@/lib/mail";
 
 const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:5000";
 
@@ -24,13 +25,24 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const token = request.headers.get("authorization");
-    const { eventId, seatsBooked, ticketType } = await request.json();
+    const body = await request.json();
+    const {
+      eventId,
+      seatsBooked,
+      ticketType,
+      customerName,
+      customerEmail,
+      eventName,
+      date,
+      time,
+      total,
+    } = body;
 
     const response = await axios.post(
       `${BACKEND_URL}/bookings`,
       {
         eventId,
-        seatsBooked,
+        seatsBooked: seatsBooked,
         ticketType,
       },
       {
@@ -39,6 +51,28 @@ export async function POST(request: NextRequest) {
         },
       }
     );
+
+    // If booking is successful, send confirmation email
+    if (response.data && customerEmail) {
+      const bookingReference =
+        response.data.data?.newBooking?.bookingReference ||
+        response.data.bookingReference ||
+        "N/A";
+
+      // Fire and forget email sending (don't block the response)
+      sendBookingConfirmation({
+        customerName,
+        customerEmail,
+        eventName,
+        bookingReference,
+        date,
+        time,
+        quantity: seatsBooked,
+        ticketType,
+        total,
+      }).catch((err) => console.error("Email sending failed:", err));
+    }
+
     return NextResponse.json(response.data);
   } catch (error: any) {
     console.error(

@@ -46,6 +46,8 @@ export function AuthOverlay({
     }
   }, [finalOpen]);
 
+  if (user && !noTrigger) return null;
+
   return (
     <Dialog open={finalOpen} onOpenChange={handleOpenChange}>
       {!noTrigger && (
