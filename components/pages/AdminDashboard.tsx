@@ -11,6 +11,8 @@ import {
   Pencil,
   Trash2,
   Loader2,
+  ChartNoAxesGantt,
+  Spotlight,
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import MetricCard from "@/components/MetricCard";
@@ -230,14 +232,12 @@ export default function AdminDashboard() {
           })} EGP`}
           icon={DollarSign}
           iconColor="text-eventaty-gold"
-          trend="+12.5%"
         />
         <MetricCard
           title="Total Events"
           value={loading ? "..." : events.length.toString()}
           icon={Calendar}
           iconColor="text-blue-600"
-          trend={loading ? undefined : "+3 new"}
           iconBg="bg-blue-100"
         />
         <MetricCard
@@ -245,7 +245,20 @@ export default function AdminDashboard() {
           value={loading ? "..." : totalBookings.toString()}
           icon={Users}
           iconColor="text-purple-600"
-          trend={loading ? undefined : "+15.3%"}
+          iconBg="bg-purple-100"
+        />
+        <MetricCard
+          title="Total Categories"
+          value={loading ? "..." : categories.length.toString()}
+          icon={ChartNoAxesGantt}
+          iconColor="text-purple-600"
+          iconBg="bg-purple-100"
+        />
+        <MetricCard
+          title="Total Venues"
+          value={loading ? "..." : venues.length.toString()}
+          icon={Spotlight}
+          iconColor="text-purple-600"
           iconBg="bg-purple-100"
         />
       </div>
