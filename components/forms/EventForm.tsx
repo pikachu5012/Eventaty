@@ -101,44 +101,44 @@ export function EventForm({
   } = useForm<FormData>({
     defaultValues: event
       ? {
-        title: event.title,
-        description: event.description,
-        images: event.images || [""],
-        startDateTime: event.startDateTime
-          ? format(new Date(event.startDateTime), "yyyy-MM-dd'T'HH:mm")
-          : "",
-        endDateTime: event.endDateTime
-          ? format(new Date(event.endDateTime), "yyyy-MM-dd'T'HH:mm")
-          : "",
-        categoryId:
-          typeof event.categoryId === "object" &&
+          title: event.title,
+          description: event.description,
+          images: event.images || [""],
+          startDateTime: event.startDateTime
+            ? format(new Date(event.startDateTime), "yyyy-MM-dd'T'HH:mm")
+            : "",
+          endDateTime: event.endDateTime
+            ? format(new Date(event.endDateTime), "yyyy-MM-dd'T'HH:mm")
+            : "",
+          categoryId:
+            typeof event.categoryId === "object" &&
             event.categoryId !== null &&
             "_id" in event.categoryId
-            ? event.categoryId._id
-            : (event.categoryId as string) || "",
-        venueId:
-          typeof event.venueId === "object" &&
+              ? event.categoryId._id
+              : (event.categoryId as string) || "",
+          venueId:
+            typeof event.venueId === "object" &&
             event.venueId !== null &&
             "_id" in event.venueId
-            ? event.venueId._id
-            : (event.venueId as string) || "",
-        totalCapacity: event.totalCapacity,
-        price: event.price,
-        eventType:
-          (event.eventType as "In-person" | "Online" | "Hybrid") ||
-          "In-person",
-        status:
-          (event.status as "draft" | "published" | "cancelled") || "draft",
-        featured: event.featured,
-        tickets:
-          event.tickets && event.tickets.length > 0
-            ? event.tickets.map((t) => ({
-              type: t.type,
-              description: t.description,
-              multiplier: t.multiplier,
-            }))
-            : defaultValues.tickets,
-      }
+              ? event.venueId._id
+              : (event.venueId as string) || "",
+          totalCapacity: event.totalCapacity,
+          price: event.price,
+          eventType:
+            (event.eventType as "In-person" | "Online" | "Hybrid") ||
+            "In-person",
+          status:
+            (event.status as "draft" | "published" | "cancelled") || "draft",
+          featured: event.featured,
+          tickets:
+            event.tickets && event.tickets.length > 0
+              ? event.tickets.map((t) => ({
+                  type: t.type,
+                  description: t.description,
+                  multiplier: t.multiplier,
+                }))
+              : defaultValues.tickets,
+        }
       : defaultValues,
   });
 
@@ -154,8 +154,6 @@ export function EventForm({
       setImagePreviews([]);
     }
   }, [event]);
-
-
 
   const handleAddImageUrl = () => {
     setImageUrls([...imageUrls, ""]);
@@ -175,8 +173,6 @@ export function EventForm({
     setImagePreviews(newImagePreviews);
   };
 
-
-
   const handleImageUrlChange = (index: number, value: string) => {
     const newImageUrls = [...imageUrls];
     newImageUrls[index] = value;
@@ -186,9 +182,18 @@ export function EventForm({
       newImageUrls.filter((url) => url)
     );
 
-    if (value.match(/\.(jpeg|jpg|gif|png|webp)$/i) != null) {
+    // Show preview for any valid URL (more permissive)
+    if (
+      value.trim() &&
+      (value.startsWith("http://") || value.startsWith("https://"))
+    ) {
       const newImagePreviews = [...imagePreviews];
       newImagePreviews[index] = value;
+      setImagePreviews(newImagePreviews);
+    } else if (!value.trim()) {
+      // Clear preview if empty
+      const newImagePreviews = [...imagePreviews];
+      newImagePreviews[index] = "";
       setImagePreviews(newImagePreviews);
     }
   };
@@ -218,10 +223,12 @@ export function EventForm({
 
   const onFormSubmit = (data: FormData) => {
     // Set default image if no images are provided
-    const defaultImage = "https://spotme.com/wp-content/uploads/2020/07/Hero-1.jpg";
-    const images = data.images && data.images.length > 0 && data.images[0]
-      ? data.images
-      : [defaultImage];
+    const defaultImage =
+      "https://spotme.com/wp-content/uploads/2020/07/Hero-1.jpg";
+    const images =
+      data.images && data.images.length > 0 && data.images[0]
+        ? data.images
+        : [defaultImage];
 
     const formattedData = {
       ...data,
@@ -243,8 +250,14 @@ export function EventForm({
   if (!open) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-in fade-in duration-200">
-      <div className="w-full max-w-2xl max-h-[90vh] flex flex-col bg-card rounded-xl shadow-2xl overflow-hidden">
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-in fade-in duration-200"
+      onClick={() => onOpenChange(false)}
+    >
+      <div
+        className="w-full max-w-2xl max-h-[90vh] flex flex-col bg-card rounded-xl shadow-2xl overflow-hidden"
+        onClick={(e) => e.stopPropagation()}
+      >
         {/* Header */}
         <div className="flex items-center justify-between px-6 py-4 bg-navFooter text-white shrink-0">
           <div className="flex items-center gap-3">
@@ -277,10 +290,10 @@ export function EventForm({
             onSubmit={handleSubmit(onFormSubmit)}
             className="space-y-8"
           >
-            {/* Image Section */}
+            {/* Thumbnail Image Section */}
             <div className="space-y-3">
               <Label className="text-xs font-semibold text-primary/50 uppercase tracking-wide">
-                Event Image
+                Thumbnail Image
               </Label>
 
               <div className="flex gap-4 items-start p-4 bg-background/50 border border-eventaty-gold/20 rounded-xl">
@@ -341,8 +354,9 @@ export function EventForm({
                         value={field.value}
                       >
                         <SelectTrigger
-                          className={`h-11 rounded-lg border-gray-200 focus:ring-eventaty-gold/20 ${errors.categoryId ? "border-red-500" : ""
-                            }`}
+                          className={`h-11 rounded-lg border-gray-200 focus:ring-eventaty-gold/20 ${
+                            errors.categoryId ? "border-red-500" : ""
+                          }`}
                         >
                           <SelectValue placeholder="Select Category" />
                         </SelectTrigger>
@@ -375,7 +389,10 @@ export function EventForm({
                     className="h-11 rounded-lg border-gray-200 focus:border-eventaty-gold focus:ring-eventaty-gold/20 bg-background"
                     {...register("price", {
                       required: "Base price is required",
-                      min: { value: 1, message: "Price must be greater than 0" }
+                      min: {
+                        value: 1,
+                        message: "Price must be greater than 0",
+                      },
                     })}
                     required
                   />
@@ -397,7 +414,9 @@ export function EventForm({
                     <Input
                       type="datetime-local"
                       className="h-11 rounded-lg border-gray-200 focus:border-eventaty-gold focus:ring-eventaty-gold/20 pl-10 bg-background"
-                      {...register("startDateTime", { required: "Start date & time is required" })}
+                      {...register("startDateTime", {
+                        required: "Start date & time is required",
+                      })}
                       required
                     />
                     <CalendarIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
@@ -411,7 +430,9 @@ export function EventForm({
                     <Input
                       type="datetime-local"
                       className="h-11 rounded-lg border-gray-200 focus:border-eventaty-gold focus:ring-eventaty-gold/20 pl-10 bg-background"
-                      {...register("endDateTime", { required: "End date & time is required" })}
+                      {...register("endDateTime", {
+                        required: "End date & time is required",
+                      })}
                       required
                     />
                     <Clock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
@@ -434,8 +455,9 @@ export function EventForm({
                         required
                       >
                         <SelectTrigger
-                          className={`h-11 rounded-lg border-gray-200 focus:ring-eventaty-gold/20 ${errors.venueId ? "border-red-500" : ""
-                            }`}
+                          className={`h-11 rounded-lg border-gray-200 focus:ring-eventaty-gold/20 ${
+                            errors.venueId ? "border-red-500" : ""
+                          }`}
                         >
                           <SelectValue placeholder="Select Venue" />
                         </SelectTrigger>
@@ -464,7 +486,7 @@ export function EventForm({
                     className="h-11 rounded-lg border-gray-200 focus:border-eventaty-gold focus:ring-eventaty-gold/20 bg-background"
                     {...register("totalCapacity", {
                       required: "Capacity is required",
-                      min: { value: 1, message: "Capacity must be at least 1" }
+                      min: { value: 1, message: "Capacity must be at least 1" },
                     })}
                     required
                   />
@@ -478,7 +500,9 @@ export function EventForm({
                   placeholder="Event details..."
                   rows={4}
                   className="resize-none rounded-lg border-gray-200 focus:border-eventaty-gold focus:ring-eventaty-gold/20"
-                  {...register("description", { required: "Description is required" })}
+                  {...register("description", {
+                    required: "Description is required",
+                  })}
                   required
                 />
               </div>
@@ -570,8 +594,12 @@ export function EventForm({
                                 {/* static */}
                                 <SelectItem value="General">General</SelectItem>
                                 <SelectItem value="VIP">VIP</SelectItem>
-                                <SelectItem value="VIP Gold">VIP Gold</SelectItem>
-                                <SelectItem value="VIP Platinum">VIP Platinum</SelectItem>
+                                <SelectItem value="VIP Gold">
+                                  VIP Gold
+                                </SelectItem>
+                                <SelectItem value="VIP Platinum">
+                                  VIP Platinum
+                                </SelectItem>
                               </SelectContent>
                             </Select>
                           )}
@@ -593,11 +621,20 @@ export function EventForm({
                               `tickets.${index}.multiplier` as const,
                               {
                                 required: "Multiplier is required",
-                                min: { value: 1, message: "Multiplier must be at least 1" }
+                                min: {
+                                  value: 1,
+                                  message: "Multiplier must be at least 1",
+                                },
                               }
                             )}
-                            disabled={watch(`tickets.${index}.type`) === "General"}
-                            value={watch(`tickets.${index}.type`) === "General" ? "1" : undefined}
+                            disabled={
+                              watch(`tickets.${index}.type`) === "General"
+                            }
+                            value={
+                              watch(`tickets.${index}.type`) === "General"
+                                ? "1"
+                                : undefined
+                            }
                             required
                           />
                         </div>
@@ -620,6 +657,69 @@ export function EventForm({
                   </div>
                 ))}
               </div>
+            </div>
+            {/* Additional Images Section */}
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <Label className="text-xs font-semibold text-primary/50 uppercase tracking-wide">
+                  Additional Images
+                </Label>
+                <button
+                  type="button"
+                  onClick={handleAddImageUrl}
+                  className="text-xs px-3 py-1.5 bg-eventaty-gold/10 text-eventaty-gold border border-eventaty-gold/30 rounded-lg hover:bg-eventaty-gold hover:text-white transition-colors"
+                >
+                  <Plus className="h-3.5 w-3.5 inline mr-1" />
+                  Add Image
+                </button>
+              </div>
+
+              {imageUrls.slice(1).length > 0 ? (
+                <div className="space-y-3">
+                  {imageUrls.slice(1).map((url, index) => (
+                    <div
+                      key={index + 1}
+                      className="flex gap-4 items-start p-4 bg-background/50 border border-eventaty-gold/20 rounded-xl"
+                    >
+                      <div className="w-24 h-24 shrink-0 bg-gray-100 rounded-lg overflow-hidden border border-gray-200 flex items-center justify-center relative">
+                        {imagePreviews[index + 1] ? (
+                          <Image
+                            src={imagePreviews[index + 1]}
+                            alt={`Preview ${index + 2}`}
+                            fill
+                            unoptimized
+                            className="object-cover"
+                          />
+                        ) : (
+                          <ImageIcon className="h-8 w-8 text-gray-300" />
+                        )}
+                      </div>
+                      <div className="flex-1 space-y-2">
+                        <Input
+                          placeholder="https://example.com/image.jpg"
+                          value={url}
+                          onChange={(e) =>
+                            handleImageUrlChange(index + 1, e.target.value)
+                          }
+                          className="bg-background border-gray-200 focus:border-eventaty-gold focus:ring-eventaty-gold/20"
+                        />
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => handleRemoveImageUrl(index + 1)}
+                        className="p-2 text-gray-400 hover:text-red-500 transition-colors"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-xs text-gray-500 italic">
+                  No additional images added. Click "Add Image" to include more
+                  event photos.
+                </p>
+              )}
             </div>
           </form>
         </div>

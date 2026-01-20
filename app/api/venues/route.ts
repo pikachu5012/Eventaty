@@ -18,42 +18,23 @@ export async function GET() {
 
 export async function POST(request: NextRequest) {
   try {
-    const venue = await request.json();
-    const postedVenue = await axios.post(`${BACKEND_URL}/venues`, venue);
-    return NextResponse.json(postedVenue);
-  } catch (error) {
-    console.error("Error creating venue:", error);
+    const body = await request.json();
+    const token = request.headers.get("authorization");
+
+    const response = await axios.post(`${BACKEND_URL}/venues`, body, {
+      headers: {
+        Authorization: token,
+      },
+    });
+    return NextResponse.json(response.data);
+  } catch (error: any) {
+    console.error(
+      "Error creating venue:",
+      error?.response?.data || error.message
+    );
     return NextResponse.json(
       { error: "Failed to create venue" },
-      { status: 500 }
-    );
-  }
-}
-
-export async function PUT(request: NextRequest) {
-  try {
-    const { id, ...venue } = await request.json();
-    const updatedVenue = await axios.put(`${BACKEND_URL}/venues/${id}`, venue);
-    return NextResponse.json(updatedVenue);
-  } catch (error) {
-    console.error("Error updating venue:", error);
-    return NextResponse.json(
-      { error: "Failed to update venue" },
-      { status: 500 }
-    );
-  }
-}
-
-export async function DELETE(request: NextRequest) {
-  try {
-    const { id } = await request.json();
-    const venue = await axios.delete(`${BACKEND_URL}/venues/${id}`);
-    return NextResponse.json(venue);
-  } catch (error) {
-    console.error("Error deleting venue:", error);
-    return NextResponse.json(
-      { error: "Failed to delete venue" },
-      { status: 500 }
+      { status: error?.response?.status || 500 }
     );
   }
 }

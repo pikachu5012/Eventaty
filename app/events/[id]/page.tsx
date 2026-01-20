@@ -177,59 +177,63 @@ export default async function EventDetailsPage({
         {/* Section 3: Venue Info */}
         <div className="bg-card rounded-2xl shadow-xl overflow-hidden border border-gray-100/10">
           <div className="p-8">
-            <div className="flex flex-col md:flex-row gap-12 items-start">
-              <div className="flex-1 space-y-4">
-                <div>
-                  <h2 className="text-2xl font-bold text-primary mb-1">
-                    Venue Information
-                  </h2>
-                  <h3 className="text-lg text-gray-700 font-medium">
-                    {venue?.name || venueName}
-                  </h3>
-                </div>
-                <p className="text-gray-500 leading-relaxed text-sm">
-                  {venue?.description || `Event at ${venueName}`}
-                </p>
-
-                <div className="space-y-2 pt-2">
-                  <div className="flex items-center gap-3 text-gray-600">
-                    <MapPin
-                      size={18}
-                      className="text-[#d4af37]"
-                      strokeWidth={2}
-                    />
-                    <span className="text-sm">{venueAddress}</span>
+            {event.venueId ? (
+              <div className="flex flex-col md:flex-row gap-12 items-start">
+                <div className="flex-1 space-y-4">
+                  <div>
+                    <h2 className="text-2xl font-bold text-primary mb-1">
+                      Venue Information
+                    </h2>
+                    <h3 className="text-lg text-gray-700 font-medium">
+                      {venue?.name || venueName}
+                    </h3>
                   </div>
-                  <div className="flex items-center gap-3 text-gray-600">
-                    <span className="text-sm pl-8">
-                      Capacity: {venue?.capacity?.toLocaleString() || "N/A"}{" "}
-                      people
-                    </span>
+                  <p className="text-gray-500 leading-relaxed text-sm">
+                    {venue?.description || `Event at ${venueName}`}
+                  </p>
+
+                  <div className="space-y-2 pt-2">
+                    <div className="flex items-center gap-3 text-gray-600">
+                      <MapPin
+                        size={18}
+                        className="text-[#d4af37]"
+                        strokeWidth={2}
+                      />
+                      <span className="text-sm">{venueAddress}</span>
+                    </div>
+                    <div className="flex items-center gap-3 text-gray-600">
+                      <span className="text-sm pl-8">
+                        Capacity: {venue?.capacity?.toLocaleString() || "N/A"}{" "}
+                        people
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="pt-2">
+                    <Link
+                      href={venue ? `/venues/${venue._id}` : "#"}
+                      className="inline-flex items-center gap-2 text-eventaty-gold font-semibold hover:text-white transition-colors text-sm"
+                    >
+                      View Venue Details
+                      <ArrowRight size={16} />
+                    </Link>
                   </div>
                 </div>
-
-                <div className="pt-2">
-                  <Link
-                    href={venue ? `/venues/${venue._id}` : "#"}
-                    className="inline-flex items-center gap-2 text-eventaty-gold font-semibold hover:text-white transition-colors text-sm"
-                  >
-                    View Venue Details
-                    <ArrowRight size={16} />
-                  </Link>
+                <div className="w-full md:w-1/3 aspect-video bg-gray-100 rounded-xl overflow-hidden relative border-2 border-eventaty-gold shadow-sm">
+                  <div
+                    className="absolute inset-0 bg-cover bg-center"
+                    style={{
+                      backgroundImage: `url(${
+                        venue?.images?.[0] || "/ekko.png"
+                      })`,
+                    }}
+                  />
+                  <div className="absolute inset-0 bg-black/5" />
                 </div>
               </div>
-              <div className="w-full md:w-1/3 aspect-video bg-gray-100 rounded-xl overflow-hidden relative border-2 border-eventaty-gold shadow-sm">
-                <div
-                  className="absolute inset-0 bg-cover bg-center"
-                  style={{
-                    backgroundImage: `url(${
-                      venue?.images?.[0] || "/ekko.png"
-                    })`,
-                  }}
-                />
-                <div className="absolute inset-0 bg-black/5" />
-              </div>
-            </div>
+            ) : (
+              <p>Event has no venue or venue is removed</p>
+            )}
           </div>
         </div>
       </div>
