@@ -156,7 +156,7 @@ export default function VenueManagement() {
               placeholder="Search venues..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-10 h-11 bg-gray-50 border-none focus-visible:ring-1 focus-visible:ring-eventaty-gold"
+              className="pl-10 h-11  border-none ring-1 focus-visible:ring-eventaty-gold"
             />
           </div>
           <button
