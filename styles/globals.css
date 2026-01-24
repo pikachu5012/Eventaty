@@ -152,4 +152,58 @@
   --color-eventaty-cancel: var(--eventaty-cancel);
 }
 
-/*  */
+/* Custom Scrollbar - Premium Aesthetics */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 5px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.02);
+  margin: 8px 0;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: linear-gradient(to bottom, var(--eventaty-gold), #b8962c);
+  border-radius: 100px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #a38424;
+  width: 7px;
+}
+
+/* Global Scrollbar Styling - Premium & Unified */
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--background);
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(to bottom, var(--eventaty-gold), #b8962c);
+  border-radius: 20px;
+  border: 3px solid var(--background);
+  transition: all 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a38424;
+}
+
+/* Dark Mode Global Scrollbar */
+.dark ::-webkit-scrollbar-track {
+  background: var(--background);
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: linear-gradient(to bottom, var(--eventaty-gold), #b8962c);
+  border: 3px solid var(--background);
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: #a38424;
+}

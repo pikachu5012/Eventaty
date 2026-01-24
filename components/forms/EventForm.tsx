@@ -101,44 +101,44 @@ export function EventForm({
   } = useForm<FormData>({
     defaultValues: event
       ? {
-          title: event.title,
-          description: event.description,
-          images: event.images || [""],
-          startDateTime: event.startDateTime
-            ? format(new Date(event.startDateTime), "yyyy-MM-dd'T'HH:mm")
-            : "",
-          endDateTime: event.endDateTime
-            ? format(new Date(event.endDateTime), "yyyy-MM-dd'T'HH:mm")
-            : "",
-          categoryId:
-            typeof event.categoryId === "object" &&
+        title: event.title,
+        description: event.description,
+        images: event.images || [""],
+        startDateTime: event.startDateTime
+          ? format(new Date(event.startDateTime), "yyyy-MM-dd'T'HH:mm")
+          : "",
+        endDateTime: event.endDateTime
+          ? format(new Date(event.endDateTime), "yyyy-MM-dd'T'HH:mm")
+          : "",
+        categoryId:
+          typeof event.categoryId === "object" &&
             event.categoryId !== null &&
             "_id" in event.categoryId
-              ? event.categoryId._id
-              : (event.categoryId as string) || "",
-          venueId:
-            typeof event.venueId === "object" &&
+            ? event.categoryId._id
+            : (event.categoryId as string) || "",
+        venueId:
+          typeof event.venueId === "object" &&
             event.venueId !== null &&
             "_id" in event.venueId
-              ? event.venueId._id
-              : (event.venueId as string) || "",
-          totalCapacity: event.totalCapacity,
-          price: event.price,
-          eventType:
-            (event.eventType as "In-person" | "Online" | "Hybrid") ||
-            "In-person",
-          status:
-            (event.status as "draft" | "published" | "cancelled") || "draft",
-          featured: event.featured,
-          tickets:
-            event.tickets && event.tickets.length > 0
-              ? event.tickets.map((t) => ({
-                  type: t.type,
-                  description: t.description,
-                  multiplier: t.multiplier,
-                }))
-              : defaultValues.tickets,
-        }
+            ? event.venueId._id
+            : (event.venueId as string) || "",
+        totalCapacity: event.totalCapacity,
+        price: event.price,
+        eventType:
+          (event.eventType as "In-person" | "Online" | "Hybrid") ||
+          "In-person",
+        status:
+          (event.status as "draft" | "published" | "cancelled") || "draft",
+        featured: event.featured,
+        tickets:
+          event.tickets && event.tickets.length > 0
+            ? event.tickets.map((t) => ({
+              type: t.type,
+              description: t.description,
+              multiplier: t.multiplier,
+            }))
+            : defaultValues.tickets,
+      }
       : defaultValues,
   });
 
@@ -255,11 +255,12 @@ export function EventForm({
       onClick={() => onOpenChange(false)}
     >
       <div
-        className="w-full max-w-2xl max-h-[90vh] flex flex-col bg-card rounded-xl shadow-2xl overflow-hidden"
+        className="w-full max-w-2xl max-h-[90vh] flex flex-col bg-card rounded-xl shadow-2xl overflow-y-auto custom-scrollbar"
         onClick={(e) => e.stopPropagation()}
+        data-lenis-prevent
       >
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 bg-navFooter text-white shrink-0">
+        <div className="flex items-center justify-between px-6 py-4 bg-navFooter text-white shrink-0 sticky top-0 z-20">
           <div className="flex items-center gap-3">
             <div className="p-2 bg-white/10 rounded-lg">
               <Edit className="h-5 w-5 text-eventaty-gold" />
@@ -283,8 +284,8 @@ export function EventForm({
           </button>
         </div>
 
-        {/* Scrollable Form Content */}
-        <div className="flex-1 overflow-y-auto p-6 space-y-8 custom-scrollbar">
+        {/* Form Content */}
+        <div className="flex-1 p-6 space-y-8">
           <form
             id="event-form"
             onSubmit={handleSubmit(onFormSubmit)}
@@ -354,9 +355,8 @@ export function EventForm({
                         value={field.value}
                       >
                         <SelectTrigger
-                          className={`h-11 rounded-lg border-gray-200 focus:ring-eventaty-gold/20 ${
-                            errors.categoryId ? "border-red-500" : ""
-                          }`}
+                          className={`h-11 rounded-lg border-gray-200 focus:ring-eventaty-gold/20 ${errors.categoryId ? "border-red-500" : ""
+                            }`}
                         >
                           <SelectValue placeholder="Select Category" />
                         </SelectTrigger>
@@ -455,9 +455,8 @@ export function EventForm({
                         required
                       >
                         <SelectTrigger
-                          className={`h-11 rounded-lg border-gray-200 focus:ring-eventaty-gold/20 ${
-                            errors.venueId ? "border-red-500" : ""
-                          }`}
+                          className={`h-11 rounded-lg border-gray-200 focus:ring-eventaty-gold/20 ${errors.venueId ? "border-red-500" : ""
+                            }`}
                         >
                           <SelectValue placeholder="Select Venue" />
                         </SelectTrigger>
@@ -725,7 +724,7 @@ export function EventForm({
         </div>
 
         {/* Footer */}
-        <div className="flex items-center justify-end gap-3 px-6 py-4 bg-card border-t border-gray-100 shrink-0">
+        <div className="flex items-center justify-end gap-3 px-6 py-4 bg-card border-t border-gray-100 shrink-0 sticky bottom-0 z-20">
           <Button
             type="button"
             variant="outline"

@@ -45,8 +45,9 @@ export default function TicketSelectionModal({
       onClick={onClose}
     >
       <div
-        className="bg-white rounded-[2rem] w-full max-w-md p-8 md:p-10 relative animate-in fade-in zoom-in-95 duration-200 shadow-2xl"
+        className="bg-white rounded-[2rem] w-full max-w-md max-h-[90vh] overflow-y-auto p-8 md:p-10 relative animate-in fade-in zoom-in-95 duration-200 shadow-2xl custom-scrollbar"
         onClick={(e) => e.stopPropagation()}
+        data-lenis-prevent
       >
         <div className="text-center">
           <h2 className="text-3xl font-medium text-gray-900 mb-10">
