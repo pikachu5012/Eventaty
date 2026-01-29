@@ -214,14 +214,17 @@ export function VenueForm({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto flex flex-col p-0 gap-0">
-        <DialogHeader className="p-6 pb-2">
+      <DialogContent
+        className="max-w-3xl max-h-[90vh] overflow-y-auto flex flex-col p-0 gap-0 custom-scrollbar"
+        data-lenis-prevent
+      >
+        <DialogHeader className="p-6 pb-2 sticky top-0 bg-card z-20 border-b border-gray-100 shrink-0">
           <DialogTitle className="text-2xl font-bold text-primary">
             {venue ? "Edit Venue" : "Create New Venue"}
           </DialogTitle>
         </DialogHeader>
 
-        <div className="flex-1 overflow-y-auto p-6 pt-2">
+        <div className="flex-1 p-6 pt-2">
           <form id="venue-form" onSubmit={handleSubmit} className="space-y-6">
             {/* Thumbnail Image Section */}
             <div className="space-y-3">
@@ -322,11 +325,10 @@ export function VenueForm({
                       key={amenity.name}
                       type="button"
                       onClick={() => toggleAmenity(amenity)}
-                      className={`p-3 rounded-lg border-2 text-sm font-medium transition-all ${
-                        isSelected
-                          ? "border-eventaty-gold bg-eventaty-gold/10 text-eventaty-gold"
-                          : "border-gray-200 text-gray-600 hover:border-eventaty-gold/50"
-                      }`}
+                      className={`p-3 rounded-lg border-2 text-sm font-medium transition-all ${isSelected
+                        ? "border-eventaty-gold bg-eventaty-gold/10 text-eventaty-gold"
+                        : "border-gray-200 text-gray-600 hover:border-eventaty-gold/50"
+                        }`}
                     >
                       {amenity.name}
                     </button>
@@ -529,7 +531,7 @@ export function VenueForm({
         </div>
 
         {/* Form Actions Footer */}
-        <div className="flex items-center justify-end gap-3 p-6 border-t border-gray-200 mt-auto bg-card shrink-0">
+        <div className="flex items-center justify-end gap-3 p-6 border-t border-gray-100 mt-auto bg-card shrink-0 sticky bottom-0 z-20">
           <button
             type="button"
             onClick={() => onOpenChange(false)}

@@ -69,8 +69,11 @@ export function AuthOverlay({
           )}
         </DialogTrigger>
       )}
-      <DialogContent className="p-0 border-0 overflow-hidden max-h-[90vh] flex flex-col">
-        <DialogHeader className="flex justify-center items-center bg-primary py-5 px-5 text-background relative shrink-0">
+      <DialogContent
+        className="p-0 border-0 overflow-y-auto max-h-[90vh] flex flex-col custom-scrollbar"
+        data-lenis-prevent
+      >
+        <DialogHeader className="flex justify-center items-center bg-primary py-5 px-5 text-background relative shrink-0 sticky top-0 z-20">
           <DialogTitle className="text-2xl pt-8">
             {regester ? "Welcome to Eventaty" : "Welcome Back"}
           </DialogTitle>
@@ -80,14 +83,14 @@ export function AuthOverlay({
               : "Login to access your bookings and discover events"}
           </DialogDescription>
         </DialogHeader>
-        <div className="flex-1 overflow-y-auto">
+        <div className="flex-1">
           {regester ? (
             <RegisterForm onSuccess={() => setRegester(false)} />
           ) : (
             <LoginForm />
           )}
         </div>
-        <DialogFooter className="p-4 shrink-0">
+        <DialogFooter className="p-4 shrink-0 sticky bottom-0 bg-card z-20 border-t border-gray-100">
           {regester ? (
             <div className="mx-auto flex gap-3">
               <span>Already have an account?</span>
