@@ -10,7 +10,7 @@ import {
   Facebook,
   Twitter,
   Instagram,
-  Linkedin
+  Linkedin,
 } from "lucide-react";
 
 export default function Contact() {
@@ -26,7 +26,11 @@ export default function Contact() {
           height={48}
         />
         <div className="container mx-auto px-4 flex flex-col items-center justify-center text-center">
-          <MessageCircleMore size={80} className="text-eventaty-gold mb-6" strokeWidth={1.5} />
+          <MessageCircleMore
+            size={80}
+            className="text-eventaty-gold mb-6"
+            strokeWidth={1.5}
+          />
           <h1 className="text-eventaty-cream text-4xl md:text-5xl font-bold mb-4">
             Get in Touch
           </h1>
@@ -39,10 +43,8 @@ export default function Contact() {
       {/* Main Content */}
       <section className="container mx-auto px-4 py-16 -mt-10 relative z-10">
         <div className="flex flex-col lg:flex-row gap-8 max-w-6xl mx-auto">
-
           {/* Left Column*/}
           <div className="lg:w-1/3 space-y-6">
-
             {/* Email */}
             <div className="bg-card p-6 rounded-2xl shadow-sm flex items-start gap-5 border border-white/20 ">
               <div className="w-12 h-12 rounded-full bg-strongCream flex items-center justify-center text-eventaty-gold shrink-0">
@@ -94,18 +96,21 @@ export default function Contact() {
                 ))}
               </div>
             </div>
-
           </div>
 
           {/* Right Column Form */}
           <div className="lg:w-2/3">
-            <div className="bg-white rounded-3xl shadow-lg p-8 md:p-10">
-              <h2 className="text-3xl font-bold text-gray-900 mb-8">Send Us a Message</h2>
+            <div className="bg-card rounded-3xl shadow-lg p-8 md:p-10">
+              <h2 className="text-3xl font-bold text-primary mb-8">
+                Send Us a Message
+              </h2>
 
               <form className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-2">
-                    <label className="text-sm font-semibold text-gray-700">Name *</label>
+                    <label className="text-sm font-semibold text-primary/80">
+                      Name *
+                    </label>
                     <input
                       type="text"
                       placeholder="John Doe"
@@ -113,7 +118,9 @@ export default function Contact() {
                     />
                   </div>
                   <div className="space-y-2">
-                    <label className="text-sm font-semibold text-gray-700">Email *</label>
+                    <label className="text-sm font-semibold text-primary/80">
+                      Email *
+                    </label>
                     <input
                       type="email"
                       placeholder="john@example.com"
@@ -123,7 +130,9 @@ export default function Contact() {
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-sm font-semibold text-gray-700">Subject *</label>
+                  <label className="text-sm font-semibold text-primary/80">
+                    Subject *
+                  </label>
                   <input
                     type="text"
                     className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-secondary focus:ring-2 focus:ring-eventaty-gold/20 outline-none transition-all"
@@ -131,7 +140,9 @@ export default function Contact() {
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-sm font-semibold text-gray-700">Message *</label>
+                  <label className="text-sm font-semibold text-primary/80">
+                    Message *
+                  </label>
                   <textarea
                     rows={6}
                     placeholder="Tell us how we can help you..."

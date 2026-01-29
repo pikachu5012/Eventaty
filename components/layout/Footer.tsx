@@ -39,28 +39,40 @@ export default function Footer() {
             <Sparkles className="inline-block me-1" /> Premium Event Experiences
           </p>
         </div>
-        <div className="w-full md:w-2/5 lg:w-3/13 space-y-2">
+        <div className="w-2/5 lg:w-3/13 space-y-2">
           <h3 className="font-semibold mb-4 text-lg text-secondary">
             Quick Links
           </h3>
           <ul className="space-y-2 text-ring">
             <li>
-              <Link href="/events" className="hover:underline hover:text-secondary">
+              <Link
+                href="/events"
+                className="hover:underline hover:text-secondary"
+              >
                 Events
               </Link>
             </li>
             <li>
-              <Link href="/venues" className="hover:underline hover:text-secondary">
+              <Link
+                href="/venues"
+                className="hover:underline hover:text-secondary"
+              >
                 Venues
               </Link>
             </li>
             <li>
-              <Link href="/about" className="hover:underline hover:text-secondary">
+              <Link
+                href="/about"
+                className="hover:underline hover:text-secondary"
+              >
                 About Us
               </Link>
             </li>
             <li>
-              <Link href="/contact" className="hover:underline hover:text-secondary">
+              <Link
+                href="/contact"
+                className="hover:underline hover:text-secondary"
+              >
                 Contact
               </Link>
             </li>
@@ -69,7 +81,7 @@ export default function Footer() {
             </li>
           </ul>
         </div>
-        <div className="w-full md:w-2/5 lg:w-3/13 space-y-2">
+        <div className="w-2/5 lg:w-3/13 space-y-2">
           <h3 className="font-semibold mb-4 text-lg text-secondary">
             Categories
           </h3>
@@ -86,7 +98,7 @@ export default function Footer() {
             ))}
           </ul>
         </div>
-        <div className="w-full md:w-2/5 lg:w-3/13 space-y-2">
+        <div className="w-2/5 lg:w-3/13 space-y-2">
           <h3 className="font-semibold mb-4 text-lg text-secondary">
             Contact Us
           </h3>

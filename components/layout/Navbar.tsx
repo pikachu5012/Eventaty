@@ -33,12 +33,14 @@ export default function Navbar() {
           <button
             type="button"
             aria-label="Toggle collapse"
-            className={`md:hidden p-2 rounded-lg border border-secondary ${collapsActive ? "bg-secondary" : ""
-              } ${collapsActive ? "text-primary" : "text-secondary"}
-                     ${collapsActive
-                ? "hover:bg-secondary/80"
-                : "hover:bg-secondary/20"
-              }
+            className={`md:hidden p-2 rounded-lg border border-secondary ${
+              collapsActive ? "bg-secondary" : ""
+            } ${collapsActive ? "text-primary" : "text-secondary"}
+                     ${
+                       collapsActive
+                         ? "hover:bg-secondary/80"
+                         : "hover:bg-secondary/20"
+                     }
                      transition shadow-md`}
             onClick={() => {
               setCollapse(!collapse);
@@ -50,16 +52,18 @@ export default function Navbar() {
         </div>
         {/* Links */}
         <div
-          className={`${collapse ? "block" : "hidden"
-            } w-full md:flex md:w-5/6 px-4 flex flex-col md:flex-row md:justify-between`}
+          className={`${
+            collapse ? "block" : "hidden"
+          } w-full md:flex md:w-5/6 px-4 flex flex-col md:flex-row md:justify-between`}
         >
           <div className="w-full md:w-4/6 flex lg:justify-center lg:ps-4">
             <ul className="font-medium flex flex-col md:flex-row md:space-x-0 lg:space-x-4 mt-4 md:mt-0">
               <li>
                 <Link
                   href="/"
-                  className={`block py-2 px-3 ${pathname === "/" ? "text-secondary" : "text-slate-300"
-                    } hover:text-secondary transition`}
+                  className={`block py-2 px-3 ${
+                    pathname === "/" ? "text-secondary" : "text-slate-300"
+                  } hover:text-secondary transition`}
                 >
                   Home
                 </Link>
@@ -68,8 +72,9 @@ export default function Navbar() {
               <li>
                 <Link
                   href="/events"
-                  className={`block py-2 px-3 ${pathname === "/events" ? "text-secondary" : "text-slate-300"
-                    } hover:text-secondary transition`}
+                  className={`block py-2 px-3 ${
+                    pathname === "/events" ? "text-secondary" : "text-slate-300"
+                  } hover:text-secondary transition`}
                 >
                   Events
                 </Link>
@@ -78,8 +83,9 @@ export default function Navbar() {
               <li>
                 <Link
                   href="/venues"
-                  className={`block py-2 px-3 ${pathname === "/venues" ? "text-secondary" : "text-slate-300"
-                    } hover:text-secondary transition`}
+                  className={`block py-2 px-3 ${
+                    pathname === "/venues" ? "text-secondary" : "text-slate-300"
+                  } hover:text-secondary transition`}
                 >
                   Venues
                 </Link>
@@ -88,8 +94,9 @@ export default function Navbar() {
               <li>
                 <Link
                   href="/about"
-                  className={`block py-2 px-3 ${pathname === "/about" ? "text-[#d4af37]" : "text-slate-300"
-                    } hover:text-[#d4af37] transition`}
+                  className={`block py-2 px-3 ${
+                    pathname === "/about" ? "text-[#d4af37]" : "text-slate-300"
+                  } hover:text-[#d4af37] transition`}
                 >
                   About
                 </Link>
@@ -97,10 +104,11 @@ export default function Navbar() {
               <li>
                 <Link
                   href="/contact"
-                  className={`block py-2 px-3 ${pathname === "/contact"
+                  className={`block py-2 px-3 ${
+                    pathname === "/contact"
                       ? "text-[#d4af37]"
                       : "text-slate-300"
-                    } hover:text-[#d4af37] transition`}
+                  } hover:text-[#d4af37] transition`}
                 >
                   Contact
                 </Link>

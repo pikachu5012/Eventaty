@@ -133,7 +133,7 @@ export default async function VenueDetails({
 
           {/* RIGHT COLUMN (Sidebar) */}
           <div className="lg:col-span-1">
-            <div className="bg-card rounded-xl shadow-sm p-6 sticky top-8 border border-eventaty-gold">
+            <div className="bg-card rounded-xl shadow-sm p-6 sticky top-26 border border-eventaty-gold">
               {/*Map view */}
               {apiData.latitude && apiData.longitude ? (
                 <div className="w-full h-64 rounded-lg mb-6 overflow-hidden border border-eventaty-gold">
