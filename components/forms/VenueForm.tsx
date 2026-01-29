@@ -105,7 +105,7 @@ export function VenueForm({
   }, [venue, open]);
 
   const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -222,6 +222,12 @@ export function VenueForm({
           <DialogTitle className="text-2xl font-bold text-primary">
             {venue ? "Edit Venue" : "Create New Venue"}
           </DialogTitle>
+          <button
+            onClick={() => onOpenChange(false)}
+            className="text-eventaty-gold hover:text-eventaty-gold/80 transition-colors p-1 cursor-pointer absolute top-2 right-2"
+          >
+            <X className="h-5 w-5" />
+          </button>
         </DialogHeader>
 
         <div className="flex-1 p-6 pt-2">
@@ -318,17 +324,18 @@ export function VenueForm({
               <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
                 {AMENITY_OPTIONS.map((amenity) => {
                   const isSelected = selectedAmenities.some(
-                    (a) => a.name === amenity.name
+                    (a) => a.name === amenity.name,
                   );
                   return (
                     <button
                       key={amenity.name}
                       type="button"
                       onClick={() => toggleAmenity(amenity)}
-                      className={`p-3 rounded-lg border-2 text-sm font-medium transition-all ${isSelected
-                        ? "border-eventaty-gold bg-eventaty-gold/10 text-eventaty-gold"
-                        : "border-gray-200 text-gray-600 hover:border-eventaty-gold/50"
-                        }`}
+                      className={`p-3 rounded-lg border-2 text-sm font-medium transition-all ${
+                        isSelected
+                          ? "border-eventaty-gold bg-eventaty-gold/10 text-eventaty-gold"
+                          : "border-gray-200 text-gray-600 hover:border-eventaty-gold/50"
+                      }`}
                     >
                       {amenity.name}
                     </button>

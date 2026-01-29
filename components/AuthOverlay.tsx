@@ -11,7 +11,7 @@ import {
 import { useState, useEffect } from "react";
 import LoginForm from "@/components/forms/LoginForm";
 import RegisterForm from "./forms/RegisterForm";
-import { LogIn } from "lucide-react";
+import { LogIn, X } from "lucide-react";
 import Link from "next/link";
 import { useAuth } from "@/context/AuthContext";
 
@@ -73,7 +73,7 @@ export function AuthOverlay({
         className="p-0 border-0 overflow-y-auto max-h-[90vh] flex flex-col custom-scrollbar"
         data-lenis-prevent
       >
-        <DialogHeader className="flex justify-center items-center bg-primary py-5 px-5 text-background relative shrink-0 sticky top-0 z-20">
+        <DialogHeader className="flex justify-center items-center bg-navFooter py-5 px-5 text-white shrink-0 sticky top-0 z-20">
           <DialogTitle className="text-2xl pt-8">
             {regester ? "Welcome to Eventaty" : "Welcome Back"}
           </DialogTitle>
@@ -82,6 +82,12 @@ export function AuthOverlay({
               ? "Register to discover events and make bookings"
               : "Login to access your bookings and discover events"}
           </DialogDescription>
+          <button
+            onClick={() => setInternalOpen(false)}
+            className="text-eventaty-gold hover:text-eventaty-gold/80 transition-colors p-1 cursor-pointer absolute top-2 right-2"
+          >
+            <X className="h-5 w-5" />
+          </button>
         </DialogHeader>
         <div className="flex-1">
           {regester ? (

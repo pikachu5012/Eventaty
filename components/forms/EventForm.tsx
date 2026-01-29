@@ -101,44 +101,44 @@ export function EventForm({
   } = useForm<FormData>({
     defaultValues: event
       ? {
-        title: event.title,
-        description: event.description,
-        images: event.images || [""],
-        startDateTime: event.startDateTime
-          ? format(new Date(event.startDateTime), "yyyy-MM-dd'T'HH:mm")
-          : "",
-        endDateTime: event.endDateTime
-          ? format(new Date(event.endDateTime), "yyyy-MM-dd'T'HH:mm")
-          : "",
-        categoryId:
-          typeof event.categoryId === "object" &&
+          title: event.title,
+          description: event.description,
+          images: event.images || [""],
+          startDateTime: event.startDateTime
+            ? format(new Date(event.startDateTime), "yyyy-MM-dd'T'HH:mm")
+            : "",
+          endDateTime: event.endDateTime
+            ? format(new Date(event.endDateTime), "yyyy-MM-dd'T'HH:mm")
+            : "",
+          categoryId:
+            typeof event.categoryId === "object" &&
             event.categoryId !== null &&
             "_id" in event.categoryId
-            ? event.categoryId._id
-            : (event.categoryId as string) || "",
-        venueId:
-          typeof event.venueId === "object" &&
+              ? event.categoryId._id
+              : (event.categoryId as string) || "",
+          venueId:
+            typeof event.venueId === "object" &&
             event.venueId !== null &&
             "_id" in event.venueId
-            ? event.venueId._id
-            : (event.venueId as string) || "",
-        totalCapacity: event.totalCapacity,
-        price: event.price,
-        eventType:
-          (event.eventType as "In-person" | "Online" | "Hybrid") ||
-          "In-person",
-        status:
-          (event.status as "draft" | "published" | "cancelled") || "draft",
-        featured: event.featured,
-        tickets:
-          event.tickets && event.tickets.length > 0
-            ? event.tickets.map((t) => ({
-              type: t.type,
-              description: t.description,
-              multiplier: t.multiplier,
-            }))
-            : defaultValues.tickets,
-      }
+              ? event.venueId._id
+              : (event.venueId as string) || "",
+          totalCapacity: event.totalCapacity,
+          price: event.price,
+          eventType:
+            (event.eventType as "In-person" | "Online" | "Hybrid") ||
+            "In-person",
+          status:
+            (event.status as "draft" | "published" | "cancelled") || "draft",
+          featured: event.featured,
+          tickets:
+            event.tickets && event.tickets.length > 0
+              ? event.tickets.map((t) => ({
+                  type: t.type,
+                  description: t.description,
+                  multiplier: t.multiplier,
+                }))
+              : defaultValues.tickets,
+        }
       : defaultValues,
   });
 
@@ -165,7 +165,7 @@ export function EventForm({
     setImageUrls(newImageUrls);
     setValue(
       "images",
-      newImageUrls.filter((url) => url)
+      newImageUrls.filter((url) => url),
     );
 
     const newImagePreviews = [...imagePreviews];
@@ -179,7 +179,7 @@ export function EventForm({
     setImageUrls(newImageUrls);
     setValue(
       "images",
-      newImageUrls.filter((url) => url)
+      newImageUrls.filter((url) => url),
     );
 
     // Show preview for any valid URL (more permissive)
@@ -278,7 +278,7 @@ export function EventForm({
           </div>
           <button
             onClick={() => onOpenChange(false)}
-            className="text-gray-400 hover:text-white transition-colors p-1 cursor-pointer"
+            className="text-eventaty-gold hover:text-eventaty-gold/80 transition-colors p-1 cursor-pointer absolute top-2 right-2"
           >
             <X className="h-5 w-5" />
           </button>
@@ -355,8 +355,9 @@ export function EventForm({
                         value={field.value}
                       >
                         <SelectTrigger
-                          className={`h-11 rounded-lg border-gray-200 focus:ring-eventaty-gold/20 ${errors.categoryId ? "border-red-500" : ""
-                            }`}
+                          className={`h-11 rounded-lg border-gray-200 focus:ring-eventaty-gold/20 ${
+                            errors.categoryId ? "border-red-500" : ""
+                          }`}
                         >
                           <SelectValue placeholder="Select Category" />
                         </SelectTrigger>
@@ -455,8 +456,9 @@ export function EventForm({
                         required
                       >
                         <SelectTrigger
-                          className={`h-11 rounded-lg border-gray-200 focus:ring-eventaty-gold/20 ${errors.venueId ? "border-red-500" : ""
-                            }`}
+                          className={`h-11 rounded-lg border-gray-200 focus:ring-eventaty-gold/20 ${
+                            errors.venueId ? "border-red-500" : ""
+                          }`}
                         >
                           <SelectValue placeholder="Select Venue" />
                         </SelectTrigger>
@@ -624,7 +626,7 @@ export function EventForm({
                                   value: 1,
                                   message: "Multiplier must be at least 1",
                                 },
-                              }
+                              },
                             )}
                             disabled={
                               watch(`tickets.${index}.type`) === "General"
@@ -646,7 +648,7 @@ export function EventForm({
                             className="h-10 bg-card border-gray-200"
                             {...register(
                               `tickets.${index}.description` as const,
-                              { required: "Description is required" }
+                              { required: "Description is required" },
                             )}
                             required
                           />
