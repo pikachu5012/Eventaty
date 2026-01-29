@@ -20,7 +20,7 @@ export default function AccountTypeOverlay({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent className="p-0 border-0 overflow-hidden">
-        <DialogHeader className="flex justify-center items-center bg-primary py-5 px-5 text-background relative">
+        <DialogHeader className="flex justify-center items-center bg-navFooter py-5 px-5 text-white relative">
           <DialogTitle className="text-2xl pt-8">
             Select Dashboard Type
           </DialogTitle>

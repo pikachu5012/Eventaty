@@ -83,7 +83,10 @@ export function AuthOverlay({
               : "Login to access your bookings and discover events"}
           </DialogDescription>
           <button
-            onClick={() => setInternalOpen(false)}
+            onClick={() => {
+              setInternalOpen(false);
+              handleOpenChange?.(false);
+            }}
             className="text-eventaty-gold hover:text-eventaty-gold/80 transition-colors p-1 cursor-pointer absolute top-2 right-2"
           >
             <X className="h-5 w-5" />
