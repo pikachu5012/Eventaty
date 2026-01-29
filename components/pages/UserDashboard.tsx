@@ -35,19 +35,19 @@ export default function UserDashboard() {
     (booking: IBooking) =>
       booking.status !== "cancelled" &&
       booking.eventId &&
-      new Date(booking.eventId.startDateTime) >= new Date()
+      new Date(booking.eventId.startDateTime) >= new Date(),
   );
   const pastBookings = myBookings.filter(
     (booking: IBooking) =>
       booking.status === "cancelled" ||
       !booking.eventId ||
-      new Date(booking.eventId.startDateTime) < new Date()
+      new Date(booking.eventId.startDateTime) < new Date(),
   );
 
   return (
     <div className="container-fluid bg-background py-10">
       <div className="flex flex-col lg:flex-row container mx-auto min-h-screen">
-        <div className="w-full lg:w-1/4 p-5 lg:sticky lg:top-8 lg:self-start rounded-lg bg-card shadow-lg my-5">
+        <div className="w-full lg:w-1/4 p-5 lg:sticky lg:top-26 lg:self-start rounded-lg bg-card shadow-lg my-5">
           <div className="flex items-center justify-between p-5 text-2xl">
             <p className={`${isEditing && "w-full text-center"}`}>My Profile</p>
             {!isEditing && (
