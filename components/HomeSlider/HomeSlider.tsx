@@ -5,9 +5,9 @@ export default async function HomeSlider() {
   try {
     let response;
     try {
-      response = await axios.get("http://localhost:5000/events");
+      response = await axios.get(`${process.env.BACKEND_URL}/events`);
     } catch (e) {
-      response = await axios.get("http://localhost:5000/events");
+      response = await axios.get(`${process.env.BACKEND_URL}/events`);
     }
 
     let data = response.data;

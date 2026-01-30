@@ -168,7 +168,7 @@ export default function EventsList({ category }: { category?: string }) {
               })}
             </div>
           ) : (
-            <div className="text-center py-20 bg-white rounded-xl shadow-sm">
+            <div className="text-center py-20 bg-card rounded-xl shadow-sm">
               <h3 className="text-xl font-medium text-gray-600">
                 No events found
               </h3>

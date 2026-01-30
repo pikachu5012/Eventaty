@@ -6,14 +6,30 @@ import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
 import { AuthOverlay } from "@/components/AuthOverlay";
 import AdminDashboard from "@/components/pages/AdminDashboard";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import AccountTypeOverlay from "@/components/AccountTypeOverlay";
+import { useSearchParams } from "next/navigation";
 
 export default function Dashboard() {
   const { user, isLoading } = useAuth();
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const select = searchParams.get("select");
   const isAdmin = user?.role === "admin";
   const [asUser, setAsUser] = useState(false);
+  const [openOverlay, setOpenOverlay] = useState(false);
+
+  useEffect(() => {
+    if (isAdmin) {
+      setOpenOverlay(true);
+    }
+  }, [isAdmin]);
+
+  useEffect(() => {
+    if (select === "true") {
+      setOpenOverlay(true);
+    }
+  }, [select, searchParams]);
 
   if (isLoading) {
     return (
@@ -47,7 +63,14 @@ export default function Dashboard() {
 
   return (
     <div>
-      {isAdmin && <AccountTypeOverlay asUser={asUser} setAsUser={setAsUser} />}
+      {isAdmin && (
+        <AccountTypeOverlay
+          asUser={asUser}
+          setAsUser={setAsUser}
+          open={openOverlay}
+          setOpen={setOpenOverlay}
+        />
+      )}
       {isAdmin ? (
         asUser ? (
           <UserDashboard />

@@ -41,7 +41,7 @@ export default function RootLayout({
               <SmoothScrolling>{children}</SmoothScrolling>
               <Footer />
             </div>
-            <Toaster />
+            <Toaster position="top-left" richColors />
           </ThemeProvider>
         </AuthProvider>
       </body>

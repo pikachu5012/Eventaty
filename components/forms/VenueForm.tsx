@@ -11,6 +11,9 @@ import {
 import { Input } from "@/components/ui/input";
 import { IVenue, IAmenity } from "@/types/venue";
 import Image from "next/image";
+
+const DEFAULT_VENUE_IMAGE =
+  "https://www.valcoustics.com/wp-content/uploads/2020/10/theater.jpg";
 import {
   Dialog,
   DialogContent,
@@ -50,9 +53,9 @@ export function VenueForm({
     state: "",
     postalCode: "",
     country: "",
-    longitude: 0,
-    latitude: 0,
-    capacity: 0,
+    longitude: "" as string | number,
+    latitude: "" as string | number,
+    capacity: "" as string | number,
     images: [] as string[],
   });
 
@@ -70,9 +73,9 @@ export function VenueForm({
         state: venue.state || "",
         postalCode: venue.postalCode || "",
         country: venue.country || "",
-        longitude: venue.longitude || 0,
-        latitude: venue.latitude || 0,
-        capacity: venue.capacity || 0,
+        longitude: venue.longitude ?? "",
+        latitude: venue.latitude ?? "",
+        capacity: venue.capacity ?? "",
         images: venue.images || [],
       });
       setSelectedAmenities(venue.amenities || []);
@@ -93,9 +96,9 @@ export function VenueForm({
         state: "",
         postalCode: "",
         country: "",
-        longitude: 0,
-        latitude: 0,
-        capacity: 0,
+        longitude: "",
+        latitude: "",
+        capacity: "",
         images: [],
       });
       setSelectedAmenities([]);
@@ -110,10 +113,7 @@ export function VenueForm({
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
-      [name]:
-        name === "longitude" || name === "latitude" || name === "capacity"
-          ? parseFloat(value) || 0
-          : value,
+      [name]: value,
     }));
   };
 
@@ -195,16 +195,24 @@ export function VenueForm({
       toast.error("Country is required");
       return;
     }
-    if (formData.capacity <= 0) {
+    if (Number(formData.capacity) <= 0) {
       toast.error("Capacity must be greater than 0");
       return;
     }
 
     // Parse image URLs - all images from the array
-    const images = imageUrls.filter((url) => url.trim().length > 0);
+    let images = imageUrls.filter((url) => url.trim().length > 0);
+
+    // Use default image if none provided
+    if (images.length === 0) {
+      images = [DEFAULT_VENUE_IMAGE];
+    }
 
     const submitData = {
       ...formData,
+      longitude: parseFloat(formData.longitude as string) || 0,
+      latitude: parseFloat(formData.latitude as string) || 0,
+      capacity: parseInt(formData.capacity as string) || 0,
       amenities: selectedAmenities,
       images,
     };
@@ -241,9 +249,9 @@ export function VenueForm({
 
               <div className="flex gap-4 items-start p-4 bg-background/50 border border-eventaty-gold/20 rounded-xl">
                 <div className="w-24 h-24 shrink-0 bg-gray-100 rounded-lg overflow-hidden border border-gray-200 flex items-center justify-center relative">
-                  {imagePreviews[0] ? (
+                  {(imagePreviews[0] || DEFAULT_VENUE_IMAGE) ? (
                     <Image
-                      src={imagePreviews[0]}
+                      src={imagePreviews[0] || DEFAULT_VENUE_IMAGE}
                       alt="Venue Thumbnail"
                       fill
                       unoptimized
@@ -331,11 +339,10 @@ export function VenueForm({
                       key={amenity.name}
                       type="button"
                       onClick={() => toggleAmenity(amenity)}
-                      className={`p-3 rounded-lg border-2 text-sm font-medium transition-all ${
-                        isSelected
-                          ? "border-eventaty-gold bg-eventaty-gold/10 text-eventaty-gold"
-                          : "border-gray-200 text-gray-600 hover:border-eventaty-gold/50"
-                      }`}
+                      className={`p-3 rounded-lg border-2 text-sm font-medium transition-all ${isSelected
+                        ? "border-eventaty-gold bg-eventaty-gold/10 text-eventaty-gold"
+                        : "border-gray-200 text-gray-600 hover:border-eventaty-gold/50"
+                        }`}
                     >
                       {amenity.name}
                     </button>
