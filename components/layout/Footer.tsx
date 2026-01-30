@@ -108,11 +108,11 @@ export default function Footer() {
           </p>
           <p className="text-ring flex items-center">
             <Phone className="inline-block me-2 text-secondary" size={16} />
-            +1 (555) 123-4567
+            +201112345678
           </p>
           <p className="text-ring flex items-center">
             <MapPin className="inline-block me-2 text-secondary" size={16} />
-            San Francisco, CA
+            Cairo, Egypt
           </p>
           <div className="flex gap-5 text-white mt-4">
             <Facebook
@@ -133,7 +133,7 @@ export default function Footer() {
 
       <div>
         <p className="text-sm text-gray-500 text-center pt-5">
-          &copy; 2025 Eventaty. All rights reserved.
+          &copy; 2026 Eventaty. All rights reserved.
         </p>
       </div>
     </footer>

@@ -166,9 +166,20 @@ export default async function VenueDetails({
                   {apiData.address}
                 </p>
               </div>
-              <button className="w-full bg-eventaty-gold text-white font-bold py-3.5 px-4 rounded-lg shadow-lg shadow-eventaty-gold/30 hover:bg-eventaty-gold/90 transition-colors cursor-pointer">
+              <a
+                href={
+                  apiData.latitude && apiData.longitude
+                    ? `https://www.google.com/maps/dir/?api=1&destination=${apiData.latitude},${apiData.longitude}`
+                    : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+                      `${apiData.name} ${apiData.address}`
+                    )}`
+                }
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full bg-eventaty-gold text-white text-center font-bold py-3.5 px-4 rounded-lg shadow-lg shadow-eventaty-gold/30 hover:bg-eventaty-gold/90 transition-colors cursor-pointer block"
+              >
                 Get Directions
-              </button>
+              </a>
             </div>
           </div>
         </div>

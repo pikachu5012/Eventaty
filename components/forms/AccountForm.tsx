@@ -3,6 +3,7 @@ import axios from "axios";
 import { Input } from "@/components/ui/input";
 import { Button } from "../ui/button";
 import { useAuth } from "@/context/AuthContext";
+import { toast } from "sonner";
 
 export default function AccountForm({
   setIsEditing,
@@ -13,29 +14,20 @@ export default function AccountForm({
   const [firstName, setFirstName] = useState(user?.firstName ?? "");
   const [lastName, setLastName] = useState(user?.lastName ?? "");
   const [email, setEmail] = useState(user?.email ?? "");
-  const [phone, setPhone] = useState(user?.phone ?? 0);
+  const [phone, setPhone] = useState(user?.phone?.toString() ?? "");
+  const [emailError, setEmailError] = useState(false);
 
   const handleSave = async () => {
     if (!user) return;
-
-    const finalFirstName = firstName || user.firstName || "";
-    const finalLastName = lastName || user.lastName || "";
-    const finalEmail = email || user.email || "";
-    const finalPhone = phone || user.phone || 0;
-
-    if (!firstName) setFirstName(finalFirstName);
-    if (!lastName) setLastName(finalLastName);
-    if (!email) setEmail(finalEmail);
-    if (!phone) setPhone(finalPhone);
-
+    setEmailError(false);
     try {
       const response = await axios.put(
         "/api/user",
         {
-          firstName: finalFirstName,
-          lastName: finalLastName,
-          email: finalEmail,
-          phone: finalPhone,
+          firstName: firstName || user.firstName,
+          lastName: lastName || user.lastName,
+          email: email || user.email,
+          phone: phone || user.phone?.toString() || "",
         },
         {
           headers: {
@@ -51,14 +43,34 @@ export default function AccountForm({
         ...updatedUser,
       });
       setIsEditing(false);
-    } catch (error) {
+      toast.success("Profile updated successfully");
+    } catch (error: any) {
       console.error("Failed to update user", error);
+      const message = error.response?.data?.message || "Failed to update user";
+      if (
+        (message.toLowerCase().includes("email") &&
+          message.toLowerCase().includes("exist")) ||
+        message.toLowerCase().includes("duplicate")
+      ) {
+        setEmailError(true);
+        toast.error(
+          "This email is already registered. Please use a different one."
+        );
+      } else {
+        toast.error(message);
+      }
     }
   };
 
   return (
     <div>
-      <form action="" className="p-4 space-y-4">
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          handleSave();
+        }}
+        className="p-4 space-y-4"
+      >
         <div className="flex flex-col gap-2">
           <label htmlFor="firstName">First name</label>
           <Input
@@ -87,9 +99,15 @@ export default function AccountForm({
             type="email"
             name="email"
             id="email"
-            className="p-4"
+            className={`p-4 transition-all duration-300 ${emailError
+              ? "!border-red-500 !ring-2 !ring-red-500/50 !ring-offset-2 shadow-[0_0_15px_rgba(239,68,68,0.4)]"
+              : ""
+              }`}
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => {
+              setEmail(e.target.value);
+              if (emailError) setEmailError(false);
+            }}
           />
         </div>
         <div className="flex flex-col gap-2">
@@ -100,19 +118,19 @@ export default function AccountForm({
             id="phone"
             className="p-4"
             value={phone}
-            onChange={(e) => setPhone(Number(e.target.value))}
+            onChange={(e) => setPhone(e.target.value)}
           />
         </div>
         <div className="flex justify-between mt-8">
           <Button
-            type="button"
+            type="submit"
             variant="secondary"
             className="w-5/11 cursor-pointer"
-            onClick={() => handleSave()}
           >
             Save
           </Button>
           <Button
+            type="button"
             variant="outline"
             className="w-5/11 bg-muted cursor-pointer"
             onClick={() => setIsEditing(false)}

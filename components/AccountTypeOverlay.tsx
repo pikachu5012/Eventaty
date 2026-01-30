@@ -12,11 +12,14 @@ import {
 export default function AccountTypeOverlay({
   asUser,
   setAsUser,
+  open,
+  setOpen,
 }: {
   asUser: boolean;
   setAsUser: (asUser: boolean) => void;
+  open: boolean;
+  setOpen: (open: boolean) => void;
 }) {
-  const [open, setOpen] = React.useState(true);
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent className="p-0 border-0 overflow-hidden">
