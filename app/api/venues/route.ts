@@ -11,7 +11,7 @@ export async function GET() {
     console.error("Error fetching venues:", error);
     return NextResponse.json(
       { error: "Failed to fetch venues" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -30,11 +30,11 @@ export async function POST(request: NextRequest) {
   } catch (error: any) {
     console.error(
       "Error creating venue:",
-      error?.response?.data || error.message
+      error?.response?.data || error.message,
     );
     return NextResponse.json(
       { error: "Failed to create venue" },
-      { status: error?.response?.status || 500 }
+      { status: error?.response?.status || 500 },
     );
   }
 }
