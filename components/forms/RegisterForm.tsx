@@ -37,9 +37,10 @@ export default function RegisterForm({
       }
       toast.success("Registration successful");
     } catch (error) {
-      setError("Registration failed");
+      setError(error?.response?.data?.message || "Registration failed");
       setRegistered(false);
       toast.error("Registration failed");
+      console.log(error);
     }
   };
 
@@ -141,7 +142,7 @@ export default function RegisterForm({
           </button>
         </div>
       </div>
-      {error && <p className="text-center text-red-500">{error}</p>}
+      {error && <p className="text-center text-red-500 py-5">{error}</p>}
       {registered && (
         <p className="text-center text-green-500">Registration successful</p>
       )}
