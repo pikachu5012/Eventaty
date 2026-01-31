@@ -36,7 +36,7 @@ export default function RegisterForm({
         }, 2000);
       }
       toast.success("Registration successful");
-    } catch (error) {
+    } catch (error: any) {
       setError(error?.response?.data?.message || "Registration failed");
       setRegistered(false);
       toast.error("Registration failed");
