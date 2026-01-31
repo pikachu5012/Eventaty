@@ -143,7 +143,7 @@ export default function RegisterForm({
           </button>
         </div>
       </div>
-      {error && <p className="text-center text-red-500">{error}</p>}
+      {error && <p className="text-center text-red-500 py-5">{error}</p>}
       {registered && (
         <p className="text-center text-green-500">{t('registerSuccess')}</p>
       )}

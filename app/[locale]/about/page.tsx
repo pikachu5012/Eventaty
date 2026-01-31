@@ -14,9 +14,7 @@ import { getTranslations } from "next-intl/server";
 
 const inter = Inter();
 const subject = encodeURIComponent("Contact from Eventaty website");
-const body = encodeURIComponent(
-  "Hello,\n\nI want to contact you regarding..."
-);
+const body = encodeURIComponent("Hello,\n\nI want to contact you regarding...");
 
 export default async function About() {
   const t = await getTranslations('About');
@@ -157,7 +155,8 @@ export default async function About() {
                 {
                   name: "Ziad Fahim",
                   github: "https://github.com/ziad845",
-                  linkedin: "https://www.linkedin.com/in/ziad-khaled-bab395341/",
+                  linkedin:
+                    "https://www.linkedin.com/in/ziad-khaled-bab395341/",
                   gmail: `https://mail.google.com/mail/?view=cm&fs=1&to=ziadfahim@gmail.com&su=${subject}&body=${body}`,
                 },
                 {

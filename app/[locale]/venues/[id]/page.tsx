@@ -49,9 +49,12 @@ export default async function VenueDetails({
   const t = await getTranslations('VenueDetails');
 
   // Fetch venue data from API
-  const response = await fetch(`http://localhost:3000/api/venues/${id}`, {
-    cache: "no-store", // Ensures fresh data on each request
-  });
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_APP_URL}/api/venues/${id}`,
+    {
+      cache: "no-store", // Ensures fresh data on each request
+    },
+  );
 
   if (!response.ok) {
     throw new Error("Failed to fetch venue");
@@ -173,8 +176,8 @@ export default async function VenueDetails({
                   apiData.latitude && apiData.longitude
                     ? `https://www.google.com/maps/dir/?api=1&destination=${apiData.latitude},${apiData.longitude}`
                     : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-                      `${apiData.name} ${apiData.address}`
-                    )}`
+                        `${apiData.name} ${apiData.address}`,
+                      )}`
                 }
                 target="_blank"
                 rel="noopener noreferrer"
