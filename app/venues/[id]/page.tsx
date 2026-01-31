@@ -48,7 +48,7 @@ export default async function VenueDetails({
 
   // Fetch venue data from API
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/venues/${id}`,
+    `${process.env.NEXT_PUBLIC_API_URL}/api/venues/${id}`,
     {
       cache: "no-store", // Ensures fresh data on each request
     },

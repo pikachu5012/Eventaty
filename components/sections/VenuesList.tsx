@@ -72,7 +72,7 @@ export default function VenuesList() {
             ))}
           </div>
         ) : (
-          <div className="text-center py-20 bg-white rounded-xl shadow-sm">
+          <div className="text-center py-20 bg-card rounded-xl shadow-sm">
             <h3 className="text-xl font-medium text-gray-600">
               No venues found
             </h3>
