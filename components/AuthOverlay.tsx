@@ -14,6 +14,7 @@ import RegisterForm from "./forms/RegisterForm";
 import { LogIn, X } from "lucide-react";
 import Link from "next/link";
 import { useAuth } from "@/context/AuthContext";
+import { useTranslations } from "next-intl";
 
 export function AuthOverlay({
   isNav,
@@ -26,6 +27,7 @@ export function AuthOverlay({
   onOpenChange?: (open: boolean) => void;
   noTrigger?: boolean;
 }) {
+  const t = useTranslations('Auth');
   const [regester, setRegester] = useState(false);
   const [internalOpen, setInternalOpen] = useState(false);
   const { user } = useAuth();
@@ -55,16 +57,16 @@ export function AuthOverlay({
           {isNav ? (
             <Link
               href=""
-              className="flex items-center gap-2 py-2 px-4 rounded-lg font-semibold
+              className="flex items-center gap-2 py-1.5 px-3 rounded-lg font-medium text-sm
           bg-[#d4af37] text-[#0F172A]
-          hover:bg-yellow-500 transition shadow-md"
+          hover:bg-yellow-500 transition shadow-md whitespace-nowrap"
             >
-              <LogIn size={18} />
-              Login
+              <LogIn size={16} />
+              {t('loginBtn')}
             </Link>
           ) : (
             <Link href="" className="hover:underline hover:text-secondary">
-              Login
+              {t('loginBtn')}
             </Link>
           )}
         </DialogTrigger>
@@ -75,12 +77,12 @@ export function AuthOverlay({
       >
         <DialogHeader className="flex justify-center items-center bg-navFooter py-5 px-5 text-white shrink-0 sticky top-0 z-20">
           <DialogTitle className="text-2xl pt-8">
-            {regester ? "Welcome to Eventaty" : "Welcome Back"}
+            {regester ? t('registerTitle') : t('loginTitle')}
           </DialogTitle>
           <DialogDescription>
             {regester
-              ? "Register to discover events and make bookings"
-              : "Login to access your bookings and discover events"}
+              ? t('registerDesc')
+              : t('loginDesc')}
           </DialogDescription>
           <button
             onClick={() => {
@@ -102,22 +104,22 @@ export function AuthOverlay({
         <DialogFooter className="p-4 shrink-0 sticky bottom-0 bg-card z-20 border-t border-gray-100">
           {regester ? (
             <div className="mx-auto flex gap-3">
-              <span>Already have an account?</span>
+              <span>{t('alreadyAccount')}</span>
               <span
                 className="text-secondary cursor-pointer hover:underline"
                 onClick={() => setRegester(false)}
               >
-                Login
+                {t('loginBtn')}
               </span>
             </div>
           ) : (
             <div className="mx-auto flex gap-3">
-              <span>Don't have an account?</span>
+              <span>{t('noAccount')}</span>
               <span
                 className="text-secondary cursor-pointer hover:underline"
                 onClick={() => setRegester(true)}
               >
-                Register
+                {t('registerBtn')}
               </span>
             </div>
           )}

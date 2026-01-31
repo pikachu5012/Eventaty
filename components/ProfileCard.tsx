@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { IBooking } from "@/types/booking";
 import axios from "axios";
 import { useAuth } from "@/context/AuthContext";
+import { useTranslations } from "next-intl";
 
 export default function ProfileCard({
   data,
@@ -18,6 +19,7 @@ export default function ProfileCard({
   onAction?: () => void;
   isPast?: boolean;
 }) {
+  const t = useTranslations('Dashboard.ProfileCard');
   const { SVG } = useQRCode();
   const { token } = useAuth();
 
@@ -26,9 +28,9 @@ export default function ProfileCard({
     return (
       <div className="flex lg:flex-row flex-wrap my-5 rounded-lg overflow-hidden shadow-lg bg-card border dark:border-eventaty-gold">
         <div className="w-full p-6 text-center">
-          <p className="text-muted-foreground">Event information unavailable (event may have been deleted)</p>
+          <p className="text-muted-foreground">{t('eventUnavailable')}</p>
           <div className="mt-4">
-            <p className="text-sm text-muted-foreground">Booking Reference</p>
+            <p className="text-sm text-muted-foreground">{t('bookingReference')}</p>
             <p className="text-secondary font-semibold">{data.bookingReference}</p>
           </div>
         </div>
@@ -84,11 +86,11 @@ export default function ProfileCard({
         />
         {isPast ? (
           <Badge variant="destructive" className="absolute top-3 right-3">
-            {data.status == "cancelled" ? "Cancelled" : "Ended"}
+            {data.status == "cancelled" ? t('cancelled') : t('ended')}
           </Badge>
         ) : (
           <Badge variant="secondary" className="absolute top-3 right-3">
-            Upcoming
+            {t('upcoming')}
           </Badge>
         )}
       </div>
@@ -101,7 +103,7 @@ export default function ProfileCard({
           <div className="flex gap-2 my-3">
             <Calendar className="text-secondary w-5 h-5 mt-1" />
             <div>
-              <p className="text-muted-foreground text-sm">Date & Time</p>
+              <p className="text-muted-foreground text-sm">{t('dateTime')}</p>
               <p>{formatedDate}</p>
               <p>{formatedTime}</p>
             </div>
@@ -109,7 +111,7 @@ export default function ProfileCard({
           <div className="flex gap-2 my-3">
             <Navigation className="text-secondary w-5 h-5 mt-1" />
             <div>
-              <p className="text-muted-foreground text-sm">Location</p>
+              <p className="text-muted-foreground text-sm">{t('location')}</p>
               <p>{data.eventId.venue.address}</p>
               <p className="text-primary/70">
                 {data.eventId.venue.city + ", " + data.eventId.venue.country}
@@ -119,7 +121,7 @@ export default function ProfileCard({
           <div className="flex gap-2 my-3">
             <Ticket className="text-secondary w-5 h-5 mt-1" />
             <div>
-              <p className="text-muted-foreground text-sm">Ticket info</p>
+              <p className="text-muted-foreground text-sm">{t('ticketInfo')}</p>
               <p>
                 {data.ticketType} x {data.seatsBooked}
               </p>
@@ -128,7 +130,7 @@ export default function ProfileCard({
           </div>
         </div>
         <div className="pt-3 my-2">
-          <p className="text-muted-foreground text-sm">Booking Reference</p>
+          <p className="text-muted-foreground text-sm">{t('bookingReference')}</p>
           <p className="text-secondary">{data.bookingReference}</p>
         </div>
       </div>
@@ -149,7 +151,9 @@ export default function ProfileCard({
               />
             </div>
             <p className="text-center text-xs text-muted-foreground my-4">
-              Scan QR Code <span className="block">for entry</span>
+              {t.rich('scanQR', {
+                block: (chunks) => <span className="block">{chunks}</span>
+              })}
             </p>
 
             <Button
@@ -158,16 +162,15 @@ export default function ProfileCard({
               disabled={!data.cancellationAllowed}
               onClick={handleCancelBooking}
             >
-              <Delete /> Cancel Booking
+              <Delete /> {t('cancelBooking')}
             </Button>
             {data.cancellationAllowed ? (
               <p className="text-muted-foreground text-sm my-2">
-                Cancellation deadline:{" "}
-                {new Date(data.cancellationDeadline).toLocaleDateString()}
+                {t('cancelDeadline')} {new Date(data.cancellationDeadline).toLocaleDateString()}
               </p>
             ) : (
               <p className="text-muted-foreground text-sm my-2">
-                Cancellation Deadline Passed
+                {t('cancelDeadlinePassed')}
               </p>
             )}
           </div>

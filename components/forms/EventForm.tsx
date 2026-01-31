@@ -27,6 +27,7 @@ import { IEvent } from "@/types/event";
 import { IVenue } from "@/types/venue";
 import { format } from "date-fns";
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 
 interface EventFormProps {
   open: boolean;
@@ -69,6 +70,7 @@ export function EventForm({
   categories = [],
   venues = [],
 }: EventFormProps) {
+  const t = useTranslations('EventForm');
   const defaultValues: FormData = {
     title: "",
     description: "",
@@ -101,44 +103,44 @@ export function EventForm({
   } = useForm<FormData>({
     defaultValues: event
       ? {
-          title: event.title,
-          description: event.description,
-          images: event.images || [""],
-          startDateTime: event.startDateTime
-            ? format(new Date(event.startDateTime), "yyyy-MM-dd'T'HH:mm")
-            : "",
-          endDateTime: event.endDateTime
-            ? format(new Date(event.endDateTime), "yyyy-MM-dd'T'HH:mm")
-            : "",
-          categoryId:
-            typeof event.categoryId === "object" &&
+        title: event.title,
+        description: event.description,
+        images: event.images || [""],
+        startDateTime: event.startDateTime
+          ? format(new Date(event.startDateTime), "yyyy-MM-dd'T'HH:mm")
+          : "",
+        endDateTime: event.endDateTime
+          ? format(new Date(event.endDateTime), "yyyy-MM-dd'T'HH:mm")
+          : "",
+        categoryId:
+          typeof event.categoryId === "object" &&
             event.categoryId !== null &&
             "_id" in event.categoryId
-              ? event.categoryId._id
-              : (event.categoryId as string) || "",
-          venueId:
-            typeof event.venueId === "object" &&
+            ? event.categoryId._id
+            : (event.categoryId as string) || "",
+        venueId:
+          typeof event.venueId === "object" &&
             event.venueId !== null &&
             "_id" in event.venueId
-              ? event.venueId._id
-              : (event.venueId as string) || "",
-          totalCapacity: event.totalCapacity,
-          price: event.price,
-          eventType:
-            (event.eventType as "In-person" | "Online" | "Hybrid") ||
-            "In-person",
-          status:
-            (event.status as "draft" | "published" | "cancelled") || "draft",
-          featured: event.featured,
-          tickets:
-            event.tickets && event.tickets.length > 0
-              ? event.tickets.map((t) => ({
-                  type: t.type,
-                  description: t.description,
-                  multiplier: t.multiplier,
-                }))
-              : defaultValues.tickets,
-        }
+            ? event.venueId._id
+            : (event.venueId as string) || "",
+        totalCapacity: event.totalCapacity,
+        price: event.price,
+        eventType:
+          (event.eventType as "In-person" | "Online" | "Hybrid") ||
+          "In-person",
+        status:
+          (event.status as "draft" | "published" | "cancelled") || "draft",
+        featured: event.featured,
+        tickets:
+          event.tickets && event.tickets.length > 0
+            ? event.tickets.map((t) => ({
+              type: t.type,
+              description: t.description,
+              multiplier: t.multiplier,
+            }))
+            : defaultValues.tickets,
+      }
       : defaultValues,
   });
 
@@ -267,12 +269,12 @@ export function EventForm({
             </div>
             <div>
               <h2 className="text-lg font-semibold leading-none">
-                {event ? "Edit Event" : "Create Event"}
+                {event ? t('editTitle') : t('createTitle')}
               </h2>
               <p className="text-xs text-gray-400 mt-1">
                 {event
-                  ? "Update event information"
-                  : "Add details for a new event"}
+                  ? t('editDesc')
+                  : t('createDesc')}
               </p>
             </div>
           </div>
@@ -294,7 +296,7 @@ export function EventForm({
             {/* Thumbnail Image Section */}
             <div className="space-y-3">
               <Label className="text-xs font-semibold text-primary/50 uppercase tracking-wide">
-                Thumbnail Image
+                {t('thumbnail')}
               </Label>
 
               <div className="flex gap-4 items-start p-4 bg-background/50 border border-eventaty-gold/20 rounded-xl">
@@ -319,7 +321,7 @@ export function EventForm({
                     className="bg-background border-gray-200 focus:border-eventaty-gold focus:ring-eventaty-gold/20"
                   />
                   <p className="text-[11px] text-primary/70">
-                    Enter a valid Image URL. Preview will update automatically.
+                    {t('enterUrl')}
                   </p>
                 </div>
               </div>
@@ -330,13 +332,13 @@ export function EventForm({
               {/* Title */}
               <div className="space-y-2">
                 <Label htmlFor="title" className="text-primary/70 text-sm">
-                  Event Title
+                  {t('eventTitle')}
                 </Label>
                 <Input
                   id="title"
-                  placeholder="e.g. Rock Concert: The Legends"
+                  placeholder={t('titlePlaceholder')}
                   className="h-11 rounded-lg border-gray-200 focus:border-eventaty-gold focus:ring-eventaty-gold/20 font-medium bg-background"
-                  {...register("title", { required: "Title is required" })}
+                  {...register("title", { required: t('errors.titleRequired') })}
                   required
                 />
               </div>
@@ -344,22 +346,21 @@ export function EventForm({
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 {/* Category */}
                 <div className="space-y-2">
-                  <Label className="text-primary/70 text-sm">Category</Label>
+                  <Label className="text-primary/70 text-sm">{t('category')}</Label>
                   <Controller
                     name="categoryId"
                     control={control}
-                    rules={{ required: "Category is required" }}
+                    rules={{ required: t('errors.categoryRequired') }}
                     render={({ field }) => (
                       <Select
                         onValueChange={field.onChange}
                         value={field.value}
                       >
                         <SelectTrigger
-                          className={`h-11 rounded-lg border-gray-200 focus:ring-eventaty-gold/20 ${
-                            errors.categoryId ? "border-red-500" : ""
-                          }`}
+                          className={`h-11 rounded-lg border-gray-200 focus:ring-eventaty-gold/20 ${errors.categoryId ? "border-red-500" : ""
+                            }`}
                         >
-                          <SelectValue placeholder="Select Category" />
+                          <SelectValue placeholder={t('selectCategory')} />
                         </SelectTrigger>
                         <SelectContent>
                           {categories.map((c) => (
@@ -373,14 +374,14 @@ export function EventForm({
                   />
                   {errors.categoryId && (
                     <span className="text-xs text-red-500">
-                      Category is required
+                      {errors.categoryId.message}
                     </span>
                   )}
                 </div>
                 {/* Price */}
                 <div className="space-y-2">
                   <Label className="text-primary/70 text-sm">
-                    Base Price (EGP)
+                    {t('price')}
                   </Label>
                   <Input
                     type="number"
@@ -389,10 +390,10 @@ export function EventForm({
                     min="1"
                     className="h-11 rounded-lg border-gray-200 focus:border-eventaty-gold focus:ring-eventaty-gold/20 bg-background"
                     {...register("price", {
-                      required: "Base price is required",
+                      required: t('errors.priceRequired'),
                       min: {
                         value: 1,
-                        message: "Price must be greater than 0",
+                        message: t('errors.priceMin'),
                       },
                     })}
                     required
@@ -409,14 +410,14 @@ export function EventForm({
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div className="space-y-2">
                   <Label className="text-primary/70 text-sm">
-                    Start Date & Time
+                    {t('startDate')}
                   </Label>
                   <div className="relative">
                     <Input
                       type="datetime-local"
                       className="h-11 rounded-lg border-gray-200 focus:border-eventaty-gold focus:ring-eventaty-gold/20 pl-10 bg-background"
                       {...register("startDateTime", {
-                        required: "Start date & time is required",
+                        required: t('errors.startDateRequired'),
                       })}
                       required
                     />
@@ -425,14 +426,14 @@ export function EventForm({
                 </div>
                 <div className="space-y-2">
                   <Label className="text-primary/70 text-sm">
-                    End Date & Time
+                    {t('endDate')}
                   </Label>
                   <div className="relative">
                     <Input
                       type="datetime-local"
                       className="h-11 rounded-lg border-gray-200 focus:border-eventaty-gold focus:ring-eventaty-gold/20 pl-10 bg-background"
                       {...register("endDateTime", {
-                        required: "End date & time is required",
+                        required: t('errors.endDateRequired'),
                       })}
                       required
                     />
@@ -444,11 +445,11 @@ export function EventForm({
               {/* Venue & Capacity */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div className="space-y-2">
-                  <Label className="text-primary/70 text-sm">Venue</Label>
+                  <Label className="text-primary/70 text-sm">{t('venue')}</Label>
                   <Controller
                     name="venueId"
                     control={control}
-                    rules={{ required: "Venue is required" }}
+                    rules={{ required: t('errors.venueRequired') }}
                     render={({ field }) => (
                       <Select
                         onValueChange={handleVenueChange}
@@ -456,16 +457,15 @@ export function EventForm({
                         required
                       >
                         <SelectTrigger
-                          className={`h-11 rounded-lg border-gray-200 focus:ring-eventaty-gold/20 ${
-                            errors.venueId ? "border-red-500" : ""
-                          }`}
+                          className={`h-11 rounded-lg border-gray-200 focus:ring-eventaty-gold/20 ${errors.venueId ? "border-red-500" : ""
+                            }`}
                         >
-                          <SelectValue placeholder="Select Venue" />
+                          <SelectValue placeholder={t('selectVenue')} />
                         </SelectTrigger>
                         <SelectContent>
                           {venues.map((v) => (
                             <SelectItem key={v._id} value={v._id}>
-                              {v.name} (Capacity: {v.capacity})
+                              {v.name} ({t('capacity')}: {v.capacity})
                             </SelectItem>
                           ))}
                         </SelectContent>
@@ -474,20 +474,20 @@ export function EventForm({
                   />
                   {errors.venueId && (
                     <span className="text-xs text-red-500">
-                      Venue is required
+                      {errors.venueId.message}
                     </span>
                   )}
                 </div>
                 <div className="space-y-2">
-                  <Label className="text-primary/70 text-sm">Capacity</Label>
+                  <Label className="text-primary/70 text-sm">{t('capacity')}</Label>
                   <Input
                     type="number"
-                    placeholder="Total seats"
+                    placeholder={t('capacityPlaceholder')}
                     min="1"
                     className="h-11 rounded-lg border-gray-200 focus:border-eventaty-gold focus:ring-eventaty-gold/20 bg-background"
                     {...register("totalCapacity", {
-                      required: "Capacity is required",
-                      min: { value: 1, message: "Capacity must be at least 1" },
+                      required: t('errors.capacityRequired'),
+                      min: { value: 1, message: t('errors.capacityMin') },
                     })}
                     required
                   />
@@ -496,13 +496,13 @@ export function EventForm({
 
               {/* Description */}
               <div className="space-y-2">
-                <Label className="text-primary/70 text-sm">Description</Label>
+                <Label className="text-primary/70 text-sm">{t('description')}</Label>
                 <Textarea
-                  placeholder="Event details..."
+                  placeholder={t('descPlaceholder')}
                   rows={4}
                   className="resize-none rounded-lg border-gray-200 focus:border-eventaty-gold focus:ring-eventaty-gold/20"
                   {...register("description", {
-                    required: "Description is required",
+                    required: t('errors.descRequired'),
                   })}
                   required
                 />
@@ -526,7 +526,7 @@ export function EventForm({
                   htmlFor="featured"
                   className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-primary/80"
                 >
-                  Mark as Featured Event
+                  {t('featured')}
                 </label>
               </div>
             </div>
@@ -535,7 +535,7 @@ export function EventForm({
             <div className="space-y-4 pt-4 border-t border-gray-100">
               <div className="flex items-center justify-between">
                 <h3 className="text-sm font-bold text-gray-800 uppercase tracking-wide">
-                  Ticket Types
+                  {t('ticketTypes')}
                 </h3>
                 <Button
                   type="button"
@@ -543,7 +543,7 @@ export function EventForm({
                   size="sm"
                   className="bg-background text-eventaty-gold border border-eventaty-gold/30 hover:bg-eventaty-gold hover:text-white transition-all shadow-sm cursor-pointer"
                 >
-                  <Plus className="h-3.5 w-3.5 mr-1.5" /> Add Ticket
+                  <Plus className="h-3.5 w-3.5 mr-1.5" /> {t('addTicket')}
                 </Button>
               </div>
 
@@ -555,7 +555,7 @@ export function EventForm({
                   >
                     <div className="flex justify-between items-center mb-4">
                       <span className="text-xs font-bold text-gray-400 uppercase">
-                        Ticket #{index + 1}
+                        {t('ticketNum', { number: index + 1 })}
                       </span>
                       {watch("tickets").length > 1 && (
                         <button
@@ -571,7 +571,7 @@ export function EventForm({
                     <div className="space-y-4">
                       <div>
                         <Label className="text-xs text-primary/50 mb-1.5 block">
-                          Ticket Type Name
+                          {t('ticketTypeName')}
                         </Label>
                         <Controller
                           name={`tickets.${index}.type` as const}
@@ -589,7 +589,7 @@ export function EventForm({
                               value={field.value}
                             >
                               <SelectTrigger className="h-10 bg-card border-gray-200">
-                                <SelectValue placeholder="Select Type" />
+                                <SelectValue placeholder={t('selectType')} />
                               </SelectTrigger>
                               <SelectContent>
                                 {/* static */}
@@ -610,7 +610,7 @@ export function EventForm({
                       <div className="grid grid-cols-2 gap-4">
                         <div>
                           <Label className="text-xs text-primary/50 mb-1.5 block">
-                            Multiplier (Price Factor)
+                            {t('multiplier')}
                           </Label>
                           <Input
                             type="number"
@@ -621,10 +621,10 @@ export function EventForm({
                             {...register(
                               `tickets.${index}.multiplier` as const,
                               {
-                                required: "Multiplier is required",
+                                required: t('errors.multiplierRequired'),
                                 min: {
                                   value: 1,
-                                  message: "Multiplier must be at least 1",
+                                  message: t('errors.multiplierMin'),
                                 },
                               },
                             )}
@@ -641,14 +641,14 @@ export function EventForm({
                         </div>
                         <div>
                           <Label className="text-xs text-primary/50 mb-1.5 block">
-                            Description
+                            {t('ticketDesc')}
                           </Label>
                           <Input // Short description
-                            placeholder="Brief info"
+                            placeholder={t('briefInfo')}
                             className="h-10 bg-card border-gray-200"
                             {...register(
                               `tickets.${index}.description` as const,
-                              { required: "Description is required" },
+                              { required: t('errors.descRequired') },
                             )}
                             required
                           />
@@ -663,7 +663,7 @@ export function EventForm({
             <div className="space-y-3">
               <div className="flex items-center justify-between">
                 <Label className="text-xs font-semibold text-primary/50 uppercase tracking-wide">
-                  Additional Images
+                  {t('additionalImages')}
                 </Label>
                 <button
                   type="button"
@@ -671,7 +671,7 @@ export function EventForm({
                   className="text-xs px-3 py-1.5 bg-eventaty-gold/10 text-eventaty-gold border border-eventaty-gold/30 rounded-lg hover:bg-eventaty-gold hover:text-white transition-colors"
                 >
                   <Plus className="h-3.5 w-3.5 inline mr-1" />
-                  Add Image
+                  {t('addImage')}
                 </button>
               </div>
 
@@ -717,8 +717,7 @@ export function EventForm({
                 </div>
               ) : (
                 <p className="text-xs text-gray-500 italic">
-                  No additional images added. Click "Add Image" to include more
-                  event photos.
+                  {t('noImages')}
                 </p>
               )}
             </div>
@@ -733,7 +732,7 @@ export function EventForm({
             onClick={() => onOpenChange(false)}
             className="h-11 px-6 rounded-lg border-gray-200 text-primary/70 hover:text-gray-900 hover:bg-gray-50 hover:border-gray-300 cursor-pointer"
           >
-            Cancel
+            {t('cancel')}
           </Button>
           <Button
             type="submit"
@@ -741,7 +740,7 @@ export function EventForm({
             disabled={loading}
             className="h-11 px-8 rounded-lg bg-eventaty-gold text-white hover:bg-[#b8962c] shadow-lg shadow-eventaty-gold/20 cursor-pointer"
           >
-            {loading ? "Saving..." : "Save Changes"}
+            {loading ? t('saving') : t('save')}
           </Button>
         </div>
       </div>

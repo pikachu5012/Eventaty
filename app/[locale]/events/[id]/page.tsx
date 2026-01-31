@@ -12,6 +12,7 @@ import {
   getVenue,
   getCategoryName,
 } from "@/lib/eventUtils";
+import { getTranslations } from "next-intl/server";
 
 export default async function EventDetailsPage({
   params,
@@ -19,6 +20,8 @@ export default async function EventDetailsPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
+  const t = await getTranslations('EventDetails');
+
   // Fetch event data from API
   let event: IEvent | null = null;
   try {
@@ -92,7 +95,7 @@ export default async function EventDetailsPage({
             {event.featured && (
               <span className="px-5 py-2 rounded-full bg-primary text-background font-medium text-sm flex items-center gap-2">
                 <div className="w-1.5 h-1.5 rounded-full bg-secondary" />
-                Featured
+                {t('featured')}
               </span>
             )}
           </div>
@@ -107,7 +110,7 @@ export default async function EventDetailsPage({
                 <Calendar size={24} strokeWidth={1.5} />
               </div>
               <div>
-                <p className="text-sm text-gray-400 mb-0.5 font-medium">Date</p>
+                <p className="text-sm text-gray-400 mb-0.5 font-medium">{t('date')}</p>
                 <p className="text-primary font-medium text-lg">
                   {formattedDate}
                 </p>
@@ -119,7 +122,7 @@ export default async function EventDetailsPage({
                 <Clock size={24} strokeWidth={1.5} />
               </div>
               <div>
-                <p className="text-sm text-gray-400 mb-0.5 font-medium">Time</p>
+                <p className="text-sm text-gray-400 mb-0.5 font-medium">{t('time')}</p>
                 <p className="text-primary font-medium text-lg">
                   {formattedTime}
                 </p>
@@ -133,7 +136,7 @@ export default async function EventDetailsPage({
               </div>
               <div>
                 <p className="text-sm text-gray-400 mb-0.5 font-medium">
-                  Venue
+                  {t('venue')}
                 </p>
                 <p className="text-primary font-medium text-lg">
                   {venueName}, {venueCity}
@@ -148,10 +151,10 @@ export default async function EventDetailsPage({
               </div>
               <div>
                 <p className="text-sm text-gray-400 mb-0.5 font-medium">
-                  Availability
+                  {t('availability')}
                 </p>
                 <p className="text-primary font-medium text-lg">
-                  {event.availableSeats} tickets available
+                  {t('ticketsAvailable', { count: event.availableSeats })}
                 </p>
               </div>
             </div>
@@ -159,10 +162,10 @@ export default async function EventDetailsPage({
 
           <div className="border-t border-gray-100 pt-10">
             <h3 className="text-2xl font-bold text-primary mb-4">
-              About This Event
+              {t('aboutEvent')}
             </h3>
             <p className="text-gray-500 leading-relaxed text-lg mb-8 max-w-4xl">
-              {event.description || "No Description Available"}
+              {event.description || t('noDescription')}
             </p>
           </div>
         </div>
@@ -182,14 +185,14 @@ export default async function EventDetailsPage({
                 <div className="flex-1 space-y-4">
                   <div>
                     <h2 className="text-2xl font-bold text-primary mb-1">
-                      Venue Information
+                      {t('venueInfo')}
                     </h2>
                     <h3 className="text-lg text-gray-700 font-medium">
                       {venue?.name || venueName}
                     </h3>
                   </div>
                   <p className="text-gray-500 leading-relaxed text-sm">
-                    {venue?.description || `Event at ${venueName}`}
+                    {venue?.description || t('eventAt', { venue: venueName })}
                   </p>
 
                   <div className="space-y-2 pt-2">
@@ -203,8 +206,7 @@ export default async function EventDetailsPage({
                     </div>
                     <div className="flex items-center gap-3 text-gray-600">
                       <span className="text-sm pl-8">
-                        Capacity: {venue?.capacity?.toLocaleString() || "N/A"}{" "}
-                        people
+                        {t('capacity', { capacity: venue?.capacity?.toLocaleString() || "N/A" })}
                       </span>
                     </div>
                   </div>
@@ -214,7 +216,7 @@ export default async function EventDetailsPage({
                       href={venue ? `/venues/${venue._id}` : "#"}
                       className="inline-flex items-center gap-2 text-eventaty-gold font-semibold hover:text-white transition-colors text-sm"
                     >
-                      View Venue Details
+                      {t('viewVenue')}
                       <ArrowRight size={16} />
                     </Link>
                   </div>
@@ -223,16 +225,15 @@ export default async function EventDetailsPage({
                   <div
                     className="absolute inset-0 bg-cover bg-center"
                     style={{
-                      backgroundImage: `url(${
-                        venue?.images?.[0] || "/ekko.png"
-                      })`,
+                      backgroundImage: `url(${venue?.images?.[0] || "/ekko.png"
+                        })`,
                     }}
                   />
                   <div className="absolute inset-0 bg-black/5" />
                 </div>
               </div>
             ) : (
-              <p>Event has no venue or venue is removed</p>
+              <p>{t('noVenue')}</p>
             )}
           </div>
         </div>

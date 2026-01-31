@@ -1,15 +1,19 @@
 "use client";
-import Link from "next/link";
+import { Link, usePathname, useRouter } from "@/navigation";
 import Image from "next/image";
-import { LogOut, Menu, User } from "lucide-react";
-import { usePathname, useRouter } from "next/navigation";
+import { LogOut, Menu, User, Languages } from "lucide-react";
 import { AuthOverlay } from "@/components/AuthOverlay";
+import { useTranslations, useLocale } from "next-intl";
 import { useState } from "react";
 import { useAuth } from "@/context/AuthContext";
 import { ThemeToggle } from "../ThemeToggle";
 import { toast } from "sonner";
+import { SettingsDropdown } from "../SettingsDropdown";
+import { UserDropdown } from "../UserDropdown";
 
 export default function Navbar() {
+  const t = useTranslations('Navigation');
+  const locale = useLocale();
   const pathname = usePathname();
   const [collapse, setCollapse] = useState(false);
   const [collapsActive, setCollapsActive] = useState(false);
@@ -29,13 +33,14 @@ export default function Navbar() {
 
         <div className="flex items-center gap-3">
           <div className="flex items-center gap-3 md:hidden">
-            <ThemeToggle />
+            <SettingsDropdown />
+            <UserDropdown />
           </div>
           {/*collapse button*/}
           <button
             type="button"
             aria-label="Toggle collapse"
-            className={`md:hidden p-2 rounded-lg border border-secondary ${collapsActive ? "bg-secondary" : ""
+            className={`md:hidden p-2 rounded-full border border-secondary ${collapsActive ? "bg-secondary" : ""
               } ${collapsActive ? "text-primary" : "text-secondary"}
                      ${collapsActive
                 ? "hover:bg-secondary/80"
@@ -63,7 +68,7 @@ export default function Navbar() {
                   className={`block py-2 px-3 ${pathname === "/" ? "text-secondary" : "text-slate-300"
                     } hover:text-secondary transition`}
                 >
-                  Home
+                  {t('home')}
                 </Link>
               </li>
 
@@ -73,7 +78,7 @@ export default function Navbar() {
                   className={`block py-2 px-3 ${pathname === "/events" ? "text-secondary" : "text-slate-300"
                     } hover:text-secondary transition`}
                 >
-                  Events
+                  {t('events')}
                 </Link>
               </li>
 
@@ -83,7 +88,7 @@ export default function Navbar() {
                   className={`block py-2 px-3 ${pathname === "/venues" ? "text-secondary" : "text-slate-300"
                     } hover:text-secondary transition`}
                 >
-                  Venues
+                  {t('venues')}
                 </Link>
               </li>
 
@@ -93,7 +98,7 @@ export default function Navbar() {
                   className={`block py-2 px-3 ${pathname === "/about" ? "text-[#d4af37]" : "text-slate-300"
                     } hover:text-[#d4af37] transition`}
                 >
-                  About
+                  {t('about')}
                 </Link>
               </li>
               <li>
@@ -104,40 +109,16 @@ export default function Navbar() {
                     : "text-slate-300"
                     } hover:text-[#d4af37] transition`}
                 >
-                  Contact
+                  {t('contact')}
                 </Link>
               </li>
             </ul>
           </div>
           <div className="w-full md:w-2/6 flex items-center md:justify-end lg:gap-4 gap-2 mt-4 md:mt-0">
             <div className="items-center gap-3 hidden md:flex">
-              <ThemeToggle />
-              {!user && <AuthOverlay isNav={true} />}
+              <SettingsDropdown />
+              <UserDropdown />
             </div>
-
-            {/* Logout */}
-            {user && (
-              <div className="flex items-center gap-3 flex-col md:flex-row ">
-                <Link href={isAdmin ? `/dashboard?select=true&t=${Date.now()}` : "/dashboard"}>
-                  <div className="flex items-center gap-2 md:mb-0 mb-4">
-                    <div className="bg-secondary rounded-full p-1 w-8 h-8 mx-auto overflow-hidden">
-                      <User className="w-full h-full object-cover" />
-                    </div>
-                    <span className="text-white">{user.firstName}</span>
-                  </div>
-                </Link>
-                <span
-                  className="border border-red-400 rounded-lg py-2 px-3 cursor-pointer text-red-400 hover:bg-red-400 hover:text-white transition flex items-center gap-2"
-                  onClick={() => {
-                    logout();
-                    toast.success("Logout successful");
-                  }}
-                >
-                  <LogOut size={18} />
-                  Logout
-                </span>
-              </div>
-            )}
           </div>
         </div>
       </div>

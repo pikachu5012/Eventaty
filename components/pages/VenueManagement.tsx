@@ -7,8 +7,10 @@ import axios from "axios";
 import { IVenue } from "@/types/venue";
 import { useAuth } from "@/context/AuthContext";
 import { VenueForm } from "@/components/forms/VenueForm";
+import { useTranslations } from "next-intl";
 
 export default function VenueManagement() {
+  const t = useTranslations('Dashboard.Admin.Venues');
   const [venues, setVenues] = useState<IVenue[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -30,14 +32,14 @@ export default function VenueManagement() {
       const response = await axios.get("/api/venues");
       setVenues(
         response.data.data?.venues ||
-          response.data?.venues ||
-          response.data ||
-          []
+        response.data?.venues ||
+        response.data ||
+        []
       );
       setError(null);
     } catch (err) {
       console.error("Error fetching venues:", err);
-      setError("Failed to load venues. Please try again later.");
+      setError(t('error'));
     } finally {
       setLoading(false);
     }
@@ -67,8 +69,8 @@ export default function VenueManagement() {
     try {
       const config = token
         ? {
-            headers: { Authorization: `Bearer ${token}` },
-          }
+          headers: { Authorization: `Bearer ${token}` },
+        }
         : {};
 
       if (selectedVenue) {
@@ -96,23 +98,23 @@ export default function VenueManagement() {
   };
 
   const handleDeleteVenue = (venueId: string) => {
-    toast("Are you sure you want to delete this venue?", {
+    toast(t('deleteConfirm'), {
       action: {
-        label: "Delete",
+        label: t('deleteButton'),
         onClick: async () => {
           try {
             const config = token
               ? {
-                  headers: { Authorization: `Bearer ${token}` },
-                }
+                headers: { Authorization: `Bearer ${token}` },
+              }
               : {};
 
             await axios.delete(`/api/venues/${venueId}`, config);
-            toast.success("Venue deleted successfully");
+            toast.success(t('deleteSuccess'));
             fetchVenues();
           } catch (err) {
             console.error("Error deleting venue:", err);
-            toast.error("Failed to delete venue.");
+            toast.error(t('deleteError'));
           }
         },
       },
@@ -148,12 +150,12 @@ export default function VenueManagement() {
 
       {/* Header with Search and Add Button */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <h2 className="text-2xl font-bold text-primary">Venues Management</h2>
+        <h2 className="text-2xl font-bold text-primary">{t('title')}</h2>
         <div className="flex items-center gap-3">
           <div className="relative flex-1 md:w-64">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
             <Input
-              placeholder="Search venues..."
+              placeholder={t('searchPlaceholder')}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="pl-10 h-11  border-none ring-1 focus-visible:ring-eventaty-gold"
@@ -164,7 +166,7 @@ export default function VenueManagement() {
             className="flex items-center gap-2 bg-eventaty-gold text-white px-5 py-2.5 rounded-xl font-semibold hover:bg-[#b8962c] transition-colors shadow-sm shadow-eventaty-gold/30 cursor-pointer"
           >
             <Plus className="h-5 w-5" />
-            <span className="hidden sm:inline">Add Venue</span>
+            <span className="hidden sm:inline">{t('addVenue')}</span>
           </button>
         </div>
       </div>
@@ -173,7 +175,7 @@ export default function VenueManagement() {
       {loading ? (
         <div className="flex flex-col items-center justify-center py-20 gap-4">
           <div className="h-10 w-10 animate-spin rounded-full border-4 border-gray-200 border-t-eventaty-gold" />
-          <p className="text-primary font-medium">Loading venues...</p>
+          <p className="text-primary font-medium">{t('loading')}</p>
         </div>
       ) : error ? (
         <div className="text-center py-20 px-6">
@@ -182,7 +184,7 @@ export default function VenueManagement() {
             onClick={fetchVenues}
             className="mt-4 text-eventaty-gold hover:underline font-semibold"
           >
-            Retry
+            {t('retry')}
           </button>
         </div>
       ) : (
@@ -209,7 +211,7 @@ export default function VenueManagement() {
                   </div>
                   <div className="flex items-center gap-2">
                     <Users className="h-3 w-3 text-eventaty-gold" />
-                    <span>Capacity: {venue.capacity}</span>
+                    <span>{t('tableHeaderCapacity')}: {venue.capacity}</span>
                   </div>
                 </div>
 
@@ -237,7 +239,7 @@ export default function VenueManagement() {
             ))}
             {filteredVenues.length === 0 && (
               <div className="text-center py-10 px-6">
-                <p className="text-gray-400">No venues found.</p>
+                <p className="text-gray-400">{t('noVenues')}</p>
               </div>
             )}
           </div>
@@ -248,19 +250,19 @@ export default function VenueManagement() {
               <thead>
                 <tr className="bg-background">
                   <th className="px-8 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                    Venue
+                    {t('tableHeaderVenue')}
                   </th>
                   <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                    Location
+                    {t('tableHeaderLocation')}
                   </th>
                   <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                    Capacity
+                    {t('tableHeaderCapacity')}
                   </th>
                   <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                    Amenities
+                    {t('tableHeaderAmenities')}
                   </th>
                   <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider text-right">
-                    Actions
+                    {t('tableHeaderActions')}
                   </th>
                 </tr>
               </thead>
@@ -295,8 +297,8 @@ export default function VenueManagement() {
                     </td>
                     <td className="px-6 py-5 text-sm text-primary/70">
                       {venue.amenities && venue.amenities.length > 0
-                        ? `${venue.amenities.length} amenities`
-                        : "None"}
+                        ? t('amenitiesCount', { count: venue.amenities.length })
+                        : t('none')}
                     </td>
                     <td className="px-6 py-5">
                       <div className="flex items-center justify-end gap-2">
@@ -327,7 +329,7 @@ export default function VenueManagement() {
             {filteredVenues.length === 0 && (
               <div className="text-center py-20 px-6">
                 <p className="text-gray-400">
-                  No venues found matching your search.
+                  {t('noVenuesMatching')}
                 </p>
               </div>
             )}
@@ -337,19 +339,19 @@ export default function VenueManagement() {
           {totalPages > 1 && (
             <div className="p-4 md:p-6 border-t border-eventaty-gold flex flex-col md:flex-row items-center justify-between gap-4 bg-card mt-6">
               <div className="text-xs md:text-sm text-primary/70 text-center md:text-left">
-                Showing{" "}
+                {t('showing')}{" "}
                 <span className="font-semibold text-primary">
                   {startIndex + 1}
                 </span>{" "}
-                to{" "}
+                {t('to')}{" "}
                 <span className="font-semibold text-primary">
                   {Math.min(startIndex + itemsPerPage, filteredVenues.length)}
                 </span>{" "}
-                of{" "}
+                {t('of')}{" "}
                 <span className="font-semibold text-primary">
                   {filteredVenues.length}
                 </span>{" "}
-                venues
+                {t('venues')}
               </div>
               <div className="flex items-center gap-2">
                 <button
@@ -359,25 +361,24 @@ export default function VenueManagement() {
                   disabled={currentPage === 1}
                   className="px-3 md:px-4 py-2 text-xs md:text-sm font-medium text-gray-600 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors cursor-pointer"
                 >
-                  Previous
+                  {t('previous')}
                 </button>
                 <div className="hidden sm:flex items-center gap-1">
                   {[...Array(totalPages)].map((_, i) => (
                     <button
                       key={i + 1}
                       onClick={() => setCurrentPage(i + 1)}
-                      className={`w-8 h-8 md:w-9 md:h-9 flex items-center justify-center text-xs md:text-sm font-medium rounded-lg transition-all ${
-                        currentPage === i + 1
+                      className={`w-8 h-8 md:w-9 md:h-9 flex items-center justify-center text-xs md:text-sm font-medium rounded-lg transition-all ${currentPage === i + 1
                           ? "bg-secondary text-white shadow-sm shadow-secondary/30 cursor-pointer"
                           : "text-gray-600 hover:bg-gray-50 hover:text-secondary cursor-pointer"
-                      }`}
+                        }`}
                     >
                       {i + 1}
                     </button>
                   ))}
                 </div>
                 <div className="sm:hidden text-xs font-medium text-gray-600">
-                  Page {currentPage} of {totalPages}
+                  {t('page')} {currentPage} {t('of')} {totalPages}
                 </div>
                 <button
                   onClick={() =>
@@ -386,7 +387,7 @@ export default function VenueManagement() {
                   disabled={currentPage === totalPages}
                   className="px-3 md:px-4 py-2 text-xs md:text-sm font-medium text-gray-600 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors cursor-pointer"
                 >
-                  Next
+                  {t('next')}
                 </button>
               </div>
             </div>

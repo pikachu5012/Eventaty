@@ -12,8 +12,12 @@ import {
   Instagram,
   Linkedin,
 } from "lucide-react";
+import { getTranslations } from "next-intl/server";
+import ContactForm from "@/components/forms/ContactForm";
 
-export default function Contact() {
+export default async function Contact() {
+  const t = await getTranslations('Contact');
+
   return (
     <div className="min-h-screen bg-background">
       {/* Hero Section */}
@@ -32,10 +36,10 @@ export default function Contact() {
             strokeWidth={1.5}
           />
           <h1 className="text-eventaty-cream text-4xl md:text-5xl font-bold mb-4">
-            Get in Touch
+            {t('heroTitle')}
           </h1>
           <p className="text-eventaty-cream/80 text-lg font-light max-w-lg mx-auto leading-relaxed">
-            Have a question or need assistance? We're here to help!
+            {t('heroSubtitle')}
           </p>
         </div>
       </section>
@@ -51,7 +55,7 @@ export default function Contact() {
                 <Mail size={24} />
               </div>
               <div className="text-primary">
-                <h3 className="text-lg font-bold mb-1">Email Us</h3>
+                <h3 className="text-lg font-bold mb-1">{t('emailTitle')}</h3>
                 <p className="text-gray-500 text-sm">support@eventaty.com</p>
                 <p className="text-gray-500 text-sm">info@eventaty.com</p>
               </div>
@@ -63,8 +67,8 @@ export default function Contact() {
                 <Phone size={24} />
               </div>
               <div className="text-primary">
-                <h3 className="text-lg font-bold mb-1">Call Us</h3>
-                <p className="text-gray-500 text-sm">+1 (555) 123-4567</p>
+                <h3 className="text-lg font-bold mb-1">{t('callTitle')}</h3>
+                <p className="text-gray-500 text-sm">+20 123 456 789</p>
                 <p className="text-gray-500 text-sm">Mon-Fri, 9AM-6PM EST</p>
               </div>
             </div>
@@ -75,15 +79,15 @@ export default function Contact() {
                 <MapPin size={24} />
               </div>
               <div className="text-primary">
-                <h3 className="text-lg font-bold mb-1">Visit Us</h3>
+                <h3 className="text-lg font-bold mb-1">{t('visitTitle')}</h3>
                 <p className="text-gray-500 text-sm">123 Event Street</p>
-                <p className="text-gray-500 text-sm">New York, NY 10001</p>
+                <p className="text-gray-500 text-sm">Cairo, Egypt</p>
               </div>
             </div>
 
             {/* Social*/}
             <div className="bg-card p-6 rounded-2xl shadow-sm flex items-start gap-5 border border-white/20">
-              <h3 className="text-lg font-bold text-primary mb-4">Follow Us</h3>
+              <h3 className="text-lg font-bold text-primary mb-4">{t('followTitle')}</h3>
               <div className="flex gap-3">
                 {[Facebook, Twitter, Instagram, Linkedin].map((Icon, idx) => (
                   <a
@@ -102,62 +106,10 @@ export default function Contact() {
           <div className="lg:w-2/3">
             <div className="bg-card rounded-3xl shadow-lg p-8 md:p-10">
               <h2 className="text-3xl font-bold text-primary mb-8">
-                Send Us a Message
+                {t('formTitle')}
               </h2>
 
-              <form className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="space-y-2">
-                    <label className="text-sm font-semibold text-primary/80">
-                      Name *
-                    </label>
-                    <input
-                      type="text"
-                      placeholder="John Doe"
-                      className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-secondary focus:ring-2 focus:ring-eventaty-gold/20 outline-none transition-all placeholder:text-gray-400"
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <label className="text-sm font-semibold text-primary/80">
-                      Email *
-                    </label>
-                    <input
-                      type="email"
-                      placeholder="john@example.com"
-                      className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-secondary focus:ring-2 focus:ring-eventaty-gold/20 outline-none transition-all placeholder:text-gray-400"
-                    />
-                  </div>
-                </div>
-
-                <div className="space-y-2">
-                  <label className="text-sm font-semibold text-primary/80">
-                    Subject *
-                  </label>
-                  <input
-                    type="text"
-                    className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-secondary focus:ring-2 focus:ring-eventaty-gold/20 outline-none transition-all"
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <label className="text-sm font-semibold text-primary/80">
-                    Message *
-                  </label>
-                  <textarea
-                    rows={6}
-                    placeholder="Tell us how we can help you..."
-                    className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-secondary focus:ring-2 focus:ring-eventaty-gold/20 outline-none transition-all resize-none placeholder:text-gray-400"
-                  />
-                </div>
-
-                <button
-                  type="button"
-                  className="w-full bg-eventaty-gold hover:bg-[#b5952f] text-white font-bold py-4 rounded-xl shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all flex items-center justify-center gap-2"
-                >
-                  <Send size={20} />
-                  Send Message
-                </button>
-              </form>
+              <ContactForm />
             </div>
           </div>
         </div>

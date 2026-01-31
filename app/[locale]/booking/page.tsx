@@ -9,8 +9,10 @@ import { useEffect } from "react";
 import { IEvent } from "@/types/event";
 import { useAuth } from "@/context/AuthContext";
 import { toast } from "sonner";
+import { useTranslations } from "next-intl";
 
 export default function CompleteBookingPage() {
+  const t = useTranslations('Booking');
   const [isAgreed, setIsAgreed] = useState(false);
   const { user, token } = useAuth();
   const router = useRouter();
@@ -24,7 +26,7 @@ export default function CompleteBookingPage() {
   };
 
   const [orderSummary, setOrderSummary] = useState({
-    eventName: "Loading...",
+    eventName: t('loading'),
     date: "",
     image: "",
     ticketType: searchParams.get("ticketName") || "Standard Ticket",
@@ -139,7 +141,7 @@ export default function CompleteBookingPage() {
       {/* === HEADER SECTION === */}
       <div className="bg-navFooter text-white pt-20 pb-40 px-4 relative">
         <div className="container mx-auto max-w-5xl">
-          <h1 className="text-3xl font-bold mb-6">Complete Your Booking</h1>
+          <h1 className="text-3xl font-bold mb-6">{t('title')}</h1>
 
           {/* Stepper Component */}
           <div className="flex items-center gap-4 text-sm font-medium">
@@ -147,7 +149,7 @@ export default function CompleteBookingPage() {
               <div className="w-8 h-8 rounded-full bg-eventaty-gold text-eventaty-dark flex items-center justify-center">
                 <Check size={18} strokeWidth={3} />
               </div>
-              <span>Select Tickets</span>
+              <span>{t('step1')}</span>
             </div>
 
             <div className="w-16 h-[2px] bg-gray-600"></div>
@@ -156,7 +158,7 @@ export default function CompleteBookingPage() {
               <div className="w-8 h-8 rounded-full bg-eventaty-gold text-eventaty-dark flex items-center justify-center font-bold">
                 2
               </div>
-              <span>Confirm</span>
+              <span>{t('step2')}</span>
             </div>
           </div>
         </div>
@@ -169,14 +171,14 @@ export default function CompleteBookingPage() {
           <div className="lg:col-span-2">
             <div className="bg-white rounded-xl shadow-lg p-8">
               <h2 className="text-xl font-bold text-eventaty-dark mb-6">
-                Confirm Your Personal Information
+                {t('confirmTitle')}
               </h2>
 
               <form onSubmit={handleSubmit} className="space-y-5">
                 {/* Full Name */}
                 <div className="space-y-1.5">
                   <label className="text-sm font-medium text-gray-600">
-                    Full Name *
+                    {t('fullName')}
                   </label>
                   <input
                     type="text"
@@ -190,7 +192,7 @@ export default function CompleteBookingPage() {
                 {/* Email */}
                 <div className="space-y-1.5">
                   <label className="text-sm font-medium text-gray-600">
-                    Email *
+                    {t('email')}
                   </label>
                   <input
                     type="email"
@@ -204,7 +206,7 @@ export default function CompleteBookingPage() {
                 {/* Phone */}
                 <div className="space-y-1.5">
                   <label className="text-sm font-medium text-gray-600">
-                    Phone *
+                    {t('phone')}
                   </label>
                   <input
                     type="tel"
@@ -215,8 +217,7 @@ export default function CompleteBookingPage() {
                   />
                 </div>
                 <p className="text-xs text-muted-foreground text-center">
-                  For any change in the personal information, please go to the
-                  profile page
+                  {t('profileNote')}
                 </p>
 
                 {/* Terms Checkbox */}
@@ -239,8 +240,7 @@ export default function CompleteBookingPage() {
                     htmlFor="terms"
                     className="text-xs text-gray-500 cursor-pointer select-none leading-tight"
                   >
-                    I agree to the terms and conditions and understand the
-                    cancellation policy
+                    {t('agree')}
                   </label>
                 </div>
 
@@ -251,7 +251,7 @@ export default function CompleteBookingPage() {
                     className="flex-1 py-3 px-6 rounded-lg bg-gray-100 text-gray-600 font-medium hover:bg-gray-200 transition-colors text-sm cursor-pointer"
                     onClick={() => router.push(`/events/${eventId}`)}
                   >
-                    Back
+                    {t('back')}
                   </button>
 
                   <button
@@ -267,7 +267,7 @@ export default function CompleteBookingPage() {
                     `}
                   >
                     <span>
-                      {isBooking ? "Processing..." : "Complete Booking"}
+                      {isBooking ? t('processing') : t('complete')}
                     </span>
                     {isAgreed && !isBooking && <ShieldCheck size={16} />}
                   </button>
@@ -281,7 +281,7 @@ export default function CompleteBookingPage() {
             <div className="bg-white rounded-xl shadow-lg border border-gray-50 overflow-hidden sticky top-8">
               <div className="p-6">
                 <h3 className="text-lg font-bold text-eventaty-dark mb-4">
-                  Order Summary
+                  {t('summaryTitle')}
                 </h3>
 
                 <div className="flex gap-4 mb-6">
@@ -309,19 +309,19 @@ export default function CompleteBookingPage() {
 
                 <div className="space-y-3 pt-2 border-t border-gray-100">
                   <div className="flex justify-between text-xs text-gray-500 mt-4">
-                    <span>Ticket Type</span>
+                    <span>{t('ticketType')}</span>
                     <span className="font-medium text-gray-900">
                       {orderSummary.ticketType}
                     </span>
                   </div>
                   <div className="flex justify-between text-xs text-gray-500">
-                    <span>Quantity</span>
+                    <span>{t('quantity')}</span>
                     <span className="font-medium text-gray-900">
                       {orderSummary.quantity}
                     </span>
                   </div>
                   <div className="flex justify-between text-xs text-gray-500">
-                    <span>Price per ticket</span>
+                    <span>{t('pricePerTicket')}</span>
                     <span className="font-medium text-gray-900">
                       {orderSummary.price.toFixed(2)} EGP
                     </span>
@@ -329,7 +329,7 @@ export default function CompleteBookingPage() {
                 </div>
 
                 <div className="flex justify-between items-center mt-6 pt-4 border-t border-gray-100">
-                  <span className="text-gray-900 font-bold text-sm">Total</span>
+                  <span className="text-gray-900 font-bold text-sm">{t('total')}</span>
                   <span className="text-xl font-bold text-eventaty-gold">
                     {orderSummary.total.toFixed(2)} EGP
                   </span>

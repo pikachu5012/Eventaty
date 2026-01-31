@@ -6,8 +6,10 @@ import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
 import { IVenue } from "@/types/venue";
 import { motion } from "framer-motion";
+import { useTranslations } from "next-intl";
 
 export default function VenuesList() {
+  const t = useTranslations('Venues');
   const [searchQuery, setSearchQuery] = useState("");
   const [allVenues, setAllVenues] = useState<IVenue[]>([]);
 
@@ -40,14 +42,14 @@ export default function VenuesList() {
           <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
           <Input
             className="w-full pl-12 py-6 bg-background border border-secondary/30 rounded-xl text-lg shadow-sm focus-visible:ring-1 focus-visible:ring-secondary dark:bg-navFooter"
-            placeholder="Search venues..."
+            placeholder={t('searchPlaceholder')}
             value={searchQuery}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
               setSearchQuery(e.target.value)
             }
           />
         </div>
-        <h2 className="text-2xl font-bold text-primary mt-8">All venues</h2>
+        <h2 className="text-2xl font-bold text-primary mt-8">{t('allVenues')}</h2>
       </div>
 
       {/* Main Venus Grid */}
@@ -74,16 +76,16 @@ export default function VenuesList() {
         ) : (
           <div className="text-center py-20 bg-white rounded-xl shadow-sm">
             <h3 className="text-xl font-medium text-gray-600">
-              No venues found
+              {t('noVenues')}
             </h3>
             <p className="text-gray-400 mt-2">
-              Try adjusting your search query.
+              {t('noVenuesDesc')}
             </p>
             <button
               onClick={() => setSearchQuery("")}
               className="mt-4 text-eventaty-gold hover:underline"
             >
-              Clear Search
+              {t('clearSearch')}
             </button>
           </div>
         )}

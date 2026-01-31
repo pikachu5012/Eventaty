@@ -7,11 +7,15 @@ import {
   Sparkles,
   Twitter,
 } from "lucide-react";
-import Link from "next/link";
+import { Link } from "@/navigation";
 import Image from "next/image";
 import { AuthOverlay } from "@/components/AuthOverlay";
+import { getTranslations } from "next-intl/server";
 
-export default function Footer() {
+export default async function Footer() {
+  const t = await getTranslations('Footer');
+  const tNav = await getTranslations('Navigation');
+
   const categories = [
     "technology",
     "business",
@@ -32,16 +36,15 @@ export default function Footer() {
             className="h-14 w-auto mb-6"
           />
           <p className="text-ring">
-            Your premier destination for discovering and booking amazing events.
-            From concerts to conferences, we've got you covered.
+            {t('description')}
           </p>
           <p className="text-secondary">
-            <Sparkles className="inline-block me-1" /> Premium Event Experiences
+            <Sparkles className="inline-block me-1" /> {t('premium')}
           </p>
         </div>
         <div className="w-2/5 lg:w-3/13 space-y-2">
           <h3 className="font-semibold mb-4 text-lg text-secondary">
-            Quick Links
+            {t('quickLinks')}
           </h3>
           <ul className="space-y-2 text-ring">
             <li>
@@ -49,7 +52,7 @@ export default function Footer() {
                 href="/events"
                 className="hover:underline hover:text-secondary"
               >
-                Events
+                {tNav('events')}
               </Link>
             </li>
             <li>
@@ -57,7 +60,7 @@ export default function Footer() {
                 href="/venues"
                 className="hover:underline hover:text-secondary"
               >
-                Venues
+                {tNav('venues')}
               </Link>
             </li>
             <li>
@@ -65,7 +68,7 @@ export default function Footer() {
                 href="/about"
                 className="hover:underline hover:text-secondary"
               >
-                About Us
+                {tNav('about')}
               </Link>
             </li>
             <li>
@@ -73,7 +76,7 @@ export default function Footer() {
                 href="/contact"
                 className="hover:underline hover:text-secondary"
               >
-                Contact
+                {tNav('contact')}
               </Link>
             </li>
             <li>
@@ -83,7 +86,7 @@ export default function Footer() {
         </div>
         <div className="w-2/5 lg:w-3/13 space-y-2">
           <h3 className="font-semibold mb-4 text-lg text-secondary">
-            Categories
+            {t('categories')}
           </h3>
           <ul className="space-y-2 text-ring">
             {categories.map((category) => (
@@ -100,7 +103,7 @@ export default function Footer() {
         </div>
         <div className="w-2/5 lg:w-3/13 space-y-2">
           <h3 className="font-semibold mb-4 text-lg text-secondary">
-            Contact Us
+            {t('contactUs')}
           </h3>
           <p className="text-ring flex items-center">
             <Mail className="inline-block me-2 text-secondary" size={16} />
@@ -112,7 +115,7 @@ export default function Footer() {
           </p>
           <p className="text-ring flex items-center">
             <MapPin className="inline-block me-2 text-secondary" size={16} />
-            Cairo, Egypt
+            {t('address')}
           </p>
           <div className="flex gap-5 text-white mt-4">
             <Facebook
@@ -133,7 +136,7 @@ export default function Footer() {
 
       <div>
         <p className="text-sm text-gray-500 text-center pt-5">
-          &copy; 2026 Eventaty. All rights reserved.
+          &copy; 2026 Eventaty. {t('rights')}
         </p>
       </div>
     </footer>

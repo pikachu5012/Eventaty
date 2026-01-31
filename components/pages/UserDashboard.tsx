@@ -8,8 +8,10 @@ import AccountForm from "../forms/AccountForm";
 import { useAuth } from "@/context/AuthContext";
 import axios from "axios";
 import { IBooking } from "@/types/booking";
+import { useTranslations } from "next-intl";
 
 export default function UserDashboard() {
+  const t = useTranslations('Dashboard.User');
   const [isEditing, setIsEditing] = useState(false);
   const { user, token } = useAuth();
   const [myBookings, setMyBookings] = useState<IBooking[]>([]);
@@ -49,7 +51,7 @@ export default function UserDashboard() {
       <div className="flex flex-col lg:flex-row container mx-auto min-h-screen">
         <div className="w-full lg:w-1/4 p-5 lg:sticky lg:top-26 lg:self-start rounded-lg bg-card shadow-lg my-5">
           <div className="flex items-center justify-between p-5 text-2xl">
-            <p className={`${isEditing && "w-full text-center"}`}>My Profile</p>
+            <p className={`${isEditing && "w-full text-center"}`}>{t('myProfile')}</p>
             {!isEditing && (
               <Button
                 variant="secondary"
@@ -76,21 +78,21 @@ export default function UserDashboard() {
               <div className="flex gap-2">
                 <Mail className="w-4 h-4 text-secondary mt-1" />
                 <div>
-                  <p className="text-muted-foreground text-sm">Email</p>
+                  <p className="text-muted-foreground text-sm">{t('email')}</p>
                   <p>{user?.email}</p>
                 </div>
               </div>
               <div className="flex gap-2">
                 <Phone className="w-4 h-4 text-secondary mt-1" />
                 <div>
-                  <p className="text-muted-foreground text-sm">Phone</p>
-                  <p>{user?.phone || "Not provided"}</p>
+                  <p className="text-muted-foreground text-sm">{t('phone')}</p>
+                  <p>{user?.phone || t('notProvided')}</p>
                 </div>
               </div>
               <div className="flex gap-2">
                 <User className="w-4 h-4 text-secondary mt-1" />
                 <div>
-                  <p className="text-muted-foreground text-sm">Account Type</p>
+                  <p className="text-muted-foreground text-sm">{t('accountType')}</p>
                   <p>{user?.role}</p>
                 </div>
               </div>
@@ -101,10 +103,10 @@ export default function UserDashboard() {
               <span className="block text-secondary text-3xl">
                 {upcomingBookings.length}
               </span>
-              Upcoming
+              {t('upcoming')}
             </p>
             <p className="text-muted-foreground">
-              <span className="block text-3xl">{pastBookings.length}</span>Past
+              <span className="block text-3xl">{pastBookings.length}</span>{t('past')}
             </p>
           </div>
         </div>
@@ -115,13 +117,13 @@ export default function UserDashboard() {
                 value="Upcoming"
                 className="text-muted-foreground data-[state=active]:text-secondary/80 border-0 data-[state=active]:rounded-none data-[state=active]:border-b-2 data-[state=active]:border-secondary bg-foreground/10 data-[state=active]:shadow-none"
               >
-                Upcoming Events ({upcomingBookings.length})
+                {t('upcomingEvents')} ({upcomingBookings.length})
               </TabsTrigger>
               <TabsTrigger
                 value="Past"
                 className="text-muted-foreground data-[state=active]:text-secondary/80 border-0 data-[state=active]:rounded-none data-[state=active]:border-b-2 data-[state=active]:border-secondary bg-foreground/10 data-[state=active]:shadow-none"
               >
-                Past Events ({pastBookings.length})
+                {t('pastEvents')} ({pastBookings.length})
               </TabsTrigger>
             </TabsList>
             <TabsContent value="Upcoming">
@@ -137,7 +139,7 @@ export default function UserDashboard() {
               ) : (
                 <div className="p-5 m-5 rounded-lg shadow-lg bg-eventaty-cream">
                   <p className="text-center text-lg font-semibold text-eventaty-gold my-10 ">
-                    No Upcoming Events
+                    {t('noUpcoming')}
                   </p>
                 </div>
               )}
@@ -155,7 +157,7 @@ export default function UserDashboard() {
               ) : (
                 <div className="p-5 m-5 rounded-lg shadow-lg bg-eventaty-cream">
                   <p className="text-center text-lg font-semibold text-eventaty-gold my-10 ">
-                    No Past Events
+                    {t('noPast')}
                   </p>
                 </div>
               )}

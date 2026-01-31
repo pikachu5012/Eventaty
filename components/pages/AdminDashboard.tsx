@@ -16,8 +16,10 @@ import { IVenue } from "@/types/venue";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import VenueManagement from "@/components/pages/VenueManagement";
 import EventManagement from "@/components/pages/EventManagement";
+import { useTranslations } from "next-intl";
 
 export default function AdminDashboard() {
+  const t = useTranslations('Dashboard.Admin');
   const [events, setEvents] = useState<IEvent[]>([]);
   const [totalBookings, setTotalBookings] = useState<number>(0);
   const [totalRevenue, setTotalRevenue] = useState<number>(0);
@@ -35,8 +37,8 @@ export default function AdminDashboard() {
       setLoading(true);
       const bookingConfig = token
         ? {
-            headers: { Authorization: `Bearer ${token}` },
-          }
+          headers: { Authorization: `Bearer ${token}` },
+        }
         : {};
 
       const [eventsRes, bookingsRes, categoriesRes, venuesRes] =
@@ -70,15 +72,15 @@ export default function AdminDashboard() {
 
       setCategories(
         categoriesRes.data.data?.categories ||
-          categoriesRes.data?.categories ||
-          categoriesRes.data ||
-          []
+        categoriesRes.data?.categories ||
+        categoriesRes.data ||
+        []
       );
       setVenues(
         venuesRes.data.data?.venues ||
-          venuesRes.data?.venues ||
-          venuesRes.data ||
-          []
+        venuesRes.data?.venues ||
+        venuesRes.data ||
+        []
       );
 
       setError(null);
@@ -105,12 +107,12 @@ export default function AdminDashboard() {
   if (error) {
     return (
       <div className="flex h-[50vh] flex-col items-center justify-center gap-4">
-        <p className="text-red-500">{error}</p>
+        <p className="text-red-500">{t('error')}</p>
         <button
           onClick={fetchData}
           className="text-sm font-medium text-eventaty-gold hover:underline"
         >
-          Try Again
+          {t('tryAgain')}
         </button>
       </div>
     );
@@ -121,7 +123,7 @@ export default function AdminDashboard() {
       {/* Metrics Grid */}
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 max-w-7xl mx-auto">
         <MetricCard
-          title="Total Revenue"
+          title={t('totalRevenue')}
           value={`${totalRevenue.toLocaleString(undefined, {
             minimumFractionDigits: 2,
             maximumFractionDigits: 2,
@@ -130,28 +132,28 @@ export default function AdminDashboard() {
           iconColor="text-eventaty-gold"
         />
         <MetricCard
-          title="Total Events"
+          title={t('totalEvents')}
           value={events.length.toString()}
           icon={Calendar}
           iconColor="text-blue-600"
           iconBg="bg-blue-100"
         />
         <MetricCard
-          title="Total Bookings"
+          title={t('totalBookings')}
           value={totalBookings.toString()}
           icon={Users}
           iconColor="text-purple-600"
           iconBg="bg-purple-100"
         />
         <MetricCard
-          title="Total Categories"
+          title={t('totalCategories')}
           value={categories.length.toString()}
           icon={ChartNoAxesGantt}
           iconColor="text-purple-600"
           iconBg="bg-purple-100"
         />
         <MetricCard
-          title="Total Venues"
+          title={t('totalVenues')}
           value={venues.length.toString()}
           icon={Spotlight}
           iconColor="text-purple-600"
@@ -168,19 +170,19 @@ export default function AdminDashboard() {
                 value="events"
                 className="flex-1 md:flex-initial px-6"
               >
-                Events
+                {t('tabsEvents')}
               </TabsTrigger>
               <TabsTrigger
                 value="venues"
                 className="flex-1 md:flex-initial px-6"
               >
-                Venues
+                {t('tabsVenues')}
               </TabsTrigger>
               <TabsTrigger
                 value="users"
                 className="flex-1 md:flex-initial px-6"
               >
-                Users
+                {t('tabsUsers')}
               </TabsTrigger>
             </TabsList>
 
@@ -194,7 +196,7 @@ export default function AdminDashboard() {
             <TabsContent value="users">
               <div className="flex items-center justify-center ">
                 <h1 className="text-2xl font-bold text-primary">
-                  Will be implemented soon
+                  {t('soon')}
                 </h1>
               </div>
             </TabsContent>

@@ -12,6 +12,7 @@ import {
 // Import the new Client Component
 import VenueEvents from "@/components/sections/VenueEvents";
 import { IAmenity } from "@/types/venue";
+import { getTranslations } from "next-intl/server";
 
 // --- Helper for Icons (Keep this as is) ---
 const IconMapper = ({ name }: { name: string }) => {
@@ -45,6 +46,7 @@ export default async function VenueDetails({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
+  const t = await getTranslations('VenueDetails');
 
   // Fetch venue data from API
   const response = await fetch(`http://localhost:3000/api/venues/${id}`, {
@@ -75,7 +77,7 @@ export default async function VenueDetails({
             {/* About Section */}
             <div className="bg-card rounded-xl shadow-sm p-8 border border-white/20 text-primary">
               <h2 className="text-2xl font-bold mb-4">
-                About {apiData.name || "This Venue"}
+                {t('aboutVenue', { name: apiData.name })}
               </h2>
               <p className="text-primary mb-8 leading-relaxed">
                 {apiData.description}
@@ -88,7 +90,7 @@ export default async function VenueDetails({
                   </div>
                   <div>
                     <p className="text-xs text-gray-500 uppercase tracking-wide">
-                      Capacity
+                      {t('capacity')}
                     </p>
                     <p className="font-semibold text-lg">
                       {apiData.capacity.toLocaleString()}
@@ -101,7 +103,7 @@ export default async function VenueDetails({
                   </div>
                   <div>
                     <p className="text-xs text-gray-500 uppercase tracking-wide">
-                      Location
+                      {t('location')}
                     </p>
                     <p className="font-semibold text-lg">{`${apiData.city}, ${apiData.country}`}</p>
                   </div>
@@ -111,7 +113,7 @@ export default async function VenueDetails({
 
             {/* Amenities Section */}
             <div className="bg-card rounded-xl shadow-sm p-8 text-primary border border-white/20">
-              <h2 className="text-2xl font-bold mb-6">Venue Amenities</h2>
+              <h2 className="text-2xl font-bold mb-6">{t('amenities')}</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {apiData.amenities.map((item: IAmenity, index: number) => (
                   <div
@@ -153,14 +155,14 @@ export default async function VenueDetails({
                       size={32}
                     />
                     <span className="text-gray-400 text-sm font-medium">
-                      Map View
+                      {t('mapView')}
                     </span>
                   </div>
                 </div>
               )}
               <div className="space-y-4 mb-8">
                 <h4 className="text-xs text-primary uppercase font-bold tracking-wider">
-                  Address
+                  {t('address')}
                 </h4>
                 <p className="font-medium text-sm text-primary/60">
                   {apiData.address}
@@ -178,7 +180,7 @@ export default async function VenueDetails({
                 rel="noopener noreferrer"
                 className="w-full bg-eventaty-gold text-white text-center font-bold py-3.5 px-4 rounded-lg shadow-lg shadow-eventaty-gold/30 hover:bg-eventaty-gold/90 transition-colors cursor-pointer block"
               >
-                Get Directions
+                {t('getDirections')}
               </a>
             </div>
           </div>

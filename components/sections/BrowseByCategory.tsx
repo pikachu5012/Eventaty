@@ -1,8 +1,10 @@
+import { getTranslations } from "next-intl/server";
 import CategoryButton from "@/components/CategoryButton";
 import axios from "axios";
 import { ICategory } from "@/types/category";
 
 export default async function BrowseByCategory() {
+  const t = await getTranslations('HomePage');
   const APP_URL = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
   let categories: ICategory[] = [];
   try {
@@ -21,7 +23,7 @@ export default async function BrowseByCategory() {
     <section className="bg-navFooter container-fluid">
       <div className="container mx-auto py-10">
         <div className="text-center text-5xl my-10 text-white ">
-          Browse By Category
+          {t('browseByCategory')}
         </div>
         <div className="flex py-4 gap-4 flex-wrap justify-between">
           {categories.map((category) => (

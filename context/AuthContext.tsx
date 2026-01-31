@@ -8,7 +8,7 @@ import {
   useCallback,
 } from "react";
 import { IUser } from "@/types/user";
-import { useRouter } from "next/navigation";
+import { useRouter } from "@/navigation";
 
 type AuthContextType = {
   user: IUser | null;

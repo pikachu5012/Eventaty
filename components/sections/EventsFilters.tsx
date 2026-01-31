@@ -9,6 +9,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useTranslations } from "next-intl";
 
 export interface IEventFiltersProps {
   selectedCategory: string;
@@ -29,6 +30,7 @@ export default function EventFilters({
   setDate,
   onClear,
 }: IEventFiltersProps) {
+  const t = useTranslations('Events');
   const [categories, setCategories] = useState<ICategory[]>([]);
   useEffect(() => {
     const fetchCategories = async () => {
@@ -44,27 +46,27 @@ export default function EventFilters({
   return (
     <div className="w-full bg-card p-6 rounded-xl shadow-sm border border-secondary/30 flex flex-col gap-6 text-primary">
       <div className="flex justify-between items-center">
-        <h3 className="font-semibold text-lg">Filters</h3>
+        <h3 className="font-semibold text-lg">{t('filtersTitle')}</h3>
         <button
           onClick={onClear}
           className="text-xs text-secondary hover:underline"
         >
-          Clear All
+          {t('clearAll')}
         </button>
       </div>
 
       {/* Category Section */}
       <div className="space-y-3">
-        <h4 className="text-sm font-medium">Category</h4>
+        <h4 className="text-sm font-medium">{t('categoryTitle')}</h4>
 
         {/* Mobile View: Select Dropdown */}
         <div className="md:hidden">
           <Select value={selectedCategory} onValueChange={setSelectedCategory}>
             <SelectTrigger className="w-full bg-eventaty-cream border-secondary h-12 rounded-lg text-navFooter">
-              <SelectValue placeholder="Select Category" />
+              <SelectValue placeholder={t('selectCategoryPlaceholder')} />
             </SelectTrigger>
             <SelectContent className="bg-card border-secondary/20 text-primary">
-              <SelectItem value="All">All Categories</SelectItem>
+              <SelectItem value="All">{t('allCategories')}</SelectItem>
               {categories.map((category: ICategory) => (
                 <SelectItem key={category._id} value={category.name}>
                   {category.name.charAt(0).toUpperCase() + category.name.slice(1)}
@@ -79,19 +81,19 @@ export default function EventFilters({
           <button
             onClick={() => setSelectedCategory("All")}
             className={`text-left px-4 py-3 rounded-lg text-sm transition-colors ${selectedCategory === "All"
-                ? "bg-eventaty-gold text-white shadow-md"
-                : "bg-eventaty-cream text-gray-600 hover:bg-gray-100 dark:hover:bg-secondary"
+              ? "bg-eventaty-gold text-white shadow-md"
+              : "bg-eventaty-cream text-gray-600 hover:bg-gray-100 dark:hover:bg-secondary"
               }`}
           >
-            All
+            {t('all')}
           </button>
           {categories.map((category: ICategory) => (
             <button
               key={category._id}
               onClick={() => setSelectedCategory(category.name)}
               className={`text-left px-4 py-3 rounded-lg text-sm transition-colors ${selectedCategory === category.name
-                  ? "bg-eventaty-gold text-white shadow-md"
-                  : "bg-eventaty-cream text-gray-600 hover:bg-gray-100 dark:hover:bg-secondary"
+                ? "bg-eventaty-gold text-white shadow-md"
+                : "bg-eventaty-cream text-gray-600 hover:bg-gray-100 dark:hover:bg-secondary"
                 }`}
             >
               {category.name.charAt(0).toUpperCase() + category.name.slice(1)}
@@ -102,20 +104,20 @@ export default function EventFilters({
 
       {/* Location Section */}
       <div className="space-y-3">
-        <h4 className="text-sm font-medium">Location</h4>
+        <h4 className="text-sm font-medium">{t('locationTitle')}</h4>
         <Input
-          placeholder="Search location..."
+          placeholder={t('locationPlaceholder')}
           value={location}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             setLocation(e.target.value)
           }
-          className="bg-white border-gray-200 focus:ring-secondary focus:border-secondary"
+          className="bg-white border-gray-200 focus:ring-secondary focus:border-secondary text-black"
         />
       </div>
 
       {/* Date Section */}
       <div className="space-y-3">
-        <h4 className="text-sm font-medium">Date</h4>
+        <h4 className="text-sm font-medium">{t('dateTitle')}</h4>
         <Input
           type="date"
           value={date}

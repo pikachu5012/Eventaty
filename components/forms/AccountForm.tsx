@@ -4,12 +4,14 @@ import { Input } from "@/components/ui/input";
 import { Button } from "../ui/button";
 import { useAuth } from "@/context/AuthContext";
 import { toast } from "sonner";
+import { useTranslations } from "next-intl";
 
 export default function AccountForm({
   setIsEditing,
 }: {
   setIsEditing: (value: boolean) => void;
 }) {
+  const t = useTranslations('Dashboard.AccountForm');
   const { user, setUser, token } = useAuth();
   const [firstName, setFirstName] = useState(user?.firstName ?? "");
   const [lastName, setLastName] = useState(user?.lastName ?? "");
@@ -43,7 +45,7 @@ export default function AccountForm({
         ...updatedUser,
       });
       setIsEditing(false);
-      toast.success("Profile updated successfully");
+      toast.success(t('success'));
     } catch (error: any) {
       console.error("Failed to update user", error);
       const message = error.response?.data?.message || "Failed to update user";
@@ -54,7 +56,7 @@ export default function AccountForm({
       ) {
         setEmailError(true);
         toast.error(
-          "This email is already registered. Please use a different one."
+          t('emailError')
         );
       } else {
         toast.error(message);
@@ -72,7 +74,7 @@ export default function AccountForm({
         className="p-4 space-y-4"
       >
         <div className="flex flex-col gap-2">
-          <label htmlFor="firstName">First name</label>
+          <label htmlFor="firstName">{t('firstName')}</label>
           <Input
             type="text"
             name="firstName"
@@ -83,7 +85,7 @@ export default function AccountForm({
           />
         </div>
         <div className="flex flex-col gap-2">
-          <label htmlFor="lastName">Last name</label>
+          <label htmlFor="lastName">{t('lastName')}</label>
           <Input
             type="text"
             name="lastName"
@@ -94,7 +96,7 @@ export default function AccountForm({
           />
         </div>
         <div className="flex flex-col gap-2">
-          <label htmlFor="email">Email</label>
+          <label htmlFor="email">{t('email')}</label>
           <Input
             type="email"
             name="email"
@@ -111,7 +113,7 @@ export default function AccountForm({
           />
         </div>
         <div className="flex flex-col gap-2">
-          <label htmlFor="phone">Phone</label>
+          <label htmlFor="phone">{t('phone')}</label>
           <Input
             type="tel"
             name="phone"
@@ -127,7 +129,7 @@ export default function AccountForm({
             variant="secondary"
             className="w-5/11 cursor-pointer"
           >
-            Save
+            {t('save')}
           </Button>
           <Button
             type="button"
@@ -135,7 +137,7 @@ export default function AccountForm({
             className="w-5/11 bg-muted cursor-pointer"
             onClick={() => setIsEditing(false)}
           >
-            Cancel
+            {t('cancel')}
           </Button>
         </div>
       </form>

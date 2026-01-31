@@ -51,7 +51,7 @@ export default function TicketSelectionModal({
       >
         <div className="text-center">
           <h2 className="text-3xl font-medium text-gray-900 mb-10">
-            Select Number of Tickets
+            Select Number of Seats
           </h2>
 
           <div className="flex items-center justify-center gap-12 mb-12">

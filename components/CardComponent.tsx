@@ -9,6 +9,7 @@ import {
 import { Badge } from "./ui/badge";
 import { Calendar, MapPin, Users } from "lucide-react";
 import { Button } from "./ui/button";
+import { useTranslations } from "next-intl";
 
 export default function CardComponent({
   data,
@@ -17,10 +18,11 @@ export default function CardComponent({
   data?: any;
   isEvent?: boolean;
 }) {
+  const t = useTranslations('Card');
   const title = isEvent
     ? data?.title || "Blue Note Jazz Club"
     : data?.name || "Summer Music Festival 2025";
-  const sub = isEvent ? "Featured" : data?.category || "Venue";
+  const sub = isEvent ? t('featured') : data?.category || t('venue');
   let shownDate = data?.startDateTime
     ? new Date(data?.startDateTime).toISOString().split("T")[0]
     : "";
@@ -37,7 +39,7 @@ export default function CardComponent({
     (data?.city && data?.country
       ? `${data.city}, ${data.country}`
       : data?.city || data?.country) ||
-    (isEvent ? "Grand Arena, Downtown" : "Capacity: 500 people");
+    (isEvent ? "Grand Arena, Downtown" : t('capacity', { capacity: 500 }));
   const price = data?.price;
   const capacity = data?.capacity;
 
@@ -87,7 +89,7 @@ export default function CardComponent({
             <MapPin className="w-4 h-4 text-eventaty-gold" />
           )}
           <p className="text-xs">
-            {isEvent ? dateAndTime : locationOrCapacity || "Unknown Location"}
+            {isEvent ? dateAndTime : locationOrCapacity || t('unknownLocation')}
           </p>
         </div>
         <div className="text-sm text-muted-foreground flex gap-2 items-center">
@@ -97,14 +99,14 @@ export default function CardComponent({
             <Users className="w-4 h-4 text-eventaty-gold" />
           )}
           <p className="text-xs">
-            {isEvent ? locationOrCapacity : `Capacity: ${capacity}`}
+            {isEvent ? locationOrCapacity : t('capacity', { capacity: capacity })}
           </p>
         </div>
       </CardContent>
       <CardFooter className="pb-5 pt-0 flex justify-between items-center mt-auto">
         {isEvent ? (
           <div>
-            <p className="text-xs text-muted-foreground">Starting from</p>
+            <p className="text-xs text-muted-foreground">{t('startingFrom')}</p>
             <span className="font-bold text-xl text-eventaty-gold">
               {typeof price === "number" ? price.toFixed(2) : price}
             </span>{" "}
@@ -112,7 +114,7 @@ export default function CardComponent({
           </div>
         ) : (
           <div>
-            <p className="text-xs text-muted-foreground">Upcoming Events</p>
+            <p className="text-xs text-muted-foreground">{t('upcomingEvents')}</p>
             <span className="font-bold text-xl text-eventaty-gold">
               {data?.eventCount || 0}
             </span>
@@ -124,7 +126,7 @@ export default function CardComponent({
             className="w-full"
           >
             <Button className="bg-eventaty-dark text-white hover:bg-eventaty-gold hover:text-white transition-colors rounded-lg px-6 w-full cursor-pointer">
-              View Details
+              {t('viewDetails')}
             </Button>
           </Link>
         </div>

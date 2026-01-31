@@ -6,12 +6,12 @@ import UpComingEvents from "@/components/sections/UpComingEvents";
 export const dynamic = "force-dynamic";
 
 export default function Home() {
-  return (
-    <div className="bg-background">
-      <HomeSlider />
-      <UpComingEvents />
-      <BrowseByCategory />
-      <HomeVenues />
-    </div>
-  );
+    return (
+        <div className="bg-background">
+            <HomeSlider />
+            <UpComingEvents />
+            <BrowseByCategory />
+            <HomeVenues />
+        </div>
+    );
 }

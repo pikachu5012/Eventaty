@@ -21,8 +21,10 @@ import {
 import { useAuth } from "@/context/AuthContext";
 import { EventForm } from "@/components/forms/EventForm";
 import { IVenue } from "@/types/venue";
+import { useTranslations } from "next-intl";
 
 export default function EventManagement() {
+  const t = useTranslations('Dashboard.Admin.Events');
   const [events, setEvents] = useState<IEvent[]>([]);
   const [categories, setCategories] = useState<
     Array<{ _id: string; name: string }>
@@ -54,21 +56,21 @@ export default function EventManagement() {
       setEvents(eventsRes.data.data.events);
       setCategories(
         categoriesRes.data.data?.categories ||
-          categoriesRes.data?.categories ||
-          categoriesRes.data ||
-          []
+        categoriesRes.data?.categories ||
+        categoriesRes.data ||
+        []
       );
       setVenues(
         venuesRes.data.data?.venues ||
-          venuesRes.data?.venues ||
-          venuesRes.data ||
-          []
+        venuesRes.data?.venues ||
+        venuesRes.data ||
+        []
       );
 
       setError(null);
     } catch (err) {
       console.error("Error fetching event data:", err);
-      setError("Failed to load events. Please try again later.");
+      setError(t('error'));
     } finally {
       setLoading(false);
     }
@@ -98,8 +100,8 @@ export default function EventManagement() {
     try {
       const config = token
         ? {
-            headers: { Authorization: `Bearer ${token}` },
-          }
+          headers: { Authorization: `Bearer ${token}` },
+        }
         : {};
 
       if (selectedEvent) {
@@ -127,23 +129,23 @@ export default function EventManagement() {
   };
 
   const handleDeleteEvent = (eventId: string) => {
-    toast("Are you sure you want to delete this event?", {
+    toast(t('deleteConfirm'), {
       action: {
-        label: "Delete",
+        label: t('deleteButton'),
         onClick: async () => {
           try {
             const config = token
               ? {
-                  headers: { Authorization: `Bearer ${token}` },
-                }
+                headers: { Authorization: `Bearer ${token}` },
+              }
               : {};
 
             await axios.delete(`/api/events/${eventId}`, config);
-            toast.success("Event deleted successfully");
+            toast.success(t('deleteSuccess'));
             fetchData();
           } catch (err) {
             console.error("Error deleting event:", err);
-            toast.error("Failed to delete event.");
+            toast.error(t('deleteError'));
           }
         },
       },
@@ -180,12 +182,12 @@ export default function EventManagement() {
       )}
 
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <h2 className="text-2xl font-bold text-primary">Events Management</h2>
+        <h2 className="text-2xl font-bold text-primary">{t('title')}</h2>
         <div className="flex items-center gap-3">
           <div className="relative flex-1 md:w-64">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
             <Input
-              placeholder="Search events..."
+              placeholder={t('searchPlaceholder')}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="pl-10 h-11  border-none ring-1 focus-visible:ring-eventaty-gold"
@@ -196,7 +198,7 @@ export default function EventManagement() {
             className="flex items-center gap-2 bg-eventaty-gold text-white px-5 py-2.5 rounded-xl font-semibold hover:bg-[#b8962c] transition-colors shadow-sm shadow-eventaty-gold/30 cursor-pointer"
           >
             <Plus className="h-5 w-5" />
-            <span className="hidden sm:inline">Add Event</span>
+            <span className="hidden sm:inline">{t('addEvent')}</span>
           </button>
         </div>
       </div>
@@ -204,7 +206,7 @@ export default function EventManagement() {
       {loading ? (
         <div className="flex flex-col items-center justify-center py-20 gap-4">
           <Loader2 className="h-10 w-10 animate-spin text-secondary" />
-          <p className="text-primary font-medium">Loading events...</p>
+          <p className="text-primary font-medium">{t('loading')}</p>
         </div>
       ) : error ? (
         <div className="text-center py-20 px-6">
@@ -213,7 +215,7 @@ export default function EventManagement() {
             onClick={fetchData}
             className="mt-4 text-eventaty-gold hover:underline font-semibold"
           >
-            Retry
+            {t('retry')}
           </button>
         </div>
       ) : (
@@ -255,7 +257,7 @@ export default function EventManagement() {
 
                 <div className="flex items-center justify-between pt-2">
                   <span className="text-xs text-gray-500">
-                    {event.availableSeats} seats left
+                    {event.availableSeats} {t('seatsLeft')}
                   </span>
                   <div className="flex items-center gap-2">
                     <Link
@@ -282,7 +284,7 @@ export default function EventManagement() {
             ))}
             {filteredEvents.length === 0 && (
               <div className="text-center py-10 px-6">
-                <p className="text-gray-400">No events found.</p>
+                <p className="text-gray-400">{t('noEvents')}</p>
               </div>
             )}
           </div>
@@ -293,25 +295,25 @@ export default function EventManagement() {
               <thead>
                 <tr className="bg-background">
                   <th className="px-8 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                    Event
+                    {t('tableHeaderEvent')}
                   </th>
                   <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                    Category
+                    {t('tableHeaderCategory')}
                   </th>
                   <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                    Date
+                    {t('tableHeaderDate')}
                   </th>
                   <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                    Location
+                    {t('tableHeaderLocation')}
                   </th>
                   <th className="py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                    Price
+                    {t('tableHeaderPrice')}
                   </th>
                   <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                    Tickets
+                    {t('tableHeaderTickets')}
                   </th>
                   <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider text-right">
-                    Actions
+                    {t('tableHeaderActions')}
                   </th>
                 </tr>
               </thead>
@@ -330,7 +332,7 @@ export default function EventManagement() {
                           </div>
                           {event.featured && (
                             <span className="inline-block mt-1 bg-light-green text-chart-2 text-[10px] font-bold px-2 py-0.5 rounded-full border uppercase">
-                              Featured
+                              {t('featured')}
                             </span>
                           )}
                         </div>
@@ -363,7 +365,7 @@ export default function EventManagement() {
                         </span>
                       </td>
                       <td className="px-6 py-5 text-sm text-primary/70">
-                        {event.availableSeats} available
+                        {event.availableSeats} {t('available')}
                       </td>
                       <td className="px-6 py-5">
                         <div className="flex items-center justify-end gap-2">
@@ -395,7 +397,7 @@ export default function EventManagement() {
             {filteredEvents.length === 0 && (
               <div className="text-center py-20 px-6">
                 <p className="text-gray-400">
-                  No events found matching your search.
+                  {t('noEventsMatching')}
                 </p>
               </div>
             )}
@@ -405,19 +407,19 @@ export default function EventManagement() {
           {totalPages > 1 && (
             <div className="p-4 md:p-6 border-t border-eventaty-gold flex flex-col md:flex-row items-center justify-between gap-4 bg-card mt-6">
               <div className="text-xs md:text-sm text-primary/70 text-center md:text-left">
-                Showing{" "}
+                {t('showing')}{" "}
                 <span className="font-semibold text-primary">
                   {startIndex + 1}
                 </span>{" "}
-                to{" "}
+                {t('to')}{" "}
                 <span className="font-semibold text-primary">
                   {Math.min(startIndex + itemsPerPage, filteredEvents.length)}
                 </span>{" "}
-                of{" "}
+                {t('of')}{" "}
                 <span className="font-semibold text-primary">
                   {filteredEvents.length}
                 </span>{" "}
-                events
+                {t('events')}
               </div>
               <div className="flex items-center gap-2">
                 <button
@@ -427,25 +429,24 @@ export default function EventManagement() {
                   disabled={currentPage === 1}
                   className="px-3 md:px-4 py-2 text-xs md:text-sm font-medium text-gray-600 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors cursor-pointer"
                 >
-                  Previous
+                  {t('previous')}
                 </button>
                 <div className="hidden sm:flex items-center gap-1">
                   {[...Array(totalPages)].map((_, i) => (
                     <button
                       key={i + 1}
                       onClick={() => setCurrentPage(i + 1)}
-                      className={`w-8 h-8 md:w-9 md:h-9 flex items-center justify-center text-xs md:text-sm font-medium rounded-lg transition-all ${
-                        currentPage === i + 1
+                      className={`w-8 h-8 md:w-9 md:h-9 flex items-center justify-center text-xs md:text-sm font-medium rounded-lg transition-all ${currentPage === i + 1
                           ? "bg-secondary text-white shadow-sm shadow-secondary/30 cursor-pointer"
                           : "text-gray-600 hover:bg-gray-50 hover:text-secondary cursor-pointer"
-                      }`}
+                        }`}
                     >
                       {i + 1}
                     </button>
                   ))}
                 </div>
                 <div className="sm:hidden text-xs font-medium text-gray-600">
-                  Page {currentPage} of {totalPages}
+                  {t('page')} {currentPage} {t('of')} {totalPages}
                 </div>
                 <button
                   onClick={() =>
@@ -454,7 +455,7 @@ export default function EventManagement() {
                   disabled={currentPage === totalPages}
                   className="px-3 md:px-4 py-2 text-xs md:text-sm font-medium text-gray-600 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors cursor-pointer"
                 >
-                  Next
+                  {t('next')}
                 </button>
               </div>
             </div>

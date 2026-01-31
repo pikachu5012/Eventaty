@@ -13,8 +13,10 @@ import {
   getVenueCity,
 } from "@/lib/eventUtils";
 import { motion } from "framer-motion";
+import { useTranslations } from "next-intl";
 
 export default function EventsList({ category }: { category?: string }) {
+  const t = useTranslations('Events');
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState(category || "All");
   const [locationFilter, setLocationFilter] = useState("");
@@ -105,7 +107,7 @@ export default function EventsList({ category }: { category?: string }) {
           <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
           <Input
             className="w-full pl-12 py-6 bg-background border border-secondary/30 rounded-xl text-lg shadow-sm focus-visible:ring-1 focus-visible:ring-eventaty-gold dark:bg-navFooter h-[60px]"
-            placeholder="Search events..."
+            placeholder={t('searchPlaceholder')}
             value={searchQuery}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
               setSearchQuery(e.target.value)
@@ -141,8 +143,7 @@ export default function EventsList({ category }: { category?: string }) {
         <main className="flex-1">
           <div className="mb-6">
             <h2 className="text-2xl font-bold text-primary">
-              <span className="text-secondary">{filteredEvents.length}</span>{" "}
-              events found
+              {t('eventsFound', { count: filteredEvents.length })}
             </h2>
           </div>
 
@@ -170,16 +171,16 @@ export default function EventsList({ category }: { category?: string }) {
           ) : (
             <div className="text-center py-20 bg-card rounded-xl shadow-sm">
               <h3 className="text-xl font-medium text-gray-600">
-                No events found
+                {t('noEvents')}
               </h3>
               <p className="text-gray-400 mt-2">
-                Try adjusting your filters or search query.
+                {t('noEventsDesc')}
               </p>
               <button
                 onClick={clearFilters}
                 className="mt-4 text-[#d4af37] hover:underline"
               >
-                Reset Filters
+                {t('resetFilters')}
               </button>
             </div>
           )}

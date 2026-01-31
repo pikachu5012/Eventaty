@@ -7,8 +7,10 @@ import { Button } from "@/components/ui/button";
 import axios from "axios";
 import { useAuth } from "@/context/AuthContext";
 import { toast } from "sonner";
+import { useTranslations } from "next-intl";
 
 export default function LoginForm() {
+  const t = useTranslations('Auth');
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -25,10 +27,10 @@ export default function LoginForm() {
       setUser(response.data.user);
       setToken(response.data.token);
       setError("");
-      toast.success("Login successful");
+      toast.success(t('loginSuccess'));
     } catch (error) {
-      setError("Invalid email or password");
-      toast.error("Invalid email or password");
+      setError(t('loginError'));
+      toast.error(t('loginError'));
     }
   };
 
@@ -36,7 +38,7 @@ export default function LoginForm() {
     <form className="w-full max-w-sm mx-auto px-6">
       <div className="my-3 py-2">
         <label htmlFor="email" className="block">
-          Email Address *
+          {t('email')}
         </label>
         <div className="relative py-2">
           <Mail className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-secondary" />
@@ -44,7 +46,7 @@ export default function LoginForm() {
             type="email"
             className="text-sm text-primary border-secondary py-4 pl-12"
             id="email"
-            placeholder="Enter your email"
+            placeholder={t('emailPlaceholder')}
             required
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -53,7 +55,7 @@ export default function LoginForm() {
       </div>
       <div className="my-3 mb-0 py-2">
         <label htmlFor="password" className="block">
-          Password *
+          {t('password')}
         </label>
         <div className="relative py-2">
           <Lock className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-secondary" />
@@ -61,7 +63,7 @@ export default function LoginForm() {
             type={showPassword ? "text" : "password"}
             className="text-sm text-primary border-secondary py-4 pl-12 pr-10"
             id="password"
-            placeholder="Enter your password"
+            placeholder={t('passwordPlaceholder')}
             required
             value={password}
             onChange={(e) => setPassword(e.target.value)}
@@ -81,14 +83,14 @@ export default function LoginForm() {
       </div>
       {error && <p className="text-center text-red-500">{error}</p>}
       <p className="text-sm text-secondary float-right cursor-pointer hover:underline">
-        Forgot Password?
+        {t('forgotPassword')}
       </p>
       <Button
         variant="secondary"
         className="w-full mt-8 cursor-pointer"
         onClick={(e) => handleLogin(e)}
       >
-        Login to Eventaty
+        {t('loginSubmit')}
       </Button>
     </form>
   );
