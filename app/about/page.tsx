@@ -12,9 +12,7 @@ import { Github, Linkedin, User, Mail } from "lucide-react";
 
 const inter = Inter();
 const subject = encodeURIComponent("Contact from Eventaty website");
-const body = encodeURIComponent(
-  "Hello,\n\nI want to contact you regarding..."
-);
+const body = encodeURIComponent("Hello,\n\nI want to contact you regarding...");
 
 export default function About() {
   return (
@@ -31,7 +29,8 @@ export default function About() {
           />
           <h1 className="text-strongCream px-1 text-2xl md:text-4xl text-center font-normal mt-5 md:mt-10">
             Your Gateway to{" "}
-            <span className="text-eventaty-gold">Unforgettable</span> Experiences
+            <span className="text-eventaty-gold">Unforgettable</span>{" "}
+            Experiences
           </h1>
           <p className="text-eventaty-cream px-1 text-xs sm:text-base text-center font-thin max-w-xs md:max-w-lg mx-auto">
             We&apos;re on a mission to connect people with amazing events and
@@ -156,7 +155,8 @@ export default function About() {
                 {
                   name: "Ziad Fahim",
                   github: "https://github.com/ziad845",
-                  linkedin: "https://www.linkedin.com/in/ziad-khaled-bab395341/",
+                  linkedin:
+                    "https://www.linkedin.com/in/ziad-khaled-bab395341/",
                   gmail: `https://mail.google.com/mail/?view=cm&fs=1&to=ziadfahim@gmail.com&su=${subject}&body=${body}`,
                 },
                 {
