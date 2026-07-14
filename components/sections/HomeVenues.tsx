@@ -6,21 +6,11 @@ import { Link } from "@/navigation";
 import axios from "axios";
 import { IVenue } from "@/types/venue";
 
+import { mockVenues } from "@/lib/mockData";
+
 export default async function HomeVenues() {
   const t = await getTranslations('HomePage');
-  const APP_URL = process.env.NEXT_PUBLIC_APP_URL || (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000");
-  let venues: IVenue[] = [];
-  try {
-    const response = await axios.get(`${APP_URL}/api/venues`, {
-      headers: { "Cache-Control": "no-cache" },
-    });
-    const data = response.data;
-    venues = Array.isArray(data)
-      ? data
-      : data?.data?.venues || data?.venues || data?.data || [];
-  } catch (error) {
-    console.error("Error fetching venues:", error);
-  }
+  let venues: IVenue[] = mockVenues;
   const displayedVenues = venues.slice(0, 4);
   return (
     <section className="container-fluid">

@@ -3,21 +3,11 @@ import CategoryButton from "@/components/CategoryButton";
 import axios from "axios";
 import { ICategory } from "@/types/category";
 
+import { mockCategories } from "@/lib/mockData";
+
 export default async function BrowseByCategory() {
   const t = await getTranslations('HomePage');
-  const APP_URL = process.env.NEXT_PUBLIC_APP_URL || (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000");
-  let categories: ICategory[] = [];
-  try {
-    const response = await axios.get(`${APP_URL}/api/categories`, {
-      headers: { "Cache-Control": "no-cache" },
-    });
-    const data = response.data;
-    categories = Array.isArray(data)
-      ? data
-      : data?.data?.categories || data?.categories || data?.data || [];
-  } catch (error) {
-    console.error("Error fetching categories:", error);
-  }
+  let categories: ICategory[] = mockCategories;
 
   return (
     <section className="bg-navFooter container-fluid">

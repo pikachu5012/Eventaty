@@ -40,6 +40,8 @@ const IconMapper = ({ name }: { name: string }) => {
 };
 
 // --- Main Page ---
+import { mockVenues } from "@/lib/mockData";
+
 export default async function VenueDetails({
   params,
 }: {
@@ -48,20 +50,12 @@ export default async function VenueDetails({
   const { id } = await params;
   const t = await getTranslations('VenueDetails');
 
-  // Fetch venue data from API
-  const APP_URL = process.env.NEXT_PUBLIC_APP_URL || (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000");
-  const response = await fetch(
-    `${APP_URL}/api/venues/${id}`,
-    {
-      cache: "no-store", // Ensures fresh data on each request
-    },
-  );
+  // Fetch venue data directly from mock data
+  const apiData = mockVenues.find((v) => v._id === id) || null;
 
-  if (!response.ok) {
+  if (!apiData) {
     throw new Error("Failed to fetch venue");
   }
-
-  const apiData = await response.json().then((data) => data.data.venue);
 
   return (
     <div className="min-h-screen bg-background text-eventaty-dark pb-20 font-sans">

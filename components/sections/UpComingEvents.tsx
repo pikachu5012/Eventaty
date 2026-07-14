@@ -6,21 +6,11 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import { Link } from "@/navigation";
 
+import { mockEvents } from "@/lib/mockData";
+
 export default async function UpComingEvents() {
   const t = await getTranslations('HomePage');
-  const APP_URL = process.env.NEXT_PUBLIC_APP_URL || (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000");
-  let events: IEvent[] = [];
-  try {
-    const response = await axios.get(`${APP_URL}/api/events`, {
-      headers: { "Cache-Control": "no-cache" },
-    });
-    const data = response.data;
-    events = Array.isArray(data)
-      ? data
-      : data?.data?.events || data?.events || data?.data || [];
-  } catch (error) {
-    console.error("Error fetching upcoming events:", error);
-  }
+  let events: IEvent[] = mockEvents;
 
   const displayedEvents = events
     .filter(
