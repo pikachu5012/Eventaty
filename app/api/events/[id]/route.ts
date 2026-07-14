@@ -1,23 +1,21 @@
 import { NextResponse } from "next/server";
-import axios from "axios";
-
-const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:5000";
+import { mockEvents } from "@/lib/mockData";
 
 export async function GET(
   request: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  try {
-    const { id } = await params;
-    const response = await axios.get(`${BACKEND_URL}/events/${id}`);
-    return NextResponse.json(response.data);
-  } catch (error) {
-    console.error("Error fetching event:", error);
+  const { id } = await params;
+  const event = mockEvents.find((e) => e._id === id);
+
+  if (!event) {
     return NextResponse.json(
-      { error: "Failed to fetch event" },
-      { status: 500 }
+      { error: "Event not found" },
+      { status: 404 }
     );
   }
+
+  return NextResponse.json({ data: { event } });
 }
 
 export async function PUT(
@@ -27,19 +25,23 @@ export async function PUT(
   try {
     const { id } = await params;
     const body = await request.json();
-    const token = request.headers.get("authorization");
+    const event = mockEvents.find((e) => e._id === id);
 
-    const response = await axios.put(`${BACKEND_URL}/events/${id}`, body, {
-      headers: {
-        Authorization: token,
-      },
+    if (!event) {
+      return NextResponse.json(
+        { error: "Event not found" },
+        { status: 404 }
+      );
+    }
+
+    // Return a mock updated event
+    return NextResponse.json({
+      data: { event: { ...event, ...body, updatedAt: new Date().toISOString() } },
     });
-    return NextResponse.json(response.data);
   } catch (error: any) {
-    console.error("Error updating event:", error?.response?.data || error.message);
     return NextResponse.json(
       { error: "Failed to update event" },
-      { status: error?.response?.status || 500 }
+      { status: 500 }
     );
   }
 }
@@ -48,21 +50,9 @@ export async function DELETE(
   request: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  try {
-    const { id } = await params;
-    const token = request.headers.get("authorization");
-
-    const response = await axios.delete(`${BACKEND_URL}/events/${id}`, {
-      headers: {
-        Authorization: token,
-      },
-    });
-    return NextResponse.json(response.data);
-  } catch (error: any) {
-    console.error("Error deleting event:", error?.response?.data || error.message);
-    return NextResponse.json(
-      { error: "Failed to delete event" },
-      { status: error?.response?.status || 500 }
-    );
-  }
+  const { id } = await params;
+  return NextResponse.json({
+    message: "Event deleted successfully",
+    data: { eventId: id },
+  });
 }

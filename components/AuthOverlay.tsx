@@ -58,7 +58,7 @@ export function AuthOverlay({
             <Link
               href=""
               className="flex items-center gap-2 py-1.5 px-3 rounded-lg font-medium text-sm
-          bg-[#d4af37] text-[#0F172A]
+          bg-[#7C3AED] text-[#111111]
           hover:bg-yellow-500 transition shadow-md whitespace-nowrap"
             >
               <LogIn size={16} />

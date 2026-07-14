@@ -1,23 +1,35 @@
 import { NextResponse } from "next/server";
-import axios from "axios";
-
-const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:5000";
+import { mockUser, mockToken } from "@/lib/mockData";
 
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { email, password } = body;
+    const { email } = body;
 
-    const session = await axios.post(`${BACKEND_URL}/auth/login`, {
-      email,
-      password,
+    // Check if it's the admin email
+    if (email === "admin@eventaty.com") {
+      return NextResponse.json({
+        token: mockToken,
+        user: {
+          _id: "user001",
+          email: "admin@eventaty.com",
+          firstName: "Admin",
+          lastName: "Eventaty",
+          role: "admin",
+          phone: 1000000000,
+        },
+      });
+    }
+
+    // Return mock user for any login
+    return NextResponse.json({
+      token: mockToken,
+      user: mockUser,
     });
-
-    return NextResponse.json(session.data);
   } catch (error: any) {
     return NextResponse.json(
-      { message: error?.response?.data?.message || "Login failed" },
-      { status: error?.response?.status || 500 }
+      { message: "Login failed" },
+      { status: 500 }
     );
   }
 }

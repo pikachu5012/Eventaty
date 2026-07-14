@@ -95,8 +95,8 @@ export default function Navbar() {
               <li>
                 <Link
                   href="/about"
-                  className={`block py-2 px-3 ${pathname === "/about" ? "text-[#d4af37]" : "text-slate-300"
-                    } hover:text-[#d4af37] transition`}
+                  className={`block py-2 px-3 ${pathname === "/about" ? "text-[#7C3AED]" : "text-slate-300"
+                    } hover:text-[#7C3AED] transition`}
                 >
                   {t('about')}
                 </Link>
@@ -105,9 +105,9 @@ export default function Navbar() {
                 <Link
                   href="/contact"
                   className={`block py-2 px-3 ${pathname === "/contact"
-                    ? "text-[#d4af37]"
+                    ? "text-[#7C3AED]"
                     : "text-slate-300"
-                    } hover:text-[#d4af37] transition`}
+                    } hover:text-[#7C3AED] transition`}
                 >
                   {t('contact')}
                 </Link>

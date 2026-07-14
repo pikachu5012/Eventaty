@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { EventItem } from "@/types/event";
+import { ImageIcon } from "lucide-react";
 
 type EProps = {
   event: EventItem;
@@ -45,45 +46,43 @@ export default function EventSlide({ event }: EProps) {
     : "Date TBD";
 
   const splitDate = formattedDate.split(" ");
-  const monthDay = `${splitDate[0]} ${splitDate[1]}`;
-  const time = splitDate[3] || "08:00 PM"; // Fallback for display
+  const monthDay = `${splitDate[0]} ${splitDate[1]}, ${splitDate[2]}`;
+  const time = splitDate[3] || "08:00"; 
 
   return (
-    <div className="flex flex-col-reverse md:flex-row items-center justify-center bg-transparent p-4 md:p-6 max-w-[1440px] mx-auto gap-4 md:gap-0">
-      {/* Card Content - Bottom on mobile, Left on desktop */}
-      <div className="w-full md:w-1/2 lg:w-1/3 md:pe-2">
-        <div className="rounded-[40px] md:rounded-[56px] bg-white dark:bg-card p-8 md:p-10 min-h-[350px] flex flex-col justify-between shadow-sm border border-gray-100 dark:border-none">
-          <div>
-            <h2 className="text-3xl md:text-4xl font-serif md:font-bold text-primary leading-tight mb-4 line-clamp-2 italic md:not-italic">
+    <div className="flex flex-col-reverse md:flex-row items-stretch justify-center bg-transparent p-4 md:p-0 max-w-[1440px] mx-auto gap-4 md:gap-6">
+      {/* Card Content - Left */}
+      <div className="w-full md:w-[40%] flex flex-col">
+        <div className="rounded-[24px] bg-white dark:bg-[#1A1B1E] p-8 md:p-10 flex-grow flex flex-col justify-center shadow-sm border border-gray-200 dark:border-white/5">
+          <div className="mb-8">
+            <h2 className="text-3xl md:text-4xl font-bold text-[#111111] dark:text-white leading-tight mb-4 line-clamp-2">
               {event.title}
             </h2>
-
-            <div className="space-y-1 mb-6">
-              <p className="text-xl text-primary/80 font-medium">
-                {formattedDate.replace(" ", ", ").replace(/(\d{4})/, "$1 at")}
+            <div className="space-y-1">
+              <p className="text-lg text-[#6B7280] font-medium">
+                {monthDay} at {time}
               </p>
-
-              <p className="text-xl text-primary/70">{venueName}</p>
+              <p className="text-lg text-[#9CA3AF] font-medium">{venueName}</p>
             </div>
           </div>
 
-          <div className="flex items-center gap-6 md:gap-8">
+          <div className="flex items-center gap-6">
             <Link href={`/events/${eventId}#tickets`} className="flex-1 md:flex-none">
-              <button className="w-full md:w-auto flex items-center justify-center gap-2 rounded-full bg-[#FFC107] px-8 py-4 text-lg font-bold text-black hover:bg-[#FFB300] shadow-md transition-all">
-                Book Now
+              <button className="w-full md:w-auto flex items-center justify-center gap-2 rounded-[20px] bg-eventaty-gold px-8 py-3.5 text-lg font-bold text-white shadow-[0_8px_24px_rgba(124,58,237,0.4)] hover:shadow-[0_12px_28px_rgba(124,58,237,0.6)] hover:-translate-y-0.5 transition-all">
+                Book now
               </button>
             </Link>
             <Link href={`/events/${eventId}`}>
-              <button className="text-lg font-semibold text-primary hover:opacity-70 transition-opacity whitespace-nowrap">
-                More Info
+              <button className="text-[17px] font-semibold text-eventaty-gold hover:opacity-70 transition-opacity whitespace-nowrap">
+                More info
               </button>
             </Link>
           </div>
         </div>
       </div>
 
-      {/* Image - Top on mobile, Right on desktop */}
-      <div className="relative h-[150px] md:h-[350px] w-full md:w-1/2 lg:w-2/3 overflow-hidden rounded-[40px] md:rounded-[56px] bg-gray-200">
+      {/* Image Container - Right */}
+      <div className="relative h-[250px] md:h-auto min-h-[350px] w-full md:w-[60%] overflow-hidden rounded-[24px] bg-eventaty-cream dark:bg-[#2C2D31] flex items-center justify-center">
         {imageUrl ? (
           <>
             <Image
@@ -93,13 +92,10 @@ export default function EventSlide({ event }: EProps) {
               unoptimized
               className="object-cover"
             />
-            {/* Optional gradient overlay to match image */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+            <div className="absolute inset-0 bg-black/10"></div>
           </>
         ) : (
-          <div className="flex h-full w-full items-center justify-center text-gray-400">
-            No Image Available
-          </div>
+          <ImageIcon className="w-16 h-16 text-eventaty-gold opacity-50" />
         )}
       </div>
     </div>

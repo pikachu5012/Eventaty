@@ -23,7 +23,7 @@ export default async function About() {
     <>
       <section className={inter.className} style={{ minHeight: "100dvh" }}>
         {/* hero section */}
-        <div className="mx-auto flex flex-col items-center justify-center gap-y-2 py-10  relative bg-linear-to-r from-[#0F172A] via-[#1E293B] to-[#0F172A]">
+        <div className="mx-auto flex flex-col items-center justify-center gap-y-2 py-10  relative bg-linear-to-r from-[#111111] via-[#1E293B] to-[#111111]">
           <Image
             className="absolute top-1 right-3 md:right-7"
             src={starsIcon}

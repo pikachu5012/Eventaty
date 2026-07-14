@@ -178,7 +178,7 @@ export default function EventsList({ category }: { category?: string }) {
               </p>
               <button
                 onClick={clearFilters}
-                className="mt-4 text-[#d4af37] hover:underline"
+                className="mt-4 text-[#7C3AED] hover:underline"
               >
                 {t('resetFilters')}
               </button>

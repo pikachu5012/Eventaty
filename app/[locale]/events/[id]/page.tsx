@@ -199,7 +199,7 @@ export default async function EventDetailsPage({
                     <div className="flex items-center gap-3 text-gray-600">
                       <MapPin
                         size={18}
-                        className="text-[#d4af37]"
+                        className="text-[#7C3AED]"
                         strokeWidth={2}
                       />
                       <span className="text-sm">{venueAddress}</span>

@@ -10,14 +10,14 @@ const THEME = {
         muted: "#f1f5f9",
     },
     dark: {
-        bg: "#0f172a",
+        bg: "#111111",
         card: "#1e293b",
         text: "#f8fafc",
         border: "#334155",
         muted: "#0a0f1e",
     },
-    gold: "#d4af37",
-    brandDark: "#0f172a",
+    gold: "#7C3AED",
+    brandDark: "#111111",
 };
 
 const transporter = nodemailer.createTransport({
@@ -103,7 +103,7 @@ export const sendBookingConfirmation = async (details: BookingDetails) => {
             <p><strong>Total Price:</strong> <span class="gold">${total.toFixed(2)} EGP</span></p>
           </div>
           
-          <p style="margin-top: 20px;">You can view your tickets anytime by logging into your <a href="http://localhost:3000/dashboard" style="color: #d4af37;">dashboard</a>.</p>
+          <p style="margin-top: 20px;">You can view your tickets anytime by logging into your <a href="http://localhost:3000/dashboard" style="color: #7C3AED;">dashboard</a>.</p>
           <p>We look forward to seeing you at the event!</p>
         </div>
         <div class="footer">

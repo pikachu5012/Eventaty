@@ -34,28 +34,31 @@ export default async function UpComingEvents() {
     .slice(0, 3);
 
   return (
-    <section className="container mx-auto">
-      <div className="text-center text-5xl my-10 font-bold">
+    <section className="max-w-[1440px] mx-auto px-4 md:px-0 mt-12 mb-20">
+      <h2 className="text-3xl md:text-[34px] font-bold text-[#111111] dark:text-white mb-6 md:mb-8 text-left">
         {t('upcomingEvents')}
-      </div>
-      <div className="flex py-4 gap-4 flex-wrap justify-center">
+      </h2>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
         {displayedEvents.length > 0 ? (
           displayedEvents.map((event) => (
-            <div key={event._id} className="w-3/4 md:w-2/5 lg:w-[30%]">
-              <CardComponent data={event} isEvent={true} />
-            </div>
+            <CardComponent key={event._id} data={event} isEvent={true} />
           ))
         ) : (
-          <div className="text-primary py-10">{t('noUpcomingEvents')}</div>
+          <div className="col-span-full text-center text-primary py-10">
+            {t('noUpcomingEvents')}
+          </div>
         )}
       </div>
-      <Link href="/events">
-        <Button className="mx-auto my-10 py-7 flex cursor-pointer">
-          <p className="flex font-normal items-center gap-2 p-6 text-secondary">
-            {t('exploreEvents')} <ArrowRight />
-          </p>
-        </Button>
-      </Link>
+      <div className="mt-12 flex justify-center hidden">
+        {/* Hiding the Explore Events button since it's not in the mockup, but keeping logic in case it's needed */}
+        <Link href="/events">
+          <Button className="py-7 flex cursor-pointer">
+            <p className="flex font-normal items-center gap-2 p-6 text-secondary">
+              {t('exploreEvents')} <ArrowRight />
+            </p>
+          </Button>
+        </Link>
+      </div>
     </section>
   );
 }

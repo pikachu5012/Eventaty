@@ -72,7 +72,7 @@ export default function TicketSelectionModal({
             {/* Plus Button */}
             <button
               onClick={handleIncrement}
-              className="w-16 h-16 rounded-full bg-[#d4af37] flex items-center justify-center text-white hover:bg-[#b5952f] transition-all shadow-lg hover:shadow-xl focus:outline-none transform hover:scale-105"
+              className="w-16 h-16 rounded-full bg-[#7C3AED] flex items-center justify-center text-white hover:bg-[#b5952f] transition-all shadow-lg hover:shadow-xl focus:outline-none transform hover:scale-105"
               aria-label="Increase quantity"
             >
               <Plus size={24} strokeWidth={2} />
@@ -82,7 +82,7 @@ export default function TicketSelectionModal({
           {/* Buy Button */}
           <button
             onClick={handleBuyNow}
-            className="w-full bg-[#d4af37] text-white font-medium text-lg py-4 rounded-full shadow-[0_4px_14px_0_rgba(212,175,55,0.39)] hover:shadow-[0_6px_20px_rgba(212,175,55,0.23)] hover:-translate-y-0.5 transition-all mb-6"
+            className="w-full bg-[#7C3AED] text-white font-medium text-lg py-4 rounded-full shadow-[0_4px_14px_0_rgba(212,175,55,0.39)] hover:shadow-[0_6px_20px_rgba(212,175,55,0.23)] hover:-translate-y-0.5 transition-all mb-6"
           >
             Buy Now
           </button>

@@ -1,23 +1,21 @@
 import { NextResponse } from "next/server";
-import axios from "axios";
-
-const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:5000";
+import { getVenueWithEvents } from "@/lib/mockData";
 
 export async function GET(
   request: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  try {
-    const { id } = await params;
-    const response = await axios.get(`${BACKEND_URL}/venues/${id}`);
-    return NextResponse.json(response.data);
-  } catch (error) {
-    console.error("Error fetching venue:", error);
+  const { id } = await params;
+  const venue = getVenueWithEvents(id);
+
+  if (!venue) {
     return NextResponse.json(
-      { error: "Failed to fetch venue" },
-      { status: 500 }
+      { error: "Venue not found" },
+      { status: 404 }
     );
   }
+
+  return NextResponse.json({ data: { venue } });
 }
 
 export async function PUT(
@@ -27,22 +25,22 @@ export async function PUT(
   try {
     const { id } = await params;
     const body = await request.json();
-    const token = request.headers.get("authorization");
+    const venue = getVenueWithEvents(id);
 
-    const response = await axios.put(`${BACKEND_URL}/venues/${id}`, body, {
-      headers: {
-        Authorization: token,
-      },
+    if (!venue) {
+      return NextResponse.json(
+        { error: "Venue not found" },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json({
+      data: { venue: { ...venue, ...body } },
     });
-    return NextResponse.json(response.data);
   } catch (error: any) {
-    console.error(
-      "Error updating venue:",
-      error?.response?.data || error.message
-    );
     return NextResponse.json(
       { error: "Failed to update venue" },
-      { status: error?.response?.status || 500 }
+      { status: 500 }
     );
   }
 }
@@ -51,24 +49,9 @@ export async function DELETE(
   request: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  try {
-    const { id } = await params;
-    const token = request.headers.get("authorization");
-
-    const response = await axios.delete(`${BACKEND_URL}/venues/${id}`, {
-      headers: {
-        Authorization: token,
-      },
-    });
-    return NextResponse.json(response.data);
-  } catch (error: any) {
-    console.error(
-      "Error deleting venue:",
-      error?.response?.data || error.message
-    );
-    return NextResponse.json(
-      { error: "Failed to delete venue" },
-      { status: error?.response?.status || 500 }
-    );
-  }
+  const { id } = await params;
+  return NextResponse.json({
+    message: "Venue deleted successfully",
+    data: { venueId: id },
+  });
 }
