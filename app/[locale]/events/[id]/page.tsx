@@ -25,7 +25,7 @@ export default async function EventDetailsPage({
   // Fetch event data from API
   let event: IEvent | null = null;
   try {
-    const APP_URL = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
+    const APP_URL = process.env.NEXT_PUBLIC_APP_URL || (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000");
     const response = await axios.get(`${APP_URL}/api/events/${id}`);
     // Handle specific API response structure: data.data.event or data.event or just data
     event =

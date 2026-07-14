@@ -49,7 +49,7 @@ export default async function VenueDetails({
   const t = await getTranslations('VenueDetails');
 
   // Fetch venue data from API
-  const APP_URL = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
+  const APP_URL = process.env.NEXT_PUBLIC_APP_URL || (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000");
   const response = await fetch(
     `${APP_URL}/api/venues/${id}`,
     {

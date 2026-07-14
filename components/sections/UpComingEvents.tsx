@@ -8,7 +8,7 @@ import { Link } from "@/navigation";
 
 export default async function UpComingEvents() {
   const t = await getTranslations('HomePage');
-  const APP_URL = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
+  const APP_URL = process.env.NEXT_PUBLIC_APP_URL || (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000");
   let events: IEvent[] = [];
   try {
     const response = await axios.get(`${APP_URL}/api/events`, {

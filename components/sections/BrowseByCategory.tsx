@@ -5,7 +5,7 @@ import { ICategory } from "@/types/category";
 
 export default async function BrowseByCategory() {
   const t = await getTranslations('HomePage');
-  const APP_URL = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
+  const APP_URL = process.env.NEXT_PUBLIC_APP_URL || (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000");
   let categories: ICategory[] = [];
   try {
     const response = await axios.get(`${APP_URL}/api/categories`, {
