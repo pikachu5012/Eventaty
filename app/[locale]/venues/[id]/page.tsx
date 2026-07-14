@@ -40,7 +40,7 @@ const IconMapper = ({ name }: { name: string }) => {
 };
 
 // --- Main Page ---
-import { mockVenues } from "@/lib/mockData";
+import { getVenueWithEvents } from "@/lib/mockData";
 
 export default async function VenueDetails({
   params,
@@ -51,7 +51,7 @@ export default async function VenueDetails({
   const t = await getTranslations('VenueDetails');
 
   // Fetch venue data directly from mock data
-  const apiData = mockVenues.find((v) => v._id === id) || null;
+  const apiData = getVenueWithEvents(id);
 
   if (!apiData) {
     throw new Error("Failed to fetch venue");
@@ -128,7 +128,7 @@ export default async function VenueDetails({
             </div>
 
             {/* --- HERE IS THE CHANGE: Using the Interactive Component --- */}
-            <VenueEvents events={apiData.events} />
+            <VenueEvents events={apiData.events || []} />
           </div>
 
           {/* RIGHT COLUMN (Sidebar) */}
