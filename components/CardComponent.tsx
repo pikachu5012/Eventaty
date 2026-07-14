@@ -3,10 +3,12 @@ import Image from "next/image";
 import {
   Card,
   CardContent,
+  CardFooter,
   CardHeader,
 } from "@/components/ui/card";
 import { Badge } from "./ui/badge";
-import { MapPin, Users, Music, Utensils, Palette, Monitor, Trophy, Briefcase, Calendar } from "lucide-react";
+import { Calendar, MapPin, Users } from "lucide-react";
+import { Button } from "./ui/button";
 import { useTranslations } from "next-intl";
 
 export default function CardComponent({
@@ -18,75 +20,117 @@ export default function CardComponent({
 }) {
   const t = useTranslations('Card');
   const title = isEvent
-    ? data?.title || "Event Title"
-    : data?.name || "Venue Name";
+    ? data?.title || "Blue Note Jazz Club"
+    : data?.name || "Summer Music Festival 2025";
+  const sub = isEvent ? t('featured') : data?.category || t('venue');
+  let shownDate = data?.startDateTime
+    ? new Date(data?.startDateTime).toISOString().split("T")[0]
+    : "";
+  let shownTime = data?.startDateTime
+    ? new Date(data?.startDateTime).toISOString().split("T")[1].split(".")[0]
+    : "";
+  let dateAndTime = shownDate;
+  if (shownTime) {
+    dateAndTime = `${dateAndTime} at ${shownTime}`;
+  }
 
-  // Determine which icon to show based on category if it's an event
-  const getCategoryIcon = () => {
-    const catName = (data?.categoryId?.name || data?.category || "").toLowerCase();
-    if (catName.includes("music")) return <Music size={32} className="text-eventaty-gold" />;
-    if (catName.includes("food")) return <Utensils size={32} className="text-eventaty-gold" />;
-    if (catName.includes("art")) return <Palette size={32} className="text-eventaty-gold" />;
-    if (catName.includes("tech")) return <Monitor size={32} className="text-eventaty-gold" />;
-    if (catName.includes("sport")) return <Trophy size={32} className="text-eventaty-gold" />;
-    if (catName.includes("business")) return <Briefcase size={32} className="text-eventaty-gold" />;
-    return <Calendar size={32} className="text-eventaty-gold" />;
-  };
-
-  const hasImage = data?.images && data.images.length > 0;
-  
-  // Force icon placeholder styling for events to match the mockup exact look
-  // but allow venues to show images. 
-  const showImage = !isEvent && hasImage; 
+  const locationOrCapacity =
+    (isEvent ? data?.venueId?.name || data?.venueId?.address : "") ||
+    (data?.city && data?.country
+      ? `${data.city}, ${data.country}`
+      : data?.city || data?.country) ||
+    (isEvent ? "Grand Arena, Downtown" : t('capacity', { capacity: 500 }));
+  const price = data?.price;
+  const capacity = data?.capacity;
 
   return (
-    <Link href={isEvent ? `/events/${data?._id}` : `/venues/${data?._id}`} className="block h-full group">
-      <Card className="pt-0 rounded-[20px] overflow-hidden bg-white dark:bg-[#1A1B1E] border border-gray-100 dark:border-white/5 shadow-sm hover:shadow-md transition-shadow h-full flex flex-col">
-        <CardHeader className={`p-0 relative h-48 overflow-hidden flex items-center justify-center ${!showImage ? 'bg-eventaty-cream dark:bg-[#2C2D31]' : ''}`}>
-          {showImage ? (
-            <Image
-              src={data?.images[0]}
-              alt={title}
-              fill
-              unoptimized
-              className="object-cover transition-transform duration-300 group-hover:scale-105"
-            />
-          ) : (
-            <div className="transition-transform duration-300 group-hover:scale-110">
-               {isEvent ? getCategoryIcon() : <MapPin size={32} className="text-eventaty-gold" />}
-            </div>
-          )}
-          
-          {/* Featured Badge - specifically styled orange as per mockup */}
-          {isEvent && data?.featured && (
+    <Card className="pt-0 rounded-xl overflow-hidden group bg-card border-none shadow-sm h-full flex flex-col">
+      <CardHeader className="p-0 relative h-48 overflow-hidden">
+        <Image
+          src={data?.images[0] || "/ekko.png"}
+          alt="Event Image"
+          fill
+          unoptimized
+          className="object-cover transition-transform duration-300 group-hover:scale-105"
+        />
+        {isEvent ? (
+          data?.featured ? (
             <Badge
-              className="absolute top-4 right-4 bg-[#F59E0B] text-white hover:bg-[#D97706] border-none px-3 py-1 text-xs font-semibold rounded-full shadow-sm"
+              variant="secondary"
+              className="absolute top-0 right-0 m-4 bg-eventaty-gold text-white hover:bg-secondary border-none"
             >
-              Featured
+              {sub}
             </Badge>
+          ) : (
+            ""
+          )
+        ) : (
+          <Badge
+            variant="secondary"
+            className="absolute top-0 right-0 m-4 bg-eventaty-gold text-white hover:bg-secondary border-none"
+          >
+            {sub}
+          </Badge>
+        )}
+        {isEvent && data?.isFeatured && (
+          <Badge className="absolute top-0 left-0 m-4 bg-black/70 text-white hover:bg-black/80 border-none">
+            Hot
+          </Badge>
+        )}
+      </CardHeader>
+      <CardContent className="grow pt-5">
+        <h3 className="text-lg font-bold mb-3 group-hover:text-secondary transition-colors line-clamp-1 text-dark-background">
+          {title}
+        </h3>
+        <div className="text-sm text-muted-foreground mb-2 flex gap-2 items-center">
+          {isEvent ? (
+            <Calendar className="w-4 h-4 text-eventaty-gold" />
+          ) : (
+            <MapPin className="w-4 h-4 text-eventaty-gold" />
           )}
-        </CardHeader>
-        
-        <CardContent className="p-5 flex-grow flex flex-col justify-center">
-          <h3 className="text-[17px] font-bold text-[#111111] dark:text-white transition-colors line-clamp-2">
-            {title}
-          </h3>
-          
-          {/* Only showing extra details for Venues to keep Event cards minimal like the mockup */}
-          {!isEvent && (
-            <div className="mt-3 space-y-1.5">
-              <div className="text-sm text-gray-500 flex gap-2 items-center">
-                <MapPin className="w-4 h-4 text-eventaty-gold" />
-                <p className="text-xs line-clamp-1">{data?.city || data?.country || "Location"}</p>
-              </div>
-              <div className="text-sm text-gray-500 flex gap-2 items-center">
-                <Users className="w-4 h-4 text-eventaty-gold" />
-                <p className="text-xs">{t('capacity', { capacity: data?.capacity || 0 })}</p>
-              </div>
-            </div>
+          <p className="text-xs">
+            {isEvent ? dateAndTime : locationOrCapacity || t('unknownLocation')}
+          </p>
+        </div>
+        <div className="text-sm text-muted-foreground flex gap-2 items-center">
+          {isEvent ? (
+            <MapPin className="w-4 h-4 text-eventaty-gold" />
+          ) : (
+            <Users className="w-4 h-4 text-eventaty-gold" />
           )}
-        </CardContent>
-      </Card>
-    </Link>
+          <p className="text-xs">
+            {isEvent ? locationOrCapacity : t('capacity', { capacity: capacity })}
+          </p>
+        </div>
+      </CardContent>
+      <CardFooter className="pb-5 pt-0 flex justify-between items-center mt-auto">
+        {isEvent ? (
+          <div>
+            <p className="text-xs text-muted-foreground">{t('startingFrom')}</p>
+            <span className="font-bold text-xl text-eventaty-gold">
+              {typeof price === "number" ? price.toFixed(2) : price}
+            </span>{" "}
+            <span className="font-semibold text-lg text-secondary/70">EGP</span>
+          </div>
+        ) : (
+          <div>
+            <p className="text-xs text-muted-foreground">{t('upcomingEvents')}</p>
+            <span className="font-bold text-xl text-eventaty-gold">
+              {data?.eventCount || 0}
+            </span>
+          </div>
+        )}
+        <div>
+          <Link
+            href={isEvent ? `/events/${data?._id}` : `/venues/${data?._id}`}
+            className="w-full"
+          >
+            <Button className="bg-eventaty-dark text-white hover:bg-eventaty-gold hover:text-white transition-colors rounded-lg px-6 w-full cursor-pointer">
+              {t('viewDetails')}
+            </Button>
+          </Link>
+        </div>
+      </CardFooter>
+    </Card>
   );
 }

@@ -16,22 +16,7 @@ export default function Dashboard() {
   const { user, isLoading } = useAuth();
   const router = useRouter();
   const searchParams = useSearchParams();
-  const select = searchParams.get("select");
   const isAdmin = user?.role === "admin";
-  const [asUser, setAsUser] = useState(false);
-  const [openOverlay, setOpenOverlay] = useState(false);
-
-  useEffect(() => {
-    if (isAdmin) {
-      setOpenOverlay(true);
-    }
-  }, [isAdmin]);
-
-  useEffect(() => {
-    if (select === "true") {
-      setOpenOverlay(true);
-    }
-  }, [select, searchParams]);
 
   if (isLoading) {
     return (
@@ -65,23 +50,7 @@ export default function Dashboard() {
 
   return (
     <div>
-      {isAdmin && (
-        <AccountTypeOverlay
-          asUser={asUser}
-          setAsUser={setAsUser}
-          open={openOverlay}
-          setOpen={setOpenOverlay}
-        />
-      )}
-      {isAdmin ? (
-        asUser ? (
-          <UserDashboard />
-        ) : (
-          <AdminDashboard />
-        )
-      ) : (
-        <UserDashboard />
-      )}
+      {isAdmin ? <AdminDashboard /> : <UserDashboard />}
     </div>
   );
 }

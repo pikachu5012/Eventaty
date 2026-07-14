@@ -49,8 +49,9 @@ export default async function VenueDetails({
   const t = await getTranslations('VenueDetails');
 
   // Fetch venue data from API
+  const APP_URL = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_APP_URL}/api/venues/${id}`,
+    `${APP_URL}/api/venues/${id}`,
     {
       cache: "no-store", // Ensures fresh data on each request
     },
