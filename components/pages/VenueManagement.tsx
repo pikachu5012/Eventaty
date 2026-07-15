@@ -163,7 +163,7 @@ export default function VenueManagement() {
           </div>
           <button
             onClick={handleCreateVenue}
-            className="flex items-center gap-2 bg-eventaty-gold text-white px-5 py-2.5 rounded-xl font-semibold hover:bg-[#b8962c] transition-colors shadow-sm shadow-eventaty-gold/30 cursor-pointer"
+            className="flex items-center gap-2 bg-violet-600 text-white px-5 py-2.5 rounded-xl font-semibold hover:bg-violet-700 transition-colors shadow-sm shadow-violet-600/20 cursor-pointer"
           >
             <Plus className="h-5 w-5" />
             <span className="hidden sm:inline">{t('addVenue')}</span>
@@ -224,7 +224,7 @@ export default function VenueManagement() {
                   </Link>
                   <button
                     onClick={() => handleEditVenue(venue)}
-                    className="p-1.5 text-gray-400 hover:text-secondary bg-gray-50 rounded-lg"
+                    className="p-1.5 text-gray-400 hover:text-violet-600 dark:hover:text-violet-400 bg-gray-50 dark:bg-slate-800 rounded-lg"
                   >
                     <Pencil className="h-4 w-4" />
                   </button>
@@ -310,7 +310,7 @@ export default function VenueManagement() {
                         </Link>
                         <button
                           onClick={() => handleEditVenue(venue)}
-                          className="p-2 text-gray-400 hover:text-secondary hover:bg-[#fdfaf3] rounded-full transition-colors"
+                          className="p-2 text-gray-400 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-violet-50 dark:hover:bg-violet-950/30 rounded-full transition-colors"
                         >
                           <Pencil className="h-4 w-4" />
                         </button>
@@ -368,10 +368,11 @@ export default function VenueManagement() {
                     <button
                       key={i + 1}
                       onClick={() => setCurrentPage(i + 1)}
-                      className={`w-8 h-8 md:w-9 md:h-9 flex items-center justify-center text-xs md:text-sm font-medium rounded-lg transition-all ${currentPage === i + 1
-                          ? "bg-secondary text-white shadow-sm shadow-secondary/30 cursor-pointer"
-                          : "text-gray-600 hover:bg-gray-50 hover:text-secondary cursor-pointer"
-                        }`}
+                      className={`w-8 h-8 md:w-9 md:h-9 flex items-center justify-center text-xs md:text-sm font-semibold rounded-lg transition-all ${
+                        currentPage === i + 1
+                          ? "bg-violet-600 text-white shadow-sm shadow-violet-600/20 cursor-pointer"
+                          : "text-gray-700 dark:text-gray-300 hover:bg-violet-50 dark:hover:bg-violet-950/30 hover:text-violet-600 dark:hover:text-violet-400 bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800 cursor-pointer"
+                      }`}
                     >
                       {i + 1}
                     </button>

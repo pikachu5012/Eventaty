@@ -340,10 +340,11 @@ export function VenueForm({
                       key={amenity.name}
                       type="button"
                       onClick={() => toggleAmenity(amenity)}
-                      className={`p-3 rounded-lg border-2 text-sm font-medium transition-all ${isSelected
-                        ? "border-eventaty-gold bg-eventaty-gold/10 text-eventaty-gold"
-                        : "border-gray-200 text-gray-600 hover:border-eventaty-gold/50"
-                        }`}
+                      className={`p-3 rounded-lg border-[1.5px] text-sm font-semibold transition-all cursor-pointer ${
+                        isSelected
+                          ? "border-violet-500 bg-violet-500/10 dark:bg-violet-950/20 text-violet-600 dark:text-violet-400"
+                          : "border-gray-200 dark:border-slate-800 text-gray-700 dark:text-gray-300 bg-white dark:bg-slate-900 hover:border-violet-500/50"
+                      }`}
                     >
                       {/* Try to map amenity name, fallback to English name if key not found */}
                       {t.has(`amenityNames.${amenity.icon}`) ? t(`amenityNames.${amenity.icon}`) : amenity.name}
@@ -550,7 +551,7 @@ export function VenueForm({
           <button
             type="button"
             onClick={() => onOpenChange(false)}
-            className="px-6 py-2.5 text-gray-600 hover:text-gray-800 font-medium transition-colors"
+            className="px-6 py-2.5 rounded-lg border border-gray-200 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-slate-800 hover:text-gray-900 dark:hover:text-white font-medium transition-colors cursor-pointer"
             disabled={loading}
           >
             {t('cancel')}
@@ -559,7 +560,7 @@ export function VenueForm({
             type="submit"
             form="venue-form"
             disabled={loading}
-            className="flex items-center gap-2 bg-eventaty-gold text-white px-6 py-2.5 rounded-xl font-semibold hover:bg-[#b8962c] transition-colors shadow-sm shadow-eventaty-gold/30 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+            className="flex items-center gap-2 bg-violet-600 text-white px-6 py-2.5 rounded-xl font-semibold hover:bg-violet-700 transition-colors shadow-sm shadow-violet-600/20 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
           >
             {loading ? t('saving') : venue ? t('update') : t('create')}
           </button>

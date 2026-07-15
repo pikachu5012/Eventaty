@@ -90,12 +90,21 @@ export default function Navbar() {
         {/* Logo */}
         <div className="md:w-1/6 w-1/2">
           <Link href="/" className="flex items-center">
+            {/* Desktop Logo */}
             <Image
               src={isDarkNavbar ? "/Property 1=Light.svg" : "/Property 1=Dark.svg"}
               alt="Logo"
               width={140}
               height={40}
-              className="transition-all duration-300"
+              className="hidden md:block transition-all duration-300"
+            />
+            {/* Mobile Logo */}
+            <Image
+              src="/Property 1=Light small.svg"
+              alt="Logo"
+              width={42}
+              height={40}
+              className="block md:hidden h-10 w-auto transition-all duration-300"
             />
           </Link>
         </div>
@@ -128,15 +137,22 @@ export default function Navbar() {
         </div>
         {/* Links */}
         <div
-          className={`${collapse ? "block" : "hidden"
-            } w-full md:flex md:w-5/6 px-4 flex flex-col md:flex-row md:justify-between`}
+          className={`${
+            collapse
+              ? "absolute top-full left-0 right-0 bg-white dark:bg-[#18181b] border-b border-gray-200 dark:border-slate-800 shadow-xl px-6 py-6 flex flex-col z-50 animate-in fade-in slide-in-from-top-5 duration-200"
+              : "hidden"
+          } w-full md:flex md:w-5/6 md:relative md:top-auto md:bg-transparent md:border-b-0 md:shadow-none md:p-0 md:flex-row md:justify-between md:z-auto`}
         >
           <div className="w-full md:w-4/6 flex lg:justify-center lg:ps-4">
-            <ul className="font-medium flex flex-col md:flex-row md:space-x-0 lg:space-x-4 mt-4 md:mt-0">
+            <ul className="font-medium flex flex-col w-full md:w-auto md:flex-row md:space-x-0 lg:space-x-4 mt-0 md:mt-0 gap-1 md:gap-0">
               <li>
                 <Link
                   href="/"
-                  className={`block py-2 px-3 transition ${getLinkClass("/")}`}
+                  className={`block py-2.5 px-3 rounded-lg md:rounded-none hover:bg-violet-50 dark:hover:bg-violet-950/20 md:hover:bg-transparent transition ${getLinkClass("/")}`}
+                  onClick={() => {
+                    setCollapse(false);
+                    setCollapsActive(false);
+                  }}
                 >
                   {t('home')}
                 </Link>
@@ -145,7 +161,11 @@ export default function Navbar() {
               <li>
                 <Link
                   href="/events"
-                  className={`block py-2 px-3 transition ${getLinkClass("/events")}`}
+                  className={`block py-2.5 px-3 rounded-lg md:rounded-none hover:bg-violet-50 dark:hover:bg-violet-950/20 md:hover:bg-transparent transition ${getLinkClass("/events")}`}
+                  onClick={() => {
+                    setCollapse(false);
+                    setCollapsActive(false);
+                  }}
                 >
                   {t('events')}
                 </Link>
@@ -154,7 +174,11 @@ export default function Navbar() {
               <li>
                 <Link
                   href="/venues"
-                  className={`block py-2 px-3 transition ${getLinkClass("/venues")}`}
+                  className={`block py-2.5 px-3 rounded-lg md:rounded-none hover:bg-violet-50 dark:hover:bg-violet-950/20 md:hover:bg-transparent transition ${getLinkClass("/venues")}`}
+                  onClick={() => {
+                    setCollapse(false);
+                    setCollapsActive(false);
+                  }}
                 >
                   {t('venues')}
                 </Link>
@@ -163,7 +187,11 @@ export default function Navbar() {
               <li>
                 <Link
                   href="/about"
-                  className={`block py-2 px-3 transition ${getLinkClass("/about")}`}
+                  className={`block py-2.5 px-3 rounded-lg md:rounded-none hover:bg-violet-50 dark:hover:bg-violet-950/20 md:hover:bg-transparent transition ${getLinkClass("/about")}`}
+                  onClick={() => {
+                    setCollapse(false);
+                    setCollapsActive(false);
+                  }}
                 >
                   {t('about')}
                 </Link>
@@ -171,14 +199,18 @@ export default function Navbar() {
               <li>
                 <Link
                   href="/contact"
-                  className={`block py-2 px-3 transition ${getLinkClass("/contact")}`}
+                  className={`block py-2.5 px-3 rounded-lg md:rounded-none hover:bg-violet-50 dark:hover:bg-violet-950/20 md:hover:bg-transparent transition ${getLinkClass("/contact")}`}
+                  onClick={() => {
+                    setCollapse(false);
+                    setCollapsActive(false);
+                  }}
                 >
                   {t('contact')}
                 </Link>
               </li>
             </ul>
           </div>
-          <div className="w-full md:w-2/6 flex items-center md:justify-end lg:gap-4 gap-2 mt-4 md:mt-0">
+          <div className="w-full md:w-2/6 flex items-center md:justify-end lg:gap-4 gap-2 mt-4 md:mt-0 px-3 md:px-0">
             <div className="items-center gap-3 hidden md:flex">
               <SettingsDropdown isScrolled={isDarkNavbar} />
               <UserDropdown isScrolled={isDarkNavbar} />

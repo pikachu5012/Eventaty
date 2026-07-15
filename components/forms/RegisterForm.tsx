@@ -45,17 +45,19 @@ export default function RegisterForm({
     }
   };
 
+  const isFormValid = firstName.trim() !== "" && lastName.trim() !== "" && email.trim() !== "" && phone.trim() !== "" && password.trim() !== "";
+
   return (
     <form onSubmit={handleSubmit} className="w-full max-w-sm mx-auto px-6">
-      <div className="my-2 py-1">
-        <label htmlFor="firstName" className="block">
+      <div className="my-1.5 md:my-2 py-0.5 md:py-1">
+        <label htmlFor="firstName" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
           {t('firstName')}
         </label>
-        <div className="relative py-2">
-          <User className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-secondary" />
+        <div className="relative py-1 md:py-2">
+          <User className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400 dark:text-gray-400" />
           <Input
             type="text"
-            className="text-sm text-primary border-secondary py-4 pl-12"
+            className="text-sm text-primary border-gray-200 dark:border-gray-750 focus:border-violet-500 focus:ring-violet-500 py-4 pl-12 bg-white dark:bg-slate-900"
             id="firstName"
             placeholder={t('firstNamePlaceholder')}
             required
@@ -64,15 +66,15 @@ export default function RegisterForm({
           />
         </div>
       </div>
-      <div className="my-2 py-1">
-        <label htmlFor="lastName" className="block">
+      <div className="my-1.5 md:my-2 py-0.5 md:py-1">
+        <label htmlFor="lastName" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
           {t('lastName')}
         </label>
-        <div className="relative py-2">
-          <User className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-secondary" />
+        <div className="relative py-1 md:py-2">
+          <User className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400 dark:text-gray-400" />
           <Input
             type="text"
-            className="text-sm text-primary border-secondary py-4 pl-12"
+            className="text-sm text-primary border-gray-200 dark:border-gray-750 focus:border-violet-500 focus:ring-violet-500 py-4 pl-12 bg-white dark:bg-slate-900"
             id="lastName"
             placeholder={t('lastNamePlaceholder')}
             required
@@ -81,15 +83,15 @@ export default function RegisterForm({
           />
         </div>
       </div>
-      <div className="my-2 py-1">
-        <label htmlFor="email" className="block">
+      <div className="my-1.5 md:my-2 py-0.5 md:py-1">
+        <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
           {t('email')}
         </label>
-        <div className="relative py-2">
-          <Mail className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-secondary" />
+        <div className="relative py-1 md:py-2">
+          <Mail className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400 dark:text-gray-400" />
           <Input
             type="email"
-            className="text-sm text-primary border-secondary py-4 pl-12"
+            className="text-sm text-primary border-gray-200 dark:border-gray-750 focus:border-violet-500 focus:ring-violet-500 py-4 pl-12 bg-white dark:bg-slate-900"
             id="email"
             placeholder={t('emailPlaceholder')}
             required
@@ -98,15 +100,15 @@ export default function RegisterForm({
           />
         </div>
       </div>
-      <div className="my-2 py-1">
-        <label htmlFor="phone" className="block">
+      <div className="my-1.5 md:my-2 py-0.5 md:py-1">
+        <label htmlFor="phone" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
           {t('phone')}
         </label>
-        <div className="relative py-2">
-          <Phone className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-secondary" />
+        <div className="relative py-1 md:py-2">
+          <Phone className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400 dark:text-gray-400" />
           <Input
-            type="number"
-            className="text-sm text-primary border-secondary py-4 pl-12"
+            type="text"
+            className="text-sm text-primary border-gray-200 dark:border-gray-750 focus:border-violet-500 focus:ring-violet-500 py-4 pl-12 bg-white dark:bg-slate-900"
             id="phone"
             placeholder={t('phonePlaceholder')}
             required
@@ -115,15 +117,15 @@ export default function RegisterForm({
           />
         </div>
       </div>
-      <div className="my-2 py-1">
-        <label htmlFor="password" className="block">
+      <div className="my-1.5 md:my-2 py-0.5 md:py-1">
+        <label htmlFor="password" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
           {t('password')}
         </label>
-        <div className="relative py-2">
-          <Lock className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-secondary" />
+        <div className="relative py-1 md:py-2">
+          <Lock className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400 dark:text-gray-400" />
           <Input
             type={showPassword ? "text" : "password"}
-            className="text-sm text-primary border-secondary py-4 pl-12 pr-10"
+            className="text-sm text-primary border-gray-200 dark:border-gray-750 focus:border-violet-500 focus:ring-violet-500 py-4 pl-12 pr-10 bg-white dark:bg-slate-900"
             id="password"
             placeholder={t('passwordPlaceholder')}
             required
@@ -133,30 +135,37 @@ export default function RegisterForm({
           <button
             type="button"
             onClick={() => setShowPassword(!showPassword)}
-            className="absolute right-4 top-1/2 -translate-y-1/2 text-secondary cursor-pointer"
+            className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 cursor-pointer"
           >
             {showPassword ? (
-              <EyeOff className="h-5 w-5 text-secondary" />
+              <EyeOff className="h-5 w-5" />
             ) : (
-              <Eye className="h-5 w-5 text-secondary" />
+              <Eye className="h-5 w-5" />
             )}
           </button>
         </div>
       </div>
-      {error && <p className="text-center text-red-500 py-5">{error}</p>}
+      {error && <p className="text-center text-red-500 text-sm mt-2">{error}</p>}
       {registered && (
-        <p className="text-center text-green-500">{t('registerSuccess')}</p>
+        <p className="text-center text-green-500 text-sm mt-2">{t('registerSuccess')}</p>
       )}
-      <p className="text-sm text-muted-foreground p-4 bg-[#F7F3E9] rounded-md">
-        {t('terms')}
-      </p>
-      <Button
+      <div className="mt-2 md:mt-3 p-3 md:p-4 bg-gray-50 dark:bg-slate-900 border border-gray-100 dark:border-slate-800 rounded-md">
+        <p className="text-[11px] text-gray-500 dark:text-gray-400 leading-normal">
+          {t('terms')}
+        </p>
+      </div>
+      <button
         type="submit"
-        variant="secondary"
-        className="w-full mt-8 cursor-pointer"
+        disabled={!isFormValid}
+        className={`w-full mt-4 md:mt-6 py-3 rounded-lg font-bold text-white transition-all text-sm
+          ${isFormValid
+            ? "bg-[#7C3AED] hover:bg-[#6D28D9] cursor-pointer shadow-md hover:shadow-lg active:scale-[0.98]"
+            : "bg-[#7C3AED]/35 text-white/50 cursor-not-allowed shadow-none"
+          }
+        `}
       >
         {t('createAccount')}
-      </Button>
+      </button>
     </form>
   );
 }

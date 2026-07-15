@@ -129,41 +129,32 @@ export default function AdminDashboard() {
             maximumFractionDigits: 2,
           })} EGP`}
           icon={DollarSign}
-          iconColor="text-eventaty-gold"
         />
         <MetricCard
           title={t('totalEvents')}
           value={events.length.toString()}
           icon={Calendar}
-          iconColor="text-blue-600"
-          iconBg="bg-blue-100"
         />
         <MetricCard
           title={t('totalBookings')}
           value={totalBookings.toString()}
           icon={Users}
-          iconColor="text-purple-600"
-          iconBg="bg-purple-100"
         />
         <MetricCard
           title={t('totalCategories')}
           value={categories.length.toString()}
           icon={ChartNoAxesGantt}
-          iconColor="text-purple-600"
-          iconBg="bg-purple-100"
         />
         <MetricCard
           title={t('totalVenues')}
           value={venues.length.toString()}
           icon={Spotlight}
-          iconColor="text-purple-600"
-          iconBg="bg-purple-100"
         />
       </div>
 
       {/* Management Tabs */}
       <Tabs defaultValue="events" className="max-w-7xl mx-auto">
-        <div className="bg-card rounded-3xl shadow-sm border border-eventaty-gold/50 overflow-hidden">
+        <div className="bg-card rounded-3xl shadow-sm border border-gray-200 dark:border-slate-800 overflow-hidden">
           <div className="p-6 md:p-8">
             <TabsList className="w-full md:w-auto mb-6">
               <TabsTrigger

@@ -195,7 +195,7 @@ export default function EventManagement() {
           </div>
           <button
             onClick={handleCreateEvent}
-            className="flex items-center gap-2 bg-eventaty-gold text-white px-5 py-2.5 rounded-xl font-semibold hover:bg-[#b8962c] transition-colors shadow-sm shadow-eventaty-gold/30 cursor-pointer"
+            className="flex items-center gap-2 bg-violet-600 text-white px-5 py-2.5 rounded-xl font-semibold hover:bg-violet-700 transition-colors shadow-sm shadow-violet-600/20 cursor-pointer"
           >
             <Plus className="h-5 w-5" />
             <span className="hidden sm:inline">{t('addEvent')}</span>
@@ -233,7 +233,7 @@ export default function EventManagement() {
                       {getCategoryName(event)}
                     </p>
                   </div>
-                  <span className="text-sm font-bold text-secondary">
+                  <span className="text-sm font-bold text-violet-600 dark:text-violet-400">
                     {event.price} EGP
                   </span>
                 </div>
@@ -268,7 +268,7 @@ export default function EventManagement() {
                     </Link>
                     <button
                       onClick={() => handleEditEvent(event)}
-                      className="p-1.5 text-gray-400 hover:text-secondary bg-gray-50 rounded-lg"
+                      className="p-1.5 text-gray-400 hover:text-violet-600 dark:hover:text-violet-400 bg-gray-50 dark:bg-slate-800 rounded-lg"
                     >
                       <Pencil className="h-4 w-4" />
                     </button>
@@ -330,8 +330,17 @@ export default function EventManagement() {
                           <div className="font-semibold text-primary">
                             {event.title}
                           </div>
+                          <span className={`inline-block mt-1 text-[10px] font-bold px-2 py-0.5 rounded-full border uppercase ${
+                            (event.status || "published") === "published"
+                              ? "bg-emerald-100 dark:bg-emerald-950/30 text-emerald-800 dark:text-emerald-400 border-emerald-250 dark:border-emerald-800/30"
+                              : (event.status || "published") === "draft"
+                              ? "bg-amber-100 dark:bg-amber-950/30 text-amber-800 dark:text-amber-400 border-amber-250 dark:border-amber-800/30"
+                              : "bg-rose-100 dark:bg-rose-950/30 text-rose-800 dark:text-rose-400 border-rose-250 dark:border-rose-800/30"
+                          }`}>
+                            {(event.status || "published") === "published" ? "Active" : event.status}
+                          </span>
                           {event.featured && (
-                            <span className="inline-block mt-1 bg-light-green text-chart-2 text-[10px] font-bold px-2 py-0.5 rounded-full border uppercase">
+                            <span className="inline-block mt-1 bg-amber-100 dark:bg-amber-950/30 text-amber-800 dark:text-amber-400 border border-amber-200 dark:border-amber-800/30 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase ml-1.5">
                               {t('featured')}
                             </span>
                           )}
@@ -360,7 +369,7 @@ export default function EventManagement() {
                         </div>
                       </td>
                       <td className="py-5 ">
-                        <span className="text-sm font-bold text-secondary">
+                        <span className="text-sm font-bold text-violet-600 dark:text-violet-400">
                           {event.price} EGP
                         </span>
                       </td>
@@ -377,7 +386,7 @@ export default function EventManagement() {
                           </Link>
                           <button
                             onClick={() => handleEditEvent(event)}
-                            className="p-2 text-gray-400 hover:text-secondary hover:bg-[#fdfaf3] rounded-full transition-colors"
+                            className="p-2 text-gray-400 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-violet-50 dark:hover:bg-violet-950/30 rounded-full transition-colors"
                           >
                             <Pencil className="h-4 w-4" />
                           </button>
@@ -436,10 +445,11 @@ export default function EventManagement() {
                     <button
                       key={i + 1}
                       onClick={() => setCurrentPage(i + 1)}
-                      className={`w-8 h-8 md:w-9 md:h-9 flex items-center justify-center text-xs md:text-sm font-medium rounded-lg transition-all ${currentPage === i + 1
-                          ? "bg-secondary text-white shadow-sm shadow-secondary/30 cursor-pointer"
-                          : "text-gray-600 hover:bg-gray-50 hover:text-secondary cursor-pointer"
-                        }`}
+                      className={`w-8 h-8 md:w-9 md:h-9 flex items-center justify-center text-xs md:text-sm font-semibold rounded-lg transition-all ${
+                        currentPage === i + 1
+                          ? "bg-violet-600 text-white shadow-sm shadow-violet-600/20 cursor-pointer"
+                          : "text-gray-700 dark:text-gray-300 hover:bg-violet-50 dark:hover:bg-violet-950/30 hover:text-violet-600 dark:hover:text-violet-400 bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800 cursor-pointer"
+                      }`}
                     >
                       {i + 1}
                     </button>

@@ -14,10 +14,10 @@ const MetricCard = ({
   title,
   value,
   trend,
-  iconBg = "bg-secondary/20",
-  iconColor = "text-secondary",
+  iconBg = "bg-violet-500/10 dark:bg-violet-950/20",
+  iconColor = "text-violet-600 dark:text-violet-400",
 }: MetricCardProps) => (
-  <div className="bg-card p-6 rounded-2xl shadow-sm border border-eventaty-gold/50 flex flex-col gap-4 relative overflow-hidden group hover:shadow-md transition-shadow">
+  <div className="bg-card p-6 rounded-2xl shadow-sm border border-gray-200 dark:border-slate-800 flex flex-col gap-4 relative overflow-hidden group hover:shadow-md transition-shadow">
     <div className="flex justify-between items-start">
       <div className={`${iconBg} ${iconColor} p-3 rounded-xl`}>
         <Icon className="h-6 w-6" />

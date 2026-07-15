@@ -262,7 +262,7 @@ export function EventForm({
         data-lenis-prevent
       >
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 bg-navFooter text-white shrink-0 sticky top-0 z-20">
+        <div className="flex items-center justify-between px-6 py-4 bg-navFooter text-white shrink-0 sticky top-0 z-20 relative">
           <div className="flex items-center gap-3">
             <div className="p-2 bg-white/10 rounded-lg">
               <Edit className="h-5 w-5 text-eventaty-gold" />
@@ -730,7 +730,7 @@ export function EventForm({
             type="button"
             variant="outline"
             onClick={() => onOpenChange(false)}
-            className="h-11 px-6 rounded-lg border-gray-200 text-primary/70 hover:text-gray-900 hover:bg-gray-50 hover:border-gray-300 cursor-pointer"
+            className="h-11 px-6 rounded-lg border border-gray-200 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-slate-800 hover:text-gray-900 dark:hover:text-white cursor-pointer"
           >
             {t('cancel')}
           </Button>
@@ -738,7 +738,7 @@ export function EventForm({
             type="submit"
             form="event-form"
             disabled={loading}
-            className="h-11 px-8 rounded-lg bg-eventaty-gold text-white hover:bg-[#b8962c] shadow-lg shadow-eventaty-gold/20 cursor-pointer"
+            className="h-11 px-8 rounded-lg bg-violet-600 text-white hover:bg-violet-700 shadow-lg shadow-violet-600/20 cursor-pointer"
           >
             {loading ? t('saving') : t('save')}
           </Button>

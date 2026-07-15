@@ -27,8 +27,8 @@ export default async function Footer() {
     "science",
   ];
   return (
-    <footer className="relative bg-navFooter pt-20 pb-52 overflow-hidden border-t border-slate-900">
-      <div className="max-w-[1440px] mx-auto px-4 md:px-0 grid grid-cols-2 sm:grid-cols-5 gap-8 mb-16 relative z-10">
+    <footer className="relative bg-navFooter pt-20 pb-64 overflow-hidden border-t border-slate-900">
+      <div className="max-w-[1440px] mx-auto px-4 md:px-0 grid grid-cols-2 sm:grid-cols-5 gap-8 mb-32 relative z-10">
         {/* Column 1: Logo & copyright */}
         <div className="space-y-4 col-span-2 sm:col-span-1">
           <Image
@@ -152,8 +152,8 @@ export default async function Footer() {
       </div>
 
       {/* Massive watermark background text */}
-      <div className="select-none pointer-events-none absolute bottom-[-20px] left-0 right-0 w-full text-center overflow-hidden z-0 px-[clamp(1rem,4vw,3rem)]">
-        <h1 className="text-[clamp(3rem,10vw,9rem)] font-black uppercase tracking-widest leading-none font-sans bg-clip-text text-transparent bg-linear-to-b from-[#7C3AED] to-transparent opacity-10 whitespace-nowrap">
+      <div className="select-none pointer-events-none absolute bottom-[-15px] left-0 right-0 w-full text-center overflow-hidden z-0">
+        <h1 className="text-[17vw] font-black uppercase tracking-normal leading-none font-sans bg-clip-text text-transparent bg-linear-to-b from-[#7C3AED] to-transparent opacity-15 whitespace-nowrap">
           Eventaty
         </h1>
       </div>

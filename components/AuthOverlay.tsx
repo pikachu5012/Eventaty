@@ -76,10 +76,11 @@ export function AuthOverlay({
         </DialogTrigger>
       )}
       <DialogContent
-        className="p-0 border-0 overflow-y-auto max-h-[90vh] flex flex-col custom-scrollbar"
+        className="p-0 border-0 overflow-hidden max-h-[90vh] flex flex-col"
         data-lenis-prevent
+        showCloseButton={false}
       >
-        <DialogHeader className="flex justify-center items-center bg-navFooter py-5 px-5 text-white shrink-0 sticky top-0 z-20">
+        <DialogHeader className="flex justify-center items-center bg-navFooter py-5 px-5 text-white shrink-0 relative">
           <DialogTitle className="text-2xl pt-8">
             {regester ? t('registerTitle') : t('loginTitle')}
           </DialogTitle>
@@ -89,38 +90,39 @@ export function AuthOverlay({
               : t('loginDesc')}
           </DialogDescription>
           <button
+            type="button"
             onClick={() => {
               setInternalOpen(false);
               handleOpenChange?.(false);
             }}
-            className="text-eventaty-gold hover:text-eventaty-gold/80 transition-colors p-1 cursor-pointer absolute top-2 right-2"
+            className="text-white/80 hover:text-white transition-colors p-2.5 cursor-pointer absolute top-2 right-2 z-30 rounded-full hover:bg-white/10 active:bg-white/20"
           >
             <X className="h-5 w-5" />
           </button>
         </DialogHeader>
-        <div className="flex-1">
+        <div className="flex-1 overflow-y-auto py-4 min-h-0 custom-scrollbar">
           {regester ? (
             <RegisterForm onSuccess={() => setRegester(false)} />
           ) : (
             <LoginForm />
           )}
         </div>
-        <DialogFooter className="p-4 shrink-0 sticky bottom-0 bg-card z-20 border-t border-gray-100">
+        <DialogFooter className="p-4 shrink-0 bg-card border-t border-gray-100 dark:border-slate-800">
           {regester ? (
-            <div className="mx-auto flex gap-3">
-              <span>{t('alreadyAccount')}</span>
+            <div className="mx-auto flex gap-3 text-sm">
+              <span className="text-gray-600 dark:text-gray-400">{t('alreadyAccount')}</span>
               <span
-                className="text-secondary cursor-pointer hover:underline"
+                className="text-violet-600 dark:text-violet-400 font-semibold cursor-pointer hover:underline"
                 onClick={() => setRegester(false)}
               >
                 {t('loginBtn')}
               </span>
             </div>
           ) : (
-            <div className="mx-auto flex gap-3">
-              <span>{t('noAccount')}</span>
+            <div className="mx-auto flex gap-3 text-sm">
+              <span className="text-gray-600 dark:text-gray-400">{t('noAccount')}</span>
               <span
-                className="text-secondary cursor-pointer hover:underline"
+                className="text-violet-600 dark:text-violet-400 font-semibold cursor-pointer hover:underline"
                 onClick={() => setRegester(true)}
               >
                 {t('registerBtn')}

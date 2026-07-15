@@ -10,11 +10,14 @@ import axios from "axios";
 import { IBooking } from "@/types/booking";
 import { useTranslations } from "next-intl";
 
+import { motion, AnimatePresence } from "framer-motion";
+
 export default function UserDashboard() {
   const t = useTranslations('Dashboard.User');
   const [isEditing, setIsEditing] = useState(false);
   const { user, token } = useAuth();
   const [myBookings, setMyBookings] = useState<IBooking[]>([]);
+  const [activeTab, setActiveTab] = useState("Upcoming");
 
   const fetchMyBookings = async () => {
     try {
@@ -62,7 +65,7 @@ export default function UserDashboard() {
               </Button>
             )}
           </div>
-          <div className="bg-secondary rounded-full w-32 h-32 mx-auto mb-3 overflow-hidden">
+          <div className="bg-violet-100 dark:bg-violet-900/30 rounded-full w-32 h-32 mx-auto mb-3 overflow-hidden">
             <User className="w-full h-full object-cover p-5" />
           </div>
           <div className="text-center mb-5">
@@ -76,21 +79,21 @@ export default function UserDashboard() {
           ) : (
             <div className="bg-background p-4 rounded-lg space-y-4">
               <div className="flex gap-2">
-                <Mail className="w-4 h-4 text-secondary mt-1" />
+                <Mail className="w-4 h-4 text-violet-500 dark:text-violet-400 mt-1" />
                 <div>
                   <p className="text-muted-foreground text-sm">{t('email')}</p>
                   <p>{user?.email}</p>
                 </div>
               </div>
               <div className="flex gap-2">
-                <Phone className="w-4 h-4 text-secondary mt-1" />
+                <Phone className="w-4 h-4 text-violet-500 dark:text-violet-400 mt-1" />
                 <div>
                   <p className="text-muted-foreground text-sm">{t('phone')}</p>
                   <p>{user?.phone || t('notProvided')}</p>
                 </div>
               </div>
               <div className="flex gap-2">
-                <User className="w-4 h-4 text-secondary mt-1" />
+                <User className="w-4 h-4 text-violet-500 dark:text-violet-400 mt-1" />
                 <div>
                   <p className="text-muted-foreground text-sm">{t('accountType')}</p>
                   <p>{user?.role}</p>
@@ -99,69 +102,103 @@ export default function UserDashboard() {
             </div>
           )}
           <div className="flex justify-around text-center p-5 my-5">
-            <p className="text-muted-foreground">
-              <span className="block text-secondary text-3xl">
+            <p className="text-gray-500 dark:text-gray-400 text-sm">
+              <span className="block text-violet-600 dark:text-violet-400 text-3xl font-bold">
                 {upcomingBookings.length}
               </span>
               {t('upcoming')}
             </p>
-            <p className="text-muted-foreground">
-              <span className="block text-3xl">{pastBookings.length}</span>{t('past')}
+            <p className="text-gray-500 dark:text-gray-400 text-sm">
+              <span className="block text-violet-600 dark:text-violet-400 text-3xl font-bold">{pastBookings.length}</span>
+              {t('past')}
             </p>
           </div>
         </div>
         <div className="w-full lg:w-3/4 p-5">
-          <Tabs defaultValue="Upcoming" className="w-full">
-            <TabsList className="w-full rounded-b-none border-b-0 overflow-hidden p-0 bg-background">
+          <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+            <TabsList className="w-full rounded-b-none border-b border-gray-200 dark:border-slate-800 overflow-hidden p-0 bg-background flex">
               <TabsTrigger
                 value="Upcoming"
-                className="text-muted-foreground data-[state=active]:text-secondary/80 border-0 data-[state=active]:rounded-none data-[state=active]:border-b-2 data-[state=active]:border-secondary bg-foreground/10 data-[state=active]:shadow-none"
+                className="flex-1 text-center py-3 relative text-muted-foreground data-[state=active]:text-violet-600 dark:data-[state=active]:text-violet-400 border-0 data-[state=active]:rounded-none bg-foreground/10 data-[state=active]:bg-transparent data-[state=active]:shadow-none cursor-pointer transition-colors"
               >
-                {t('upcomingEvents')} ({upcomingBookings.length})
+                <span className="relative z-10 font-medium">
+                  {t('upcomingEvents')} ({upcomingBookings.length})
+                </span>
+                {activeTab === "Upcoming" && (
+                  <motion.div
+                    layoutId="activeTabUnderline"
+                    className="absolute bottom-0 left-0 right-0 h-[2px] bg-violet-500"
+                    transition={{ type: "spring", stiffness: 350, damping: 30 }}
+                  />
+                )}
               </TabsTrigger>
               <TabsTrigger
                 value="Past"
-                className="text-muted-foreground data-[state=active]:text-secondary/80 border-0 data-[state=active]:rounded-none data-[state=active]:border-b-2 data-[state=active]:border-secondary bg-foreground/10 data-[state=active]:shadow-none"
+                className="flex-1 text-center py-3 relative text-muted-foreground data-[state=active]:text-violet-600 dark:data-[state=active]:text-violet-400 border-0 data-[state=active]:rounded-none bg-foreground/10 data-[state=active]:bg-transparent data-[state=active]:shadow-none cursor-pointer transition-colors"
               >
-                {t('pastEvents')} ({pastBookings.length})
+                <span className="relative z-10 font-medium">
+                  {t('pastEvents')} ({pastBookings.length})
+                </span>
+                {activeTab === "Past" && (
+                  <motion.div
+                    layoutId="activeTabUnderline"
+                    className="absolute bottom-0 left-0 right-0 h-[2px] bg-violet-500"
+                    transition={{ type: "spring", stiffness: 350, damping: 30 }}
+                  />
+                )}
               </TabsTrigger>
             </TabsList>
-            <TabsContent value="Upcoming">
-              {upcomingBookings.length > 0 ? (
-                upcomingBookings.map((booking: IBooking) => (
-                  <ProfileCard
-                    key={booking._id}
-                    data={booking}
-                    isPast={false}
-                    onAction={fetchMyBookings}
-                  />
-                ))
-              ) : (
-                <div className="p-5 m-5 rounded-lg shadow-lg bg-eventaty-cream">
-                  <p className="text-center text-lg font-semibold text-eventaty-gold my-10 ">
-                    {t('noUpcoming')}
-                  </p>
-                </div>
-              )}
-            </TabsContent>
-            <TabsContent value="Past">
-              {pastBookings.length > 0 ? (
-                pastBookings.map((booking: IBooking) => (
-                  <ProfileCard
-                    key={booking._id}
-                    data={booking}
-                    isPast={true}
-                    onAction={fetchMyBookings}
-                  />
-                ))
-              ) : (
-                <div className="p-5 m-5 rounded-lg shadow-lg bg-eventaty-cream">
-                  <p className="text-center text-lg font-semibold text-eventaty-gold my-10 ">
-                    {t('noPast')}
-                  </p>
-                </div>
-              )}
-            </TabsContent>
+            <div className="mt-4 overflow-hidden">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={activeTab}
+                  initial={{ opacity: 0, y: 15 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -15 }}
+                  transition={{ duration: 0.22, ease: "easeInOut" }}
+                >
+                  {activeTab === "Upcoming" ? (
+                    <div>
+                      {upcomingBookings.length > 0 ? (
+                        upcomingBookings.map((booking: IBooking) => (
+                          <ProfileCard
+                            key={booking._id}
+                            data={booking}
+                            isPast={false}
+                            onAction={fetchMyBookings}
+                          />
+                        ))
+                      ) : (
+                        <div className="p-5 m-5 rounded-lg shadow-lg bg-gray-50 dark:bg-slate-900 border border-gray-200 dark:border-slate-800">
+                          <p className="text-center text-lg font-semibold text-gray-500 dark:text-gray-400 my-10">
+                            {t('noUpcoming')}
+                          </p>
+                        </div>
+                      )}
+                    </div>
+                  ) : (
+                    <div>
+                      {pastBookings.length > 0 ? (
+                        pastBookings.map((booking: IBooking) => (
+                          <ProfileCard
+                            key={booking._id}
+                            data={booking}
+                            isPast={true}
+                            onAction={fetchMyBookings}
+                          />
+                        ))
+                      ) : (
+                        <div className="p-5 m-5 rounded-lg shadow-lg bg-gray-50 dark:bg-slate-900 border border-gray-200 dark:border-slate-800">
+                          <p className="text-center text-lg font-semibold text-gray-500 dark:text-gray-400 my-10">
+                            {t('noPast')}
+                          </p>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </motion.div>
+              </AnimatePresence>
+            </div>
           </Tabs>
         </div>
       </div>
