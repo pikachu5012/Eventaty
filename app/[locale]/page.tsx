@@ -9,6 +9,7 @@ export default function Home() {
     return (
         <div className="bg-background">
             <HomeSlider />
+            <div id="hero-sentinel" className="w-full h-px pointer-events-none" />
             <UpComingEvents />
             <BrowseByCategory />
             <HomeVenues />

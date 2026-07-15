@@ -1,23 +1,21 @@
 import React from 'react';
-import Image, { StaticImageData } from "next/image";
 
 interface AboutCardProps {
-  icon: string | StaticImageData;
-  width?: number;
-  height?: number;
+  icon: React.ReactNode;
   title: string;
   description: string;
-  alt?: string;
   allign?: string;
   backgroundColor?: string;
 }
 
-export default function AboutCard({ icon, width, height, title, description, alt, allign, backgroundColor,}: AboutCardProps) {
+export default function AboutCard({ icon, title, description, allign, backgroundColor }: AboutCardProps) {
   return (
-    <div style={{ backgroundColor }} className={`py-8 px-6 rounded-2xl flex flex-col items-${allign} gap-y-4 h-full rounded-xl`}>
-      <Image src={icon} alt={alt || title} width={width} height={height} />
-      <h2 className={`text-base font-bold text-black`+ allign==='center' ? 'text-center' : allign==='end' ? 'text-end' : 'text-left'}>{title}</h2>
-      <p className={`text-primary text-md font-extralight ${allign==='center' ? 'text-center' : allign==='end' ? 'text-end' : 'text-left'}`}>
+    <div style={{ backgroundColor }} className={`py-8 px-6 flex flex-col items-${allign === 'center' ? 'center' : 'start'} gap-y-4 h-full rounded-xl bg-card border border-slate-200 dark:border-slate-800`}>
+      <div className="w-12 h-12 rounded-full flex items-center justify-center bg-violet-100 dark:bg-violet-950/40 text-violet-600 dark:text-violet-400 shrink-0">
+        {icon}
+      </div>
+      <h2 className={`text-base font-bold text-primary ${allign === 'center' ? 'text-center' : 'text-left'}`}>{title}</h2>
+      <p className={`text-muted-foreground text-sm leading-relaxed font-light ${allign === 'center' ? 'text-center' : 'text-left'}`}>
         {description}
       </p>
     </div>

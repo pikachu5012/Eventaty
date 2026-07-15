@@ -21,14 +21,18 @@ export function AuthOverlay({
   open,
   onOpenChange,
   noTrigger,
+  defaultRegister = false,
+  triggerLabel,
 }: {
   isNav?: boolean;
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
   noTrigger?: boolean;
+  defaultRegister?: boolean;
+  triggerLabel?: string;
 }) {
   const t = useTranslations('Auth');
-  const [regester, setRegester] = useState(false);
+  const [regester, setRegester] = useState(defaultRegister);
   const [internalOpen, setInternalOpen] = useState(false);
   const { user } = useAuth();
 
@@ -44,9 +48,9 @@ export function AuthOverlay({
 
   useEffect(() => {
     if (finalOpen) {
-      setRegester(false);
+      setRegester(defaultRegister);
     }
-  }, [finalOpen]);
+  }, [finalOpen, defaultRegister]);
 
   if (user && !noTrigger) return null;
 
@@ -62,11 +66,11 @@ export function AuthOverlay({
           hover:bg-yellow-500 transition shadow-md whitespace-nowrap"
             >
               <LogIn size={16} />
-              {t('loginBtn')}
+              {triggerLabel || t('loginBtn')}
             </Link>
           ) : (
             <Link href="" className="hover:underline hover:text-secondary">
-              {t('loginBtn')}
+              {triggerLabel || t('loginBtn')}
             </Link>
           )}
         </DialogTrigger>

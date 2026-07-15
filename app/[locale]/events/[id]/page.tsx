@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Calendar, Clock, MapPin, Users, Tag, ArrowRight } from "lucide-react";
 import TicketsSection from "@/components/sections/TicketsSection";
+import DarkVeil from "@/components/DarkVeil/DarkVeil";
 import axios from "axios";
 import { IEvent } from "@/types/event";
 import {
@@ -14,13 +15,14 @@ import {
 } from "@/lib/eventUtils";
 import { mockEvents } from "@/lib/mockData";
 import { getTranslations } from "next-intl/server";
+import { tStr } from "@/lib/translateHelper";
 
 export default async function EventDetailsPage({
   params,
 }: {
-  params: Promise<{ id: string }>;
+  params: Promise<{ id: string; locale: string }>;
 }) {
-  const { id } = await params;
+  const { id, locale } = await params;
   const t = await getTranslations('EventDetails');
 
   // Fetch event data directly from mock data
@@ -31,11 +33,16 @@ export default async function EventDetailsPage({
   }
 
   // Get venue information using utility functions
-  const venueName = getVenueName(event);
-  const venueAddress = getVenueAddress(event);
-  const venueCity = getVenueCity(event);
+  const rawVenueName = getVenueName(event);
+  const rawVenueAddress = getVenueAddress(event);
+  const rawVenueCity = getVenueCity(event);
   const venue = getVenue(event);
-  const categoryName = getCategoryName(event);
+  const rawCategoryName = getCategoryName(event);
+
+  const venueName = tStr(rawVenueName, locale);
+  const venueAddress = tStr(rawVenueAddress, locale);
+  const venueCity = tStr(rawVenueCity, locale);
+  const categoryName = tStr(rawCategoryName, locale);
 
   // Format date and time if they match standard Date format, otherwise keep as string
   let formattedDate = event.startDateTime;
@@ -74,91 +81,96 @@ export default async function EventDetailsPage({
             backgroundImage: `url(${event.images?.[0] || "/ekko.png"})`,
           }}
         />
-        <div className="absolute inset-0 bg-linear-to-t from-background via-gray-900/40 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent" />
       </div>
 
       <div className="container mx-auto px-4 -mt-32 relative z-10">
         {/* Section 1: Event Details */}
-        <div className="bg-card rounded-2xl shadow-xl p-8 mb-12 border border-gray-100/10 dark:bg-navy-background">
-          <div className="flex flex-wrap items-center gap-3 mb-6">
-            <span className="px-5 py-2 rounded-full bg-background text-secondary border border-secondary/20 font-medium text-sm">
-              {categoryName}
-            </span>
-            {event.featured && (
-              <span className="px-5 py-2 rounded-full bg-primary text-background font-medium text-sm flex items-center gap-2">
-                <div className="w-1.5 h-1.5 rounded-full bg-secondary" />
-                {t('featured')}
+        <div className="bg-card rounded-2xl shadow-xl p-8 mb-12 border border-gray-100/10 dark:bg-navy-background relative overflow-hidden">
+          <div className="hidden dark:block absolute inset-0 z-0 pointer-events-none opacity-20">
+            <DarkVeil speed={0.15} hueShift={315} />
+          </div>
+          <div className="relative z-10">
+            <div className="flex flex-wrap items-center gap-3 mb-6">
+              <span className="px-5 py-2 rounded-full bg-violet-100 dark:bg-violet-950/50 text-violet-700 dark:text-violet-300 border border-violet-200/50 dark:border-violet-800/30 font-medium text-sm">
+                {categoryName}
               </span>
-            )}
-          </div>
+              {event.featured && (
+                <span className="px-5 py-2 rounded-full bg-primary text-background font-medium text-sm flex items-center gap-2">
+                  <div className="w-1.5 h-1.5 rounded-full bg-secondary" />
+                  {t('featured')}
+                </span>
+              )}
+            </div>
 
-          <h1 className="text-4xl md:text-5xl font-bold text-primary mb-10 tracking-tight">
-            {event.title}
-          </h1>
+            <h1 className="text-4xl md:text-5xl font-bold text-primary mb-10 tracking-tight">
+              {tStr(event.title, locale)}
+            </h1>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-x-12 gap-y-8 mb-12">
-            <div className="flex items-start gap-4">
-              <div className="w-12 h-12 rounded-xl bg-background flex items-center justify-center text-secondary shrink-0 border border-secondary/10">
-                <Calendar size={24} strokeWidth={1.5} />
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-x-12 gap-y-8 mb-12">
+              <div className="flex items-start gap-4">
+                <div className="w-12 h-12 rounded-xl bg-violet-50 dark:bg-violet-950/30 flex items-center justify-center text-[#7C3AED] dark:text-violet-400 shrink-0 border border-violet-100 dark:border-violet-900/30">
+                  <Calendar size={24} strokeWidth={1.5} />
+                </div>
+                <div>
+                  <p className="text-sm text-gray-400 mb-0.5 font-medium">{t('date')}</p>
+                  <p className="text-primary font-medium text-lg">
+                    {formattedDate}
+                  </p>
+                </div>
               </div>
-              <div>
-                <p className="text-sm text-gray-400 mb-0.5 font-medium">{t('date')}</p>
-                <p className="text-primary font-medium text-lg">
-                  {formattedDate}
-                </p>
+
+              <div className="flex items-start gap-4">
+                <div className="w-12 h-12 rounded-xl bg-violet-50 dark:bg-violet-950/30 flex items-center justify-center text-[#7C3AED] dark:text-violet-400 shrink-0 border border-violet-100 dark:border-violet-900/30">
+                  <Clock size={24} strokeWidth={1.5} />
+                </div>
+                <div>
+                  <p className="text-sm text-gray-400 mb-0.5 font-medium">{t('time')}</p>
+                  <p className="text-primary font-medium text-lg">
+                    {formattedTime}
+                  </p>
+                </div>
+              </div>
+
+              {/* Venue */}
+              <div className="flex items-start gap-4">
+                <div className="w-12 h-12 rounded-xl bg-violet-50 dark:bg-violet-950/30 flex items-center justify-center text-[#7C3AED] dark:text-violet-400 shrink-0 border border-violet-100 dark:border-violet-900/30">
+                  <MapPin size={24} strokeWidth={1.5} />
+                </div>
+                <div>
+                  <p className="text-sm text-gray-400 mb-0.5 font-medium">
+                    {t('venue')}
+                  </p>
+                  <p className="text-primary font-medium text-lg">
+                    {venueName}, {venueCity}
+                  </p>
+                </div>
+              </div>
+
+              {/* Availability */}
+              <div className="flex items-start gap-4">
+                <div className="w-12 h-12 rounded-xl bg-violet-50 dark:bg-violet-950/30 flex items-center justify-center text-[#7C3AED] dark:text-violet-400 shrink-0 border border-violet-100 dark:border-violet-900/30">
+                  <Users size={24} strokeWidth={1.5} />
+                </div>
+                <div>
+                  <p className="text-sm text-gray-400 mb-0.5 font-medium">
+                    {t('availability')}
+                  </p>
+                  <p className="text-primary font-medium text-lg">
+                    {t('ticketsAvailable', { count: event.availableSeats })}
+                  </p>
+                </div>
               </div>
             </div>
 
-            <div className="flex items-start gap-4">
-              <div className="w-12 h-12 rounded-xl bg-background flex items-center justify-center text-secondary shrink-0 border border-secondary/10">
-                <Clock size={24} strokeWidth={1.5} />
-              </div>
-              <div>
-                <p className="text-sm text-gray-400 mb-0.5 font-medium">{t('time')}</p>
-                <p className="text-primary font-medium text-lg">
-                  {formattedTime}
-                </p>
-              </div>
+            <div className="border-t border-gray-100 dark:border-gray-800 pt-10">
+              <h3 className="text-2xl font-bold text-primary mb-4">
+                {t('aboutEvent')}
+              </h3>
+              <p className="text-muted-foreground leading-relaxed text-lg mb-8 max-w-4xl">
+                {tStr(event.description, locale) || t('noDescription')}
+              </p>
             </div>
-
-            {/* Venue */}
-            <div className="flex items-start gap-4">
-              <div className="w-12 h-12 rounded-xl bg-background flex items-center justify-center text-secondary shrink-0 border border-secondary/10">
-                <MapPin size={24} strokeWidth={1.5} />
-              </div>
-              <div>
-                <p className="text-sm text-gray-400 mb-0.5 font-medium">
-                  {t('venue')}
-                </p>
-                <p className="text-primary font-medium text-lg">
-                  {venueName}, {venueCity}
-                </p>
-              </div>
-            </div>
-
-            {/* Availability */}
-            <div className="flex items-start gap-4">
-              <div className="w-12 h-12 rounded-xl bg-background flex items-center justify-center text-secondary shrink-0 border border-secondary/10">
-                <Users size={24} strokeWidth={1.5} />
-              </div>
-              <div>
-                <p className="text-sm text-gray-400 mb-0.5 font-medium">
-                  {t('availability')}
-                </p>
-                <p className="text-primary font-medium text-lg">
-                  {t('ticketsAvailable', { count: event.availableSeats })}
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <div className="border-t border-gray-100 pt-10">
-            <h3 className="text-2xl font-bold text-primary mb-4">
-              {t('aboutEvent')}
-            </h3>
-            <p className="text-gray-500 leading-relaxed text-lg mb-8 max-w-4xl">
-              {event.description || t('noDescription')}
-            </p>
           </div>
         </div>
 
@@ -170,8 +182,11 @@ export default async function EventDetailsPage({
         />
 
         {/* Section 3: Venue Info */}
-        <div className="bg-card rounded-2xl shadow-xl overflow-hidden border border-gray-100/10">
-          <div className="p-8">
+        <div className="bg-card rounded-2xl shadow-[0_1px_6px_rgba(0,0,0,0.06)] dark:shadow-none overflow-hidden border border-gray-200/80 dark:border-gray-800/40 relative">
+          <div className="hidden dark:block absolute inset-0 z-0 pointer-events-none opacity-20">
+            <DarkVeil speed={0.15} hueShift={315} />
+          </div>
+          <div className="p-8 relative z-10">
             {event.venueId ? (
               <div className="flex flex-col md:flex-row gap-12 items-start">
                 <div className="flex-1 space-y-4">
@@ -179,16 +194,16 @@ export default async function EventDetailsPage({
                     <h2 className="text-2xl font-bold text-primary mb-1">
                       {t('venueInfo')}
                     </h2>
-                    <h3 className="text-lg text-gray-700 font-medium">
-                      {venue?.name || venueName}
+                    <h3 className="text-lg text-foreground/80 font-medium">
+                      {tStr(venue?.name, locale) || venueName}
                     </h3>
                   </div>
-                  <p className="text-gray-500 leading-relaxed text-sm">
-                    {venue?.description || t('eventAt', { venue: venueName })}
+                  <p className="text-muted-foreground leading-relaxed text-sm">
+                    {tStr(venue?.description, locale) || t('eventAt', { venue: venueName })}
                   </p>
-
+ 
                   <div className="space-y-2 pt-2">
-                    <div className="flex items-center gap-3 text-gray-600">
+                    <div className="flex items-center gap-3 text-muted-foreground">
                       <MapPin
                         size={18}
                         className="text-[#7C3AED]"
@@ -196,7 +211,7 @@ export default async function EventDetailsPage({
                       />
                       <span className="text-sm">{venueAddress}</span>
                     </div>
-                    <div className="flex items-center gap-3 text-gray-600">
+                    <div className="flex items-center gap-3 text-muted-foreground">
                       <span className="text-sm pl-8">
                         {t('capacity', { capacity: venue?.capacity?.toLocaleString() || "N/A" })}
                       </span>

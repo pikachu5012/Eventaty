@@ -13,6 +13,7 @@ import {
 import VenueEvents from "@/components/sections/VenueEvents";
 import { IAmenity } from "@/types/venue";
 import { getTranslations } from "next-intl/server";
+import { tStr } from "@/lib/translateHelper";
 
 // --- Helper for Icons (Keep this as is) ---
 const IconMapper = ({ name }: { name: string }) => {
@@ -45,17 +46,35 @@ import { getVenueWithEvents } from "@/lib/mockData";
 export default async function VenueDetails({
   params,
 }: {
-  params: Promise<{ id: string }>;
+  params: Promise<{ id: string; locale: string }>;
 }) {
-  const { id } = await params;
+  const { id, locale } = await params;
   const t = await getTranslations('VenueDetails');
 
   // Fetch venue data directly from mock data
-  const apiData = getVenueWithEvents(id);
+  const rawApiData = getVenueWithEvents(id);
 
-  if (!apiData) {
+  if (!rawApiData) {
     throw new Error("Failed to fetch venue");
   }
+
+  const apiData = {
+    ...rawApiData,
+    name: tStr(rawApiData.name, locale),
+    description: tStr(rawApiData.description, locale),
+    city: tStr(rawApiData.city, locale),
+    country: tStr(rawApiData.country, locale),
+    address: tStr(rawApiData.address, locale),
+    amenities: (rawApiData.amenities || []).map((amenity: any) => ({
+      ...amenity,
+      name: tStr(amenity.name, locale),
+    })),
+    events: (rawApiData.events || []).map((event: any) => ({
+      ...event,
+      title: tStr(event.title, locale),
+      description: tStr(event.description, locale),
+    })),
+  };
 
   return (
     <div className="min-h-screen bg-background text-eventaty-dark pb-20 font-sans">
@@ -87,7 +106,7 @@ export default async function VenueDetails({
                     <Users size={20} />
                   </div>
                   <div>
-                    <p className="text-xs text-gray-500 uppercase tracking-wide">
+                    <p className="text-xs text-muted-foreground uppercase tracking-wide">
                       {t('capacity')}
                     </p>
                     <p className="font-semibold text-lg">
@@ -100,7 +119,7 @@ export default async function VenueDetails({
                     <MapPin size={20} />
                   </div>
                   <div>
-                    <p className="text-xs text-gray-500 uppercase tracking-wide">
+                    <p className="text-xs text-muted-foreground uppercase tracking-wide">
                       {t('location')}
                     </p>
                     <p className="font-semibold text-lg">{`${apiData.city}, ${apiData.country}`}</p>

@@ -1,3 +1,4 @@
+"use client";
 import Link from "next/link";
 import Image from "next/image";
 import {
@@ -9,7 +10,9 @@ import {
 import { Badge } from "./ui/badge";
 import { Calendar, MapPin, Users } from "lucide-react";
 import { Button } from "./ui/button";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
+import BorderGlow from "./BorderGlow/BorderGlow";
+import { tStr } from "@/lib/translateHelper";
 
 export default function CardComponent({
   data,
@@ -19,10 +22,14 @@ export default function CardComponent({
   isEvent?: boolean;
 }) {
   const t = useTranslations('Card');
-  const title = isEvent
+  const locale = useLocale();
+  
+  const rawTitle = isEvent
     ? data?.title || "Blue Note Jazz Club"
     : data?.name || "Summer Music Festival 2025";
-  const sub = isEvent ? t('featured') : data?.category || t('venue');
+  const title = tStr(rawTitle, locale);
+  
+  const sub = isEvent ? t('featured') : tStr(data?.category || t('venue'), locale);
   let shownDate = data?.startDateTime
     ? new Date(data?.startDateTime).toISOString().split("T")[0]
     : "";
@@ -34,18 +41,26 @@ export default function CardComponent({
     dateAndTime = `${dateAndTime} at ${shownTime}`;
   }
 
-  const locationOrCapacity =
+  const rawLocationOrCapacity =
     (isEvent ? data?.venueId?.name || data?.venueId?.address : "") ||
     (data?.city && data?.country
       ? `${data.city}, ${data.country}`
       : data?.city || data?.country) ||
     (isEvent ? "Grand Arena, Downtown" : t('capacity', { capacity: 500 }));
+  const locationOrCapacity = tStr(rawLocationOrCapacity, locale);
   const price = data?.price;
   const capacity = data?.capacity;
 
   return (
-    <Card className="pt-0 rounded-xl overflow-hidden group bg-card border-none shadow-sm h-full flex flex-col">
-      <CardHeader className="p-0 relative h-48 overflow-hidden">
+    <BorderGlow
+      glowColor="262 83 58"
+      backgroundColor="var(--card)"
+      borderRadius={12}
+      colors={['#7C3AED', '#A78BFA', '#5B21B6']}
+      className="h-full border-none hover:-translate-y-1 hover:shadow-lg transition-all duration-200 ease-out"
+    >
+      <Card className="pt-0 rounded-xl overflow-hidden group bg-transparent border-none shadow-none h-full flex flex-col">
+        <CardHeader className="p-0 relative h-48 overflow-hidden">
         <Image
           src={data?.images[0] || "/ekko.png"}
           alt="Event Image"
@@ -79,7 +94,7 @@ export default function CardComponent({
         )}
       </CardHeader>
       <CardContent className="grow pt-5">
-        <h3 className="text-lg font-bold mb-3 group-hover:text-secondary transition-colors line-clamp-1 text-dark-background">
+        <h3 className="text-lg font-bold mb-3 line-clamp-1 text-primary">
           {title}
         </h3>
         <div className="text-sm text-muted-foreground mb-2 flex gap-2 items-center">
@@ -110,7 +125,7 @@ export default function CardComponent({
             <span className="font-bold text-xl text-eventaty-gold">
               {typeof price === "number" ? price.toFixed(2) : price}
             </span>{" "}
-            <span className="font-semibold text-lg text-secondary/70">EGP</span>
+            <span className="font-semibold text-lg text-muted-foreground">EGP</span>
           </div>
         ) : (
           <div>
@@ -125,12 +140,13 @@ export default function CardComponent({
             href={isEvent ? `/events/${data?._id}` : `/venues/${data?._id}`}
             className="w-full"
           >
-            <Button className="bg-eventaty-dark text-white hover:bg-eventaty-gold hover:text-white transition-colors rounded-lg px-6 w-full cursor-pointer">
+            <Button className="bg-[#7C3AED] text-white hover:bg-[#6D28D9] hover:text-white transition-colors rounded-lg px-6 w-full cursor-pointer border-none shadow-xs">
               {t('viewDetails')}
             </Button>
           </Link>
         </div>
       </CardFooter>
     </Card>
+    </BorderGlow>
   );
 }

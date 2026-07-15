@@ -104,7 +104,7 @@ export const mockVenues: IVenue[] = [
   },
   {
     _id: "ven003",
-    name: "Smart Village Conference Center",
+    name: "Smart Village",
     address: "KM 28 Cairo-Alexandria Desert Road",
     images: [
       "https://picsum.photos/seed/venue3a/800/500",

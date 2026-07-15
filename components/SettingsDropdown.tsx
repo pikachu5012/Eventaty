@@ -7,7 +7,7 @@ import { Link, usePathname, useRouter } from "@/navigation";
 import { useTheme } from "./ThemeProvider";
 import { motion, AnimatePresence } from "framer-motion";
 
-export function SettingsDropdown() {
+export function SettingsDropdown({ isScrolled }: { isScrolled?: boolean }) {
     const [isOpen, setIsOpen] = useState(false);
     const [mounted, setMounted] = useState(false);
     const dropdownRef = useRef<HTMLDivElement>(null);
@@ -46,7 +46,11 @@ export function SettingsDropdown() {
         <div className="relative" ref={dropdownRef}>
             <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="p-2 rounded-full border border-secondary text-secondary hover:bg-secondary/20 transition-all duration-300 focus:outline-none"
+                className={`p-2 rounded-full border transition-all duration-300 focus:outline-none ${
+                    isScrolled
+                        ? "border-slate-700 text-white hover:bg-white/10"
+                        : "border-slate-300 text-slate-700 hover:bg-slate-100"
+                }`}
                 aria-label="Settings"
             >
                 <Settings
@@ -71,10 +75,10 @@ export function SettingsDropdown() {
                             </div>
                             <button
                                 onClick={toggleLanguage}
-                                className="w-full flex items-center justify-between px-3 py-2 text-sm text-primary hover:bg-secondary/10 hover:text-secondary rounded-lg transition-colors group"
+                                className="w-full flex items-center justify-between px-3 py-2 text-sm text-primary hover:bg-secondary/10 hover:text-secondary-foreground rounded-lg transition-colors group"
                             >
                                 <div className="flex items-center gap-3">
-                                    <Languages size={16} className="text-secondary" />
+                                    <Languages size={16} className="text-secondary-foreground" />
                                     <span>{locale === 'en' ? 'العربية (AR)' : 'English (EN)'}</span>
                                 </div>
                             </button>
@@ -87,7 +91,7 @@ export function SettingsDropdown() {
                             </div>
                             <button
                                 onClick={() => setTheme('light')}
-                                className={`w-full flex items-center justify-between px-3 py-2 text-sm rounded-lg transition-colors ${theme === 'light' ? 'bg-secondary/10 text-secondary' : 'text-primary hover:bg-secondary/5 hover:text-secondary'
+                                className={`w-full flex items-center justify-between px-3 py-2 text-sm rounded-lg border transition-colors ${mounted && theme === 'light' ? 'bg-secondary/40 text-secondary-foreground border-ring/50' : 'text-primary hover:bg-secondary/10 hover:text-secondary-foreground border-transparent'
                                     }`}
                             >
                                 <div className="flex items-center gap-3">
@@ -98,7 +102,7 @@ export function SettingsDropdown() {
                             </button>
                             <button
                                 onClick={() => setTheme('dark')}
-                                className={`w-full flex items-center justify-between px-3 py-2 text-sm rounded-lg transition-colors ${mounted && theme === 'dark' ? 'bg-secondary/10 text-secondary' : 'text-primary hover:bg-secondary/5 hover:text-secondary'
+                                className={`w-full flex items-center justify-between px-3 py-2 text-sm rounded-lg border transition-colors ${mounted && theme === 'dark' ? 'bg-secondary/40 text-secondary-foreground border-ring/50' : 'text-primary hover:bg-secondary/10 hover:text-secondary-foreground border-transparent'
                                     }`}
                             >
                                 <div className="flex items-center gap-3">
@@ -109,7 +113,7 @@ export function SettingsDropdown() {
                             </button>
                             <button
                                 onClick={() => setTheme('system')}
-                                className={`w-full flex items-center justify-between px-3 py-2 text-sm rounded-lg transition-colors ${mounted && theme === 'system' ? 'bg-secondary/10 text-secondary' : 'text-primary hover:bg-secondary/5 hover:text-secondary'
+                                className={`w-full flex items-center justify-between px-3 py-2 text-sm rounded-lg border transition-colors ${mounted && theme === 'system' ? 'bg-secondary/40 text-secondary-foreground border-ring/50' : 'text-primary hover:bg-secondary/10 hover:text-secondary-foreground border-transparent'
                                     }`}
                             >
                                 <div className="flex items-center gap-3">
