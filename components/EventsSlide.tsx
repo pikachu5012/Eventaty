@@ -6,18 +6,18 @@ import { useLocale } from "next-intl";
 import { tStr } from "@/lib/translateHelper";
 
 type EProps = {
-  event: EventItem;
+  event: EventItem & { _id?: string };
 };
 
 export default function EventSlide({ event }: EProps) {
   const locale = useLocale();
-  const eventId = event.id || (event as any)._id;
+  const eventId = event.id || event._id;
 
-  const getImageUrl = (event: any) => {
+  const getImageUrl = (event: { image?: string | string[]; images?: string | string[] }) => {
     const img = event.image || event.images;
     if (!img) return null;
 
-    let url = Array.isArray(img) ? img[0] : img;
+    const url = Array.isArray(img) ? img[0] : img;
     if (!url || typeof url !== "string") return null;
 
     if (url.startsWith("http")) return url;
@@ -61,6 +61,7 @@ export default function EventSlide({ event }: EProps) {
           unoptimized
           className="object-cover"
           priority
+          loading="eager"
         />
       ) : (
         <div className="absolute inset-0 bg-[#2C2D31] flex items-center justify-center">
@@ -70,14 +71,16 @@ export default function EventSlide({ event }: EProps) {
 
       {/* Horizontal Gradient Overlay */}
       <div 
-        className="absolute inset-0 z-0 bg-gradient-to-r from-black/85 via-black/50 to-transparent" 
+        className="absolute inset-0 z-0 bg-gradient-to-r from-black/85 via-black/50 to-transparent rtl:bg-gradient-to-l" 
         style={{
-          background: "linear-gradient(90deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0.1) 100%)"
+          background: locale === "ar"
+            ? "linear-gradient(270deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0.1) 100%)"
+            : "linear-gradient(90deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0.1) 100%)"
         }}
       />
 
       {/* Content - sits above the gradient */}
-      <div className="relative z-10 w-full max-w-[600px] flex flex-col justify-center text-left">
+      <div className="relative z-10 w-full max-w-[600px] flex flex-col justify-center text-start">
         <div className="mb-6 md:mb-8">
           <h2 className="text-2xl md:text-3xl font-bold text-white leading-tight mb-3 line-clamp-2">
             {tStr(event.title, locale)}

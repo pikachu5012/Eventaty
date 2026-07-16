@@ -46,9 +46,15 @@ export default function AccountForm({
       });
       setIsEditing(false);
       toast.success(t('success'));
-    } catch (error: any) {
+    } catch (error) {
       console.error("Failed to update user", error);
-      const message = error.response?.data?.message || "Failed to update user";
+      let message = "Failed to update user";
+      if (axios.isAxiosError(error)) {
+        message = (error.response?.data as { message?: string })?.message || message;
+      } else if (error instanceof Error) {
+        message = error.message;
+      }
+
       if (
         (message.toLowerCase().includes("email") &&
           message.toLowerCase().includes("exist")) ||
@@ -71,37 +77,43 @@ export default function AccountForm({
           e.preventDefault();
           handleSave();
         }}
-        className="p-4 space-y-4"
+        className="px-1 py-4 space-y-4 text-start"
       >
-        <div className="flex flex-col gap-2">
-          <label htmlFor="firstName">{t('firstName')}</label>
+        <div className="flex flex-col gap-1.5">
+          <label htmlFor="firstName" className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+            {t('firstName')}
+          </label>
           <Input
             type="text"
             name="firstName"
             id="firstName"
-            className="p-4"
+            className="bg-muted/40 border border-border text-foreground placeholder-muted-foreground rounded-xl focus-visible:border-violet-500 focus-visible:ring-1 focus-visible:ring-violet-500/50 py-2.5 px-4 h-11"
             value={firstName}
             onChange={(e) => setFirstName(e.target.value)}
           />
         </div>
-        <div className="flex flex-col gap-2">
-          <label htmlFor="lastName">{t('lastName')}</label>
+        <div className="flex flex-col gap-1.5">
+          <label htmlFor="lastName" className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+            {t('lastName')}
+          </label>
           <Input
             type="text"
             name="lastName"
             id="lastName"
-            className="p-4"
+            className="bg-muted/40 border border-border text-foreground placeholder-muted-foreground rounded-xl focus-visible:border-violet-500 focus-visible:ring-1 focus-visible:ring-violet-500/50 py-2.5 px-4 h-11"
             value={lastName}
             onChange={(e) => setLastName(e.target.value)}
           />
         </div>
-        <div className="flex flex-col gap-2">
-          <label htmlFor="email">{t('email')}</label>
+        <div className="flex flex-col gap-1.5">
+          <label htmlFor="email" className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+            {t('email')}
+          </label>
           <Input
             type="email"
             name="email"
             id="email"
-            className={`p-4 transition-all duration-300 ${emailError
+            className={`bg-muted/40 border border-border text-foreground placeholder-muted-foreground rounded-xl focus-visible:border-violet-500 focus-visible:ring-1 focus-visible:ring-violet-500/50 py-2.5 px-4 h-11 transition-all duration-300 ${emailError
               ? "!border-red-500 !ring-2 !ring-red-500/50 !ring-offset-2 shadow-[0_0_15px_rgba(239,68,68,0.4)]"
               : ""
               }`}
@@ -112,29 +124,29 @@ export default function AccountForm({
             }}
           />
         </div>
-        <div className="flex flex-col gap-2">
-          <label htmlFor="phone">{t('phone')}</label>
+        <div className="flex flex-col gap-1.5">
+          <label htmlFor="phone" className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+            {t('phone')}
+          </label>
           <Input
             type="tel"
             name="phone"
             id="phone"
-            className="p-4"
+            className="bg-muted/40 border border-border text-foreground placeholder-muted-foreground rounded-xl focus-visible:border-violet-500 focus-visible:ring-1 focus-visible:ring-violet-500/50 py-2.5 px-4 h-11"
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
           />
         </div>
-        <div className="flex justify-between mt-8">
+        <div className="flex justify-between mt-6">
           <Button
             type="submit"
-            variant="secondary"
-            className="w-5/11 cursor-pointer"
+            className="w-5/11 bg-violet-600 hover:bg-violet-700 text-white font-semibold rounded-xl h-11 cursor-pointer border-none shadow-md shadow-violet-600/10 transition-colors"
           >
             {t('save')}
           </Button>
           <Button
             type="button"
-            variant="outline"
-            className="w-5/11 bg-muted cursor-pointer"
+            className="w-5/11 bg-muted hover:bg-muted/80 border border-border text-foreground font-semibold rounded-xl h-11 cursor-pointer transition-colors"
             onClick={() => setIsEditing(false)}
           >
             {t('cancel')}

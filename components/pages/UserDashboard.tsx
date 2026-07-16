@@ -1,14 +1,14 @@
 "use client";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import ProfileCard from "../ProfileCard";
 import { Edit, Mail, Phone, User } from "lucide-react";
-import { Button } from "../ui/button";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import AccountForm from "../forms/AccountForm";
 import { useAuth } from "@/context/AuthContext";
 import axios from "axios";
 import { IBooking } from "@/types/booking";
 import { useTranslations } from "next-intl";
+import { cn } from "@/lib/utils";
 
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -19,7 +19,8 @@ export default function UserDashboard() {
   const [myBookings, setMyBookings] = useState<IBooking[]>([]);
   const [activeTab, setActiveTab] = useState("Upcoming");
 
-  const fetchMyBookings = async () => {
+  const fetchMyBookings = useCallback(async () => {
+    if (!token) return;
     try {
       const response = await axios.get(`/api/booking/me`, {
         headers: {
@@ -30,11 +31,21 @@ export default function UserDashboard() {
     } catch (error) {
       console.error("Error fetching my bookings:", error);
     }
-  };
+  }, [token]);
 
   useEffect(() => {
-    if (token) fetchMyBookings();
-  }, [token]);
+    let active = true;
+    const load = async () => {
+      await Promise.resolve();
+      if (active) {
+        fetchMyBookings();
+      }
+    };
+    load();
+    return () => {
+      active = false;
+    };
+  }, [fetchMyBookings]);
 
   const upcomingBookings = myBookings.filter(
     (booking: IBooking) =>
@@ -52,68 +63,153 @@ export default function UserDashboard() {
   return (
     <div className="container-fluid bg-background py-10">
       <div className="flex flex-col lg:flex-row container mx-auto min-h-screen">
-        <div className="w-full lg:w-1/4 p-5 lg:sticky lg:top-26 lg:self-start rounded-lg bg-card shadow-lg my-5">
-          <div className="flex items-center justify-between p-5 text-2xl">
-            <p className={`${isEditing && "w-full text-center"}`}>{t('myProfile')}</p>
-            {!isEditing && (
-              <Button
-                variant="secondary"
-                className="rounded-full cursor-pointer"
-                onClick={() => setIsEditing(true)}
-              >
-                <Edit className="w-6 h-6" />
-              </Button>
+        <motion.div
+          layout
+          transition={{ duration: 0.6, ease: [0.4, 0, 0.2, 1] }}
+          className="w-full lg:w-1/4 lg:sticky lg:top-26 lg:self-start my-5 [perspective:2000px]"
+        >
+          <div
+            className={cn(
+              "relative w-full transition-all duration-700 [transform-style:preserve-3d]",
+              isEditing ? "[transform:rotateY(180deg)]" : "[transform:rotateY(0deg)]"
             )}
-          </div>
-          <div className="bg-violet-100 dark:bg-violet-900/30 rounded-full w-32 h-32 mx-auto mb-3 overflow-hidden">
-            <User className="w-full h-full object-cover p-5" />
-          </div>
-          <div className="text-center mb-5">
-            <p className=" font-semibold">
-              {user?.firstName + " " + user?.lastName}
-            </p>
-            <p className="text-muted-foreground">{user?.email}</p>
-          </div>
-          {isEditing ? (
-            <AccountForm setIsEditing={setIsEditing} />
-          ) : (
-            <div className="bg-background p-4 rounded-lg space-y-4">
-              <div className="flex gap-2">
-                <Mail className="w-4 h-4 text-violet-500 dark:text-violet-400 mt-1" />
-                <div>
-                  <p className="text-muted-foreground text-sm">{t('email')}</p>
-                  <p>{user?.email}</p>
+          >
+            {/* FRONT SIDE (Read-only Profile Card) */}
+            <div
+              className={cn(
+                "w-full rounded-2xl bg-card p-6 shadow-xl border border-zinc-200 dark:border-zinc-800/80 [backface-visibility:hidden] [transform:rotateY(0deg)] transition-all duration-700 flex flex-col",
+                isEditing ? "absolute inset-0 opacity-0 pointer-events-none" : "relative opacity-100"
+              )}
+            >
+              {/* Profile Card Header */}
+              <div className="flex items-center justify-between mb-6">
+                <span className="text-xl font-bold tracking-tight text-foreground">{t('myProfile')}</span>
+                <button
+                  onClick={() => setIsEditing(true)}
+                  className="flex items-center justify-center w-10 h-10 rounded-full bg-violet-600 hover:bg-violet-700 text-white cursor-pointer transition-all duration-200 shadow-md hover:shadow-lg shadow-violet-600/20"
+                  aria-label="Edit Profile"
+                >
+                  <Edit className="w-4 h-4" />
+                </button>
+              </div>
+
+              {/* Avatar section */}
+              <div className="flex flex-col items-center mb-6">
+                <div className="flex items-center justify-center bg-violet-100 dark:bg-violet-900/30 rounded-full w-24 h-24 mb-3 overflow-hidden shadow-inner">
+                  <User className="w-12 h-12 text-violet-600 dark:text-violet-400" />
+                </div>
+                <h3 className="text-xl font-semibold text-foreground tracking-tight">
+                  {user?.firstName + " " + user?.lastName}
+                </h3>
+                <p className="text-sm text-muted-foreground font-medium">
+                  {user?.email}
+                </p>
+              </div>
+
+              {/* Details list */}
+              <div className="bg-muted/40 border border-border/50 p-4 rounded-xl space-y-4">
+                <div className="flex items-start gap-3">
+                  <div className="p-2 rounded-lg bg-violet-100 dark:bg-violet-950/30 border border-violet-200/50 dark:border-violet-800/20 text-violet-600 dark:text-violet-400 mt-0.5">
+                    <Mail className="w-4 h-4" />
+                  </div>
+                  <div className="text-start">
+                    <p className="text-xs text-muted-foreground font-semibold uppercase tracking-wider">{t('email')}</p>
+                    <p className="text-sm text-foreground font-medium mt-0.5">{user?.email}</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-3">
+                  <div className="p-2 rounded-lg bg-violet-100 dark:bg-violet-950/30 border border-violet-200/50 dark:border-violet-800/20 text-violet-600 dark:text-violet-400 mt-0.5">
+                    <Phone className="w-4 h-4" />
+                  </div>
+                  <div className="text-start">
+                    <p className="text-xs text-muted-foreground font-semibold uppercase tracking-wider">{t('phone')}</p>
+                    <p className="text-sm text-foreground font-medium mt-0.5">{user?.phone || t('notProvided')}</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-3">
+                  <div className="p-2 rounded-lg bg-violet-100 dark:bg-violet-950/30 border border-violet-200/50 dark:border-violet-800/20 text-violet-600 dark:text-violet-400 mt-0.5">
+                    <User className="w-4 h-4" />
+                  </div>
+                  <div className="text-start">
+                    <p className="text-xs text-muted-foreground font-semibold uppercase tracking-wider">{t('accountType')}</p>
+                    <p className="text-sm text-foreground font-medium mt-0.5 capitalize">{user?.role}</p>
+                  </div>
                 </div>
               </div>
-              <div className="flex gap-2">
-                <Phone className="w-4 h-4 text-violet-500 dark:text-violet-400 mt-1" />
-                <div>
-                  <p className="text-muted-foreground text-sm">{t('phone')}</p>
-                  <p>{user?.phone || t('notProvided')}</p>
+
+              {/* Stats at bottom */}
+              <div className="flex justify-around text-center mt-6 pt-5 border-t border-border/80">
+                <div className="flex flex-col items-center">
+                  <span className="text-3xl font-extrabold text-violet-600 dark:text-violet-400 leading-none">
+                    {upcomingBookings.length}
+                  </span>
+                  <span className="text-xs text-muted-foreground font-semibold uppercase mt-2 tracking-wider">
+                    {t('upcoming')}
+                  </span>
                 </div>
-              </div>
-              <div className="flex gap-2">
-                <User className="w-4 h-4 text-violet-500 dark:text-violet-400 mt-1" />
-                <div>
-                  <p className="text-muted-foreground text-sm">{t('accountType')}</p>
-                  <p>{user?.role}</p>
+                <div className="flex flex-col items-center">
+                  <span className="text-3xl font-extrabold text-violet-600 dark:text-violet-400 leading-none">
+                    {pastBookings.length}
+                  </span>
+                  <span className="text-xs text-muted-foreground font-semibold uppercase mt-2 tracking-wider">
+                    {t('past')}
+                  </span>
                 </div>
               </div>
             </div>
-          )}
-          <div className="flex justify-around text-center p-5 my-5">
-            <p className="text-gray-500 dark:text-gray-400 text-sm">
-              <span className="block text-violet-600 dark:text-violet-400 text-3xl font-bold">
-                {upcomingBookings.length}
-              </span>
-              {t('upcoming')}
-            </p>
-            <p className="text-gray-500 dark:text-gray-400 text-sm">
-              <span className="block text-violet-600 dark:text-violet-400 text-3xl font-bold">{pastBookings.length}</span>
-              {t('past')}
-            </p>
+
+            {/* BACK SIDE (Edit Profile Card) */}
+            <div
+              className={cn(
+                "w-full rounded-2xl bg-card p-6 shadow-xl border border-zinc-200 dark:border-zinc-800/80 [backface-visibility:hidden] [transform:rotateY(180deg)] transition-all duration-700 flex flex-col",
+                isEditing ? "relative opacity-100" : "absolute inset-0 opacity-0 pointer-events-none"
+              )}
+            >
+              {/* Back Header */}
+              <div className="flex items-center justify-center mb-6">
+                <span className="text-xl font-bold tracking-tight text-foreground">{t('myProfile')}</span>
+              </div>
+
+              {/* Back Avatar section */}
+              <div className="flex flex-col items-center mb-4">
+                <div className="flex items-center justify-center bg-violet-100 dark:bg-violet-900/30 rounded-full w-24 h-24 mb-3 overflow-hidden shadow-inner">
+                  <User className="w-12 h-12 text-violet-600 dark:text-violet-400" />
+                </div>
+                <h3 className="text-xl font-semibold text-foreground tracking-tight">
+                  {user?.firstName + " " + user?.lastName}
+                </h3>
+                <p className="text-sm text-muted-foreground font-medium">
+                  {user?.email}
+                </p>
+              </div>
+
+              {/* Edit form */}
+              <AccountForm setIsEditing={setIsEditing} />
+
+              {/* Stats at bottom */}
+              <div className="flex justify-around text-center mt-6 pt-5 border-t border-border/80">
+                <div className="flex flex-col items-center">
+                  <span className="text-3xl font-extrabold text-violet-600 dark:text-violet-400 leading-none">
+                    {upcomingBookings.length}
+                  </span>
+                  <span className="text-xs text-muted-foreground font-semibold uppercase mt-2 tracking-wider">
+                    {t('upcoming')}
+                  </span>
+                </div>
+                <div className="flex flex-col items-center">
+                  <span className="text-3xl font-extrabold text-violet-600 dark:text-violet-400 leading-none">
+                    {pastBookings.length}
+                  </span>
+                  <span className="text-xs text-muted-foreground font-semibold uppercase mt-2 tracking-wider">
+                    {t('past')}
+                  </span>
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
+        </motion.div>
         <div className="w-full lg:w-3/4 p-5">
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
             <TabsList className="w-full rounded-b-none border-b border-gray-200 dark:border-slate-800 overflow-hidden p-0 bg-background flex">

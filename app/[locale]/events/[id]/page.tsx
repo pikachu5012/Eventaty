@@ -224,7 +224,7 @@ export default async function EventDetailsPage({
                       className="inline-flex items-center gap-2 text-eventaty-gold font-semibold hover:text-white transition-colors text-sm"
                     >
                       {t('viewVenue')}
-                      <ArrowRight size={16} />
+                      <ArrowRight size={16} className="rtl:rotate-180" />
                     </Link>
                   </div>
                 </div>

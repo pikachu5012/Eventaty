@@ -1,12 +1,3 @@
-import {
-  Facebook,
-  Instagram,
-  Mail,
-  MapPin,
-  Phone,
-  Sparkles,
-  Twitter,
-} from "lucide-react";
 import { Link } from "@/navigation";
 import Image from "next/image";
 import { AuthOverlay } from "@/components/AuthOverlay";
@@ -18,19 +9,11 @@ export default async function Footer() {
   const locale = await getLocale();
   const isAr = locale === "ar";
 
-  const categories = [
-    "technology",
-    "business",
-    "health",
-    "education",
-    "entertainment",
-    "science",
-  ];
   return (
     <footer className="relative bg-navFooter pt-20 pb-64 overflow-hidden border-t border-slate-900">
-      <div className="max-w-[1440px] mx-auto px-4 md:px-0 grid grid-cols-2 sm:grid-cols-5 gap-8 mb-32 relative z-10">
+      <div className="max-w-[1440px] mx-auto px-4 md:px-0 grid grid-cols-2 md:grid-cols-6 lg:grid-cols-5 gap-8 mb-32 relative z-10">
         {/* Column 1: Logo & copyright */}
-        <div className="space-y-4 col-span-2 sm:col-span-1">
+        <div className="space-y-4 col-span-2 md:col-span-2 lg:col-span-1">
           <Image
             src="/Property 1=Light.svg"
             alt="logo"
@@ -44,7 +27,7 @@ export default async function Footer() {
         </div>
 
         {/* Column 2: Pages (Quick Links) */}
-        <div className="space-y-4">
+        <div className="space-y-4 col-span-1 md:col-span-1 lg:col-span-1">
           <h4 className="text-white font-bold text-sm tracking-wider uppercase">
             {t('quickLinks')}
           </h4>
@@ -78,7 +61,7 @@ export default async function Footer() {
         </div>
 
         {/* Column 3: Socials */}
-        <div className="space-y-4">
+        <div className="space-y-4 col-span-1 md:col-span-1 lg:col-span-1">
           <h4 className="text-white font-bold text-sm tracking-wider uppercase">
             {isAr ? "مواقع التواصل" : "Socials"}
           </h4>
@@ -107,7 +90,7 @@ export default async function Footer() {
         </div>
 
         {/* Column 4: Legal */}
-        <div className="space-y-4">
+        <div className="space-y-4 col-span-1 md:col-span-1 lg:col-span-1">
           <h4 className="text-white font-bold text-sm tracking-wider uppercase">
             {isAr ? "الشروط والقوانين" : "Legal"}
           </h4>
@@ -131,7 +114,7 @@ export default async function Footer() {
         </div>
 
         {/* Column 5: Register */}
-        <div className="space-y-4">
+        <div className="space-y-4 col-span-1 md:col-span-1 lg:col-span-1">
           <h4 className="text-white font-bold text-sm tracking-wider uppercase">
             {isAr ? "التسجيل" : "Register"}
           </h4>

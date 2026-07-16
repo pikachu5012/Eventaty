@@ -14,7 +14,7 @@ export default function HomeVenuesCard({ venue }: { venue: IVenue }) {
   const locale = useLocale();
   return (
     <button
-      className="group w-2/3 md:w-1/3 lg:w-1/5 mx-auto text-left"
+      className="group w-2/3 md:w-1/3 lg:w-1/5 mx-auto text-start"
       onClick={() => {
         router.push(`/venues/${venue._id}`);
       }}
@@ -38,7 +38,7 @@ export default function HomeVenuesCard({ venue }: { venue: IVenue }) {
           </div>
           <div className="text-lg font-normal text-slate-300 group-hover:text-white flex justify-center items-center gap-2 pt-3 pb-1 shrink-0">
             <span>{tStr(venue.name, locale)}</span>
-            <CircleChevronRight className="inline-block w-5 h-5 text-eventaty-gold transition-transform duration-300 ease-out group-hover:translate-x-3" />
+            <CircleChevronRight className="inline-block w-5 h-5 text-eventaty-gold transition-transform duration-300 ease-out group-hover:translate-x-3 rtl:rotate-180 rtl:group-hover:-translate-x-3" />
           </div>
         </div>
       </BorderGlow>

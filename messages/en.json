@@ -254,6 +254,8 @@
         "venues": "Venues",
         "contact": "Contact",
         "dashboard": "Dashboard",
+        "profile": "My Profile",
+        "settings": "Settings",
         "login": "Login",
         "logout": "Logout",
         "user": "User",

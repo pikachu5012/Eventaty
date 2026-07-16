@@ -14,8 +14,8 @@ export default function AboutCard({ icon, title, description, allign, background
       <div className="w-12 h-12 rounded-full flex items-center justify-center bg-violet-100 dark:bg-violet-950/40 text-violet-600 dark:text-violet-400 shrink-0">
         {icon}
       </div>
-      <h2 className={`text-base font-bold text-primary ${allign === 'center' ? 'text-center' : 'text-left'}`}>{title}</h2>
-      <p className={`text-muted-foreground text-sm leading-relaxed font-light ${allign === 'center' ? 'text-center' : 'text-left'}`}>
+      <h2 className={`text-base font-bold text-primary ${allign === 'center' ? 'text-center' : 'text-start'}`}>{title}</h2>
+      <p className={`text-muted-foreground text-sm leading-relaxed font-light ${allign === 'center' ? 'text-center' : 'text-start'}`}>
         {description}
       </p>
     </div>

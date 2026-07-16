@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import { User, LogOut, LayoutDashboard, LogIn } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { Link, useRouter } from "@/navigation";
+import { Link } from "@/navigation";
 import { useAuth } from "@/context/AuthContext";
 import { motion, AnimatePresence } from "framer-motion";
 import { toast } from "sonner";
@@ -16,8 +16,8 @@ export function UserDropdown({ isScrolled }: { isScrolled?: boolean }) {
     const { user, logout } = useAuth();
     const t = useTranslations('Navigation');
     const authT = useTranslations('Auth');
-    const router = useRouter();
     const isAdmin = user?.role === "admin";
+    const [mountTime] = useState(() => Date.now());
 
     // Close dropdown when clicking outside
     useEffect(() => {
@@ -74,28 +74,54 @@ export function UserDropdown({ isScrolled }: { isScrolled?: boolean }) {
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, y: 10, scale: 0.95 }}
                         transition={{ duration: 0.2 }}
-                        className="absolute ltr:right-0 rtl:left-0 mt-2 w-56 bg-card border border-slate-800 rounded-xl shadow-xl z-50 overflow-hidden"
+                        className="absolute ltr:right-0 rtl:left-0 mt-2 w-56 bg-card border border-zinc-200 dark:border-zinc-800 rounded-xl shadow-xl z-50 overflow-hidden"
                     >
                         <div className="p-2 space-y-1">
                             {user ? (
                                 <>
-                                    {/* Menu Items */}
+                                    {/* Identity Header */}
+                                    <div className="flex items-center gap-3 px-3 py-3 border-b border-zinc-200 dark:border-zinc-800/80 mb-2">
+                                        <div className="w-9 h-9 rounded-full bg-violet-600/10 border border-violet-500/20 text-violet-600 dark:text-violet-400 flex items-center justify-center font-bold text-sm shrink-0">
+                                            {getInitials()}
+                                        </div>
+                                        <div className="min-w-0 flex-1 text-start">
+                                            <p className="text-sm font-bold text-foreground truncate">
+                                                {user.firstName} {user.lastName}
+                                            </p>
+                                            <p className="text-xs text-muted-foreground truncate">
+                                                {user.email}
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    {/* Menu Options */}
                                     <Link
-                                        href={isAdmin ? `/dashboard?select=true&t=${Date.now()}` : "/dashboard"}
-                                        onClick={handleDashboardClick}
-                                        className="w-full flex items-center gap-3 px-3 py-2 text-sm text-primary hover:bg-secondary/10 hover:text-secondary-foreground rounded-lg transition-colors group"
+                                        href="/dashboard"
+                                        onClick={() => setIsOpen(false)}
+                                        className="w-full flex items-center gap-3 px-3 py-2 text-sm text-primary hover:bg-secondary/10 hover:text-secondary-foreground rounded-lg transition-colors group text-start"
                                     >
-                                        <LayoutDashboard size={16} />
-                                        <span>{t('dashboard') || 'Dashboard'}</span>
+                                        <User size={16} className="text-violet-500 shrink-0" />
+                                        <span>{t('profile') || 'My Profile'}</span>
                                     </Link>
 
-                                    <div className="h-px bg-slate-800 my-1 mx-2" />
+                                    {isAdmin && (
+                                        <Link
+                                            href={`/dashboard?select=true&t=${mountTime}`}
+                                            onClick={handleDashboardClick}
+                                            className="w-full flex items-center gap-3 px-3 py-2 text-sm text-primary hover:bg-secondary/10 hover:text-secondary-foreground rounded-lg transition-colors group text-start"
+                                        >
+                                            <LayoutDashboard size={16} className="text-violet-500 shrink-0" />
+                                            <span>{t('dashboard') || 'Dashboard'}</span>
+                                        </Link>
+                                    )}
+
+                                    <div className="h-px bg-zinc-200 dark:bg-zinc-800 my-1 mx-2" />
 
                                     <button
                                         onClick={handleLogout}
-                                        className="w-full flex items-center gap-3 px-3 py-2 text-sm text-red-400 hover:bg-red-400/10 rounded-lg transition-colors"
+                                        className="w-full flex items-center gap-3 px-3 py-2 text-sm text-red-500 hover:bg-red-500/10 rounded-lg transition-colors text-start"
                                     >
-                                        <LogOut size={16} />
+                                        <LogOut size={16} className="shrink-0" />
                                         <span>{t('logout')}</span>
                                     </button>
                                 </>
@@ -106,9 +132,9 @@ export function UserDropdown({ isScrolled }: { isScrolled?: boolean }) {
                                             setShowAuthOverlay(true);
                                             setIsOpen(false);
                                         }}
-                                        className="w-full flex items-center gap-3 px-3 py-2 text-sm text-primary hover:bg-secondary/10 hover:text-secondary-foreground rounded-lg transition-colors"
+                                        className="w-full flex items-center gap-3 px-3 py-2 text-sm text-primary hover:bg-secondary/10 hover:text-secondary-foreground rounded-lg transition-colors text-start"
                                     >
-                                        <LogIn size={16} />
+                                        <LogIn size={16} className="shrink-0" />
                                         <span>{authT('loginBtn')}</span>
                                     </button>
                                 </>
