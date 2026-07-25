@@ -1,12 +1,12 @@
 import Link from "next/link";
 import Image from "next/image";
-import { EventItem } from "@/types/event";
+import { EventItem, IEvent } from "@/types/event";
 import { ImageIcon } from "lucide-react";
 import { useLocale } from "next-intl";
 import { tStr } from "@/lib/translateHelper";
 
 type EProps = {
-  event: EventItem & { _id?: string };
+  event: IEvent | EventItem | (EventItem & { _id?: string });
 };
 
 export default function EventSlide({ event }: EProps) {
@@ -51,7 +51,7 @@ export default function EventSlide({ event }: EProps) {
     : "08:00";
 
   return (
-    <div className="relative w-full min-h-[320px] md:min-h-[400px] rounded-[24px] overflow-hidden flex items-center p-8 md:p-16 max-w-[1440px] mx-auto">
+    <div className="relative w-full h-full rounded-[28px] overflow-hidden flex items-center p-8 md:p-16 lg:p-20 max-w-[1400px] mx-auto">
       {/* Background Image */}
       {imageUrl ? (
         <Image
@@ -80,12 +80,12 @@ export default function EventSlide({ event }: EProps) {
       />
 
       {/* Content - sits above the gradient */}
-      <div className="relative z-10 w-full max-w-[600px] flex flex-col justify-center text-start">
-        <div className="mb-6 md:mb-8">
-          <h2 className="text-2xl md:text-3xl font-bold text-white leading-tight mb-3 line-clamp-2">
+      <div className="relative z-10 w-full max-w-[680px] flex flex-col justify-center text-start">
+        <div className="mb-6 md:mb-10">
+          <h2 className="text-3xl md:text-5xl font-extrabold text-white leading-tight mb-4 line-clamp-2">
             {tStr(event.title, locale)}
           </h2>
-          <div className="space-y-1 text-[#E5E5E5] text-[13px] md:text-sm font-medium opacity-90">
+          <div className="space-y-1.5 text-gray-200 text-base md:text-lg font-medium opacity-90">
             <p>
               {formattedDateString} {locale === "ar" ? "في" : "at"} {formattedTimeString}
             </p>
@@ -95,11 +95,11 @@ export default function EventSlide({ event }: EProps) {
 
         <div className="flex items-center gap-6">
           <Link href={`/events/${eventId}#tickets`}>
-            <button className="flex items-center justify-center gap-2 rounded-lg bg-eventaty-gold px-6 py-2.5 text-sm font-bold text-white shadow-[0_8px_24px_rgba(124,58,237,0.4)] hover:shadow-[0_12px_28px_rgba(124,58,237,0.6)] hover:-translate-y-0.5 transition-all cursor-pointer">
+            <button className="flex items-center justify-center gap-2 rounded-xl bg-eventaty-gold px-8 py-3.5 text-base font-bold text-white shadow-[0_8px_24px_rgba(124,58,237,0.4)] hover:shadow-[0_12px_28px_rgba(124,58,237,0.6)] hover:-translate-y-0.5 transition-all cursor-pointer">
               {locale === "ar" ? "احجز الآن" : "Book now"}
             </button>
           </Link>
-          <Link href={`/events/${eventId}`} className="text-sm font-semibold text-white hover:text-white/80 transition-colors underline decoration-white/50 underline-offset-4">
+          <Link href={`/events/${eventId}`} className="text-base font-semibold text-white hover:text-white/80 transition-colors underline decoration-white/50 underline-offset-4">
             {locale === "ar" ? "تفاصيل أكثر" : "More info"}
           </Link>
         </div>

@@ -11,7 +11,7 @@ export default async function Footer() {
 
   return (
     <footer className="relative bg-navFooter pt-20 pb-64 overflow-hidden border-t border-slate-900">
-      <div className="max-w-[1440px] mx-auto px-4 md:px-0 grid grid-cols-2 md:grid-cols-6 lg:grid-cols-5 gap-8 mb-32 relative z-10">
+      <div className="max-w-[1400px] mx-auto px-4 md:px-6 lg:px-8 grid grid-cols-2 md:grid-cols-6 lg:grid-cols-5 gap-8 mb-32 relative z-10">
         {/* Column 1: Logo & copyright */}
         <div className="space-y-4 col-span-2 md:col-span-2 lg:col-span-1">
           <Image

@@ -11,14 +11,14 @@ const CategoryGallery = dynamic(() => import("@/components/CategoryGallery"), {
 
 export default function BrowseByCategory() {
   const t = useTranslations('HomePage');
-  let categories: ICategory[] = mockCategories;
+  const categories: ICategory[] = mockCategories;
 
   return (
     <section className="bg-background w-full">
-      <div className="max-w-[1440px] mx-auto px-4 md:px-0 py-10">
-        <div className="text-center text-5xl my-10 text-foreground font-black tracking-tight">
+      <div className="max-w-[1400px] mx-auto px-4 md:px-6 lg:px-8 py-10">
+        <h2 className="text-center text-3xl md:text-4xl my-10 text-foreground font-bold tracking-tight">
           {t('browseByCategory')}
-        </div>
+        </h2>
         <div className="py-4">
           <CategoryGallery categories={categories} />
         </div>

@@ -7,42 +7,43 @@ import { useQRCode } from "next-qrcode";
 import { useTranslations } from "next-intl";
 import { motion } from "framer-motion";
 
+const CONFETTI_COLORS = ["#7C3AED", "#A78BFA", "#EC4899", "#F43F5E", "#10B981", "#3B82F6"];
+
+const PARTICLES = Array.from({ length: 14 }, (_, i) => {
+  const angle = (i * 360) / 14;
+  const distance = 50 + Math.random() * 40;
+  const radian = (angle * Math.PI) / 180;
+  return {
+    x: Math.cos(radian) * distance,
+    y: Math.sin(radian) * distance,
+    size: 5 + Math.random() * 5,
+    delay: Math.random() * 0.08,
+    color: CONFETTI_COLORS[i % CONFETTI_COLORS.length],
+  };
+});
+
 function ConfettiBurst() {
-  const particles = Array.from({ length: 14 });
-  const colors = ["#7C3AED", "#A78BFA", "#EC4899", "#F43F5E", "#10B981", "#3B82F6"];
-  
   return (
     <div className="absolute inset-0 pointer-events-none overflow-visible flex items-center justify-center">
-      {particles.map((_, i) => {
-        const angle = (i * 360) / particles.length;
-        const distance = 50 + Math.random() * 40;
-        const radian = (angle * Math.PI) / 180;
-        const x = Math.cos(radian) * distance;
-        const y = Math.sin(radian) * distance;
-        const size = 5 + Math.random() * 5;
-        const delay = Math.random() * 0.08;
-        const color = colors[i % colors.length];
-
-        return (
-          <motion.div
-            key={i}
-            initial={{ scale: 0, x: 0, y: 0, opacity: 1 }}
-            animate={{ scale: [0, 1.2, 0.6, 0], x, y, opacity: [1, 1, 0.4, 0] }}
-            transition={{
-              duration: 1.1,
-              ease: "easeOut",
-              delay,
-            }}
-            style={{
-              position: "absolute",
-              width: size,
-              height: size,
-              borderRadius: "50%",
-              backgroundColor: color,
-            }}
-          />
-        );
-      })}
+      {PARTICLES.map((p, i) => (
+        <motion.div
+          key={i}
+          initial={{ scale: 0, x: 0, y: 0, opacity: 1 }}
+          animate={{ scale: [0, 1.2, 0.6, 0], x: p.x, y: p.y, opacity: [1, 1, 0.4, 0] }}
+          transition={{
+            duration: 1.1,
+            ease: "easeOut",
+            delay: p.delay,
+          }}
+          style={{
+            position: "absolute",
+            width: p.size,
+            height: p.size,
+            borderRadius: "50%",
+            backgroundColor: p.color,
+          }}
+        />
+      ))}
     </div>
   );
 }
@@ -125,7 +126,7 @@ export default function BookingSuccessPage() {
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.25, delay: 0.4, ease: "easeOut" }}
-              className="col-span-2 mx-auto pe-0 bg-white p-2 rounded-lg shadow-sm"
+              className="col-span-2 mx-auto bg-white p-2 rounded-lg shadow-sm flex items-center justify-center"
             >
               <SVG
                 text={bookingReference}

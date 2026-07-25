@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Space_Grotesk, Inter, IBM_Plex_Sans_Arabic } from "next/font/google";
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
 import "@/styles/globals.css";
@@ -10,14 +10,22 @@ import { ThemeProvider } from "@/components/ThemeProvider";
 import { Toaster } from "sonner";
 import SmoothScrolling from "@/components/SmoothScrolling";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const spaceGrotesk = Space_Grotesk({
+  variable: "--font-space-grotesk",
   subsets: ["latin"],
+  weight: ["500", "700"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
+  weight: ["400", "500"],
+});
+
+const ibmArabic = IBM_Plex_Sans_Arabic({
+  variable: "--font-ibm-arabic",
+  subsets: ["arabic"],
+  weight: ["400", "500", "700"],
 });
 
 export const metadata: Metadata = {
@@ -43,7 +51,7 @@ export default async function RootLayout({
     <html lang={locale} dir={locale === 'ar' ? 'rtl' : 'ltr'} suppressHydrationWarning={true}>
       <body
         suppressHydrationWarning={true}
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${spaceGrotesk.variable} ${inter.variable} ${ibmArabic.variable} antialiased font-sans`}
       >
         <NextIntlClientProvider messages={messages}>
           <AuthProvider>

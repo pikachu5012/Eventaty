@@ -3,18 +3,17 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import HomeVenuesCard from "../HomeVenuesCard";
 import { Link } from "@/navigation";
-import axios from "axios";
 import { IVenue } from "@/types/venue";
 
 import { mockVenues } from "@/lib/mockData";
 
 export default async function HomeVenues() {
   const t = await getTranslations('HomePage');
-  let venues: IVenue[] = mockVenues;
+  const venues: IVenue[] = mockVenues;
   const displayedVenues = venues.slice(0, 4);
   return (
-    <section className="max-w-[1440px] mx-auto px-4 md:px-0 py-10">
-        <div className="text-center text-5xl my-10 ">{t('venues')}</div>
+    <section className="max-w-[1400px] mx-auto px-4 md:px-6 lg:px-8 py-10">
+        <h2 className="text-center text-3xl md:text-4xl my-10 font-bold">{t('venues')}</h2>
         <div className="flex py-4 gap-4 flex-wrap justify-between">
           {displayedVenues.map((venue) => (
             <HomeVenuesCard key={venue._id} venue={venue} />

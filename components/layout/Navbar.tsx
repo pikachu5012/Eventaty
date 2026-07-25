@@ -171,7 +171,7 @@ export default function Navbar() {
           ? "h-[88px] bg-[#18181b] border-b-0 shadow-none"
           : "h-[88px] bg-white border-b-0 shadow-none"
     }`}>
-      <div className="max-w-[1440px] flex flex-wrap items-center justify-between mx-auto px-4 md:px-0 w-full">
+      <div className="max-w-[1400px] flex flex-wrap items-center justify-between mx-auto px-4 md:px-6 lg:px-8 w-full">
         {/* Logo */}
         <div className="md:w-auto w-1/2 shrink-0">
           <Link href="/" className="flex items-center">

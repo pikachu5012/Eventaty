@@ -86,14 +86,14 @@ export default async function Contact() {
             </div>
 
             {/* Social*/}
-            <div className="bg-card p-6 rounded-2xl shadow-sm flex items-start gap-5 border border-white/20">
+            <div className="bg-card p-6 rounded-2xl shadow-sm flex flex-col border border-gray-200 dark:border-slate-800">
               <h3 className="text-lg font-bold text-primary mb-4">{t('followTitle')}</h3>
               <div className="flex gap-3">
                 {[Facebook, Twitter, Instagram, Linkedin].map((Icon, idx) => (
                   <a
                     key={idx}
                     href="#"
-                    className="w-10 h-10 rounded-full bg-eventaty-cream flex items-center justify-center text-secondary hover:bg-secondary hover:text-white transition-colors"
+                    className="w-10 h-10 rounded-full bg-violet-100 dark:bg-violet-950/50 flex items-center justify-center text-[#7C3AED] dark:text-violet-400 hover:bg-[#7C3AED] hover:text-white dark:hover:bg-[#7C3AED] dark:hover:text-white transition-all duration-200 shadow-xs"
                   >
                     <Icon size={20} />
                   </a>

@@ -6,7 +6,38 @@
         "exploreVenues": "Explore All Venues",
         "upcomingEvents": "Up Coming Events",
         "noUpcomingEvents": "No upcoming events found.",
-        "exploreEvents": "Explore All Events"
+        "exploreEvents": "Explore All Events",
+        "stats": {
+            "events": "500+",
+            "eventsLabel": "Events hosted",
+            "attendees": "50K+",
+            "attendeesLabel": "Happy attendees",
+            "venues": "4",
+            "venuesLabel": "Premier venues",
+            "satisfaction": "98%",
+            "satisfactionLabel": "Satisfaction rate"
+        },
+        "trending": {
+            "title": "Trending Now",
+            "badge": "Trending",
+            "soldText": "{percent}% tickets sold"
+        },
+        "howItWorks": {
+            "title": "How It Works",
+            "step1Title": "Browse",
+            "step1Desc": "Search and find the best events happening around you.",
+            "step2Title": "Book",
+            "step2Desc": "Secure your tickets instantly with our safe payment.",
+            "step3Title": "Attend",
+            "step3Desc": "Show your ticket at the venue and enjoy the experience."
+        },
+        "testimonials": {
+            "title": "What Our Attendees Say",
+            "t1Quote": "Eventaty made booking tickets for the Cairo Jazz Festival so smooth and easy. Highly recommended!",
+            "t1Author": "Ahmed R.",
+            "t2Quote": "Finding premier venues and booking corporate event tickets has never been simpler.",
+            "t2Author": "Sarah M."
+        }
     },
     "Footer": {
         "description": "Your premier destination for discovering and booking amazing events. From concerts to conferences, we've got you covered.",

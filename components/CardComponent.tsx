@@ -1,4 +1,4 @@
-"use client";
+import { useMemo } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import {
@@ -13,27 +13,41 @@ import { Button } from "./ui/button";
 import { useTranslations, useLocale } from "next-intl";
 import BorderGlow from "./BorderGlow/BorderGlow";
 import { tStr } from "@/lib/translateHelper";
+import { IEvent } from "@/types/event";
+import { IVenue } from "@/types/venue";
+import { mockEvents } from "@/lib/mockData";
 
 export default function CardComponent({
   data,
   isEvent,
 }: {
-  data?: any;
+  data?: Partial<IEvent & IVenue & { eventCount?: number; [key: string]: unknown }>;
   isEvent?: boolean;
 }) {
   const t = useTranslations('Card');
   const locale = useLocale();
+
+  const venueEventCount = useMemo(() => {
+    if (isEvent) return 0;
+    if (typeof data?.eventCount === "number" && data.eventCount > 0) return data.eventCount;
+    if (!data?._id) return 0;
+    return mockEvents.filter((e) => {
+      const vId = typeof e.venueId === "object" ? e.venueId._id : e.venueId;
+      return vId === data._id && new Date(e.startDateTime) > new Date();
+    }).length;
+  }, [isEvent, data]);
   
   const rawTitle = isEvent
     ? data?.title || "Blue Note Jazz Club"
     : data?.name || "Summer Music Festival 2025";
   const title = tStr(rawTitle, locale);
   
+  const isFeaturedEvent = Boolean(isEvent && data?.featured);
   const sub = isEvent ? t('featured') : tStr(data?.category || t('venue'), locale);
-  let shownDate = data?.startDateTime
+  const shownDate = data?.startDateTime
     ? new Date(data?.startDateTime).toISOString().split("T")[0]
     : "";
-  let shownTime = data?.startDateTime
+  const shownTime = data?.startDateTime
     ? new Date(data?.startDateTime).toISOString().split("T")[1].split(".")[0]
     : "";
   let dateAndTime = shownDate;
@@ -41,8 +55,11 @@ export default function CardComponent({
     dateAndTime = `${dateAndTime} at ${shownTime}`;
   }
 
+  const venueObj = typeof data?.venueId === "object" && data?.venueId !== null ? data.venueId : null;
+  const venueLoc = venueObj ? (venueObj.name || venueObj.address) : "";
+
   const rawLocationOrCapacity =
-    (isEvent ? data?.venueId?.name || data?.venueId?.address : "") ||
+    (isEvent ? venueLoc : "") ||
     (data?.city && data?.country
       ? `${data.city}, ${data.country}`
       : data?.city || data?.country) ||
@@ -62,23 +79,21 @@ export default function CardComponent({
       <Card className="pt-0 rounded-xl overflow-hidden group bg-transparent border-none shadow-none h-full flex flex-col">
         <CardHeader className="p-0 relative h-48 overflow-hidden">
         <Image
-          src={data?.images[0] || "/ekko.png"}
+          src={data?.images?.[0] || "/ekko.png"}
           alt="Event Image"
           fill
           unoptimized
           className="object-cover transition-transform duration-300 group-hover:scale-105"
         />
         {isEvent ? (
-          data?.featured ? (
+          isFeaturedEvent ? (
             <Badge
               variant="secondary"
-              className="absolute top-0 right-0 m-4 bg-eventaty-gold text-white hover:bg-secondary border-none"
+              className="absolute top-0 right-0 m-4 bg-eventaty-gold text-white border-none pointer-events-none"
             >
               {sub}
             </Badge>
-          ) : (
-            ""
-          )
+          ) : null
         ) : (
           <Badge
             variant="secondary"
@@ -87,51 +102,48 @@ export default function CardComponent({
             {sub}
           </Badge>
         )}
-        {isEvent && data?.isFeatured && (
-          <Badge className="absolute top-0 left-0 m-4 bg-black/70 text-white hover:bg-black/80 border-none">
-            Hot
-          </Badge>
-        )}
       </CardHeader>
-      <CardContent className="grow pt-5">
-        <h3 className="text-lg font-bold mb-3 line-clamp-1 text-primary">
+      <CardContent className="grow p-6 pb-4">
+        <h3 className="text-lg font-bold mb-3 line-clamp-2 min-h-[3.25rem] leading-snug text-primary">
           {title}
         </h3>
-        <div className="text-sm text-muted-foreground mb-2 flex gap-2 items-center">
+        <div className="text-sm text-muted-foreground mb-2.5 flex gap-3 items-center">
           {isEvent ? (
-            <Calendar className="w-4 h-4 text-eventaty-gold" />
+            <Calendar className="w-4 h-4 text-eventaty-gold shrink-0" />
           ) : (
-            <MapPin className="w-4 h-4 text-eventaty-gold" />
+            <MapPin className="w-4 h-4 text-eventaty-gold shrink-0" />
           )}
-          <p className="text-xs">
+          <p className="text-xs font-medium">
             {isEvent ? dateAndTime : locationOrCapacity || t('unknownLocation')}
           </p>
         </div>
-        <div className="text-sm text-muted-foreground flex gap-2 items-center">
+        <div className="text-sm text-muted-foreground flex gap-3 items-center">
           {isEvent ? (
-            <MapPin className="w-4 h-4 text-eventaty-gold" />
+            <MapPin className="w-4 h-4 text-eventaty-gold shrink-0" />
           ) : (
-            <Users className="w-4 h-4 text-eventaty-gold" />
+            <Users className="w-4 h-4 text-eventaty-gold shrink-0" />
           )}
-          <p className="text-xs">
-            {isEvent ? locationOrCapacity : t('capacity', { capacity: capacity })}
+          <p className="text-xs font-medium">
+            {isEvent ? locationOrCapacity : t('capacity', { capacity: capacity ?? 0 })}
           </p>
         </div>
       </CardContent>
-      <CardFooter className="pb-5 pt-0 flex justify-between items-center mt-auto">
+      <CardFooter className="px-6 pb-6 pt-0 flex justify-between items-center mt-auto">
         {isEvent ? (
-          <div>
-            <p className="text-xs text-muted-foreground">{t('startingFrom')}</p>
-            <span className="font-bold text-xl text-eventaty-gold">
-              {typeof price === "number" ? price.toFixed(2) : price}
-            </span>{" "}
-            <span className="font-semibold text-lg text-muted-foreground">EGP</span>
+          <div className="flex flex-col justify-center">
+            <p className="text-xs text-muted-foreground font-medium mb-0.5">{t('startingFrom')}</p>
+            <div>
+              <span className="font-bold text-xl text-eventaty-gold leading-tight">
+                {typeof price === "number" ? price.toFixed(2) : price}
+              </span>{" "}
+              <span className="font-semibold text-sm text-muted-foreground">EGP</span>
+            </div>
           </div>
         ) : (
-          <div>
-            <p className="text-xs text-muted-foreground">{t('upcomingEvents')}</p>
-            <span className="font-bold text-xl text-eventaty-gold">
-              {data?.eventCount || 0}
+          <div className="flex flex-col justify-center">
+            <p className="text-xs text-muted-foreground font-medium mb-0.5">{t('upcomingEvents')}</p>
+            <span className="font-bold text-xl text-eventaty-gold leading-tight">
+              {venueEventCount}
             </span>
           </div>
         )}
@@ -140,7 +152,7 @@ export default function CardComponent({
             href={isEvent ? `/events/${data?._id}` : `/venues/${data?._id}`}
             className="w-full"
           >
-            <Button className="bg-[#7C3AED] text-white hover:bg-[#6D28D9] hover:text-white transition-colors rounded-lg px-6 w-full cursor-pointer border-none shadow-xs">
+            <Button className="bg-[#7C3AED] text-white hover:bg-[#6D28D9] hover:text-white transition-colors rounded-xl px-5 py-2.5 h-auto text-xs font-bold w-full cursor-pointer border-none shadow-xs">
               {t('viewDetails')}
             </Button>
           </Link>

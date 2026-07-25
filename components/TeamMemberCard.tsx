@@ -45,28 +45,28 @@ export default function TeamMemberCard({ member, index }: TeamMemberCardProps) {
                         href={member.github}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-primary/60 hover:text-eventaty-gold transition-colors"
+                        className="text-muted-foreground hover:text-eventaty-gold dark:hover:text-violet-400 transition-colors"
                         onClick={(e) => e.stopPropagation()}
                     >
-                        <Github className="w-3.5 h-3.5" />
+                        <Github className="w-4 h-4" />
                     </Link>
                     <Link
                         href={member.linkedin}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-primary/60 hover:text-secondary transition-colors"
+                        className="text-muted-foreground hover:text-eventaty-gold dark:hover:text-violet-400 transition-colors"
                         onClick={(e) => e.stopPropagation()}
                     >
-                        <Linkedin className="w-3.5 h-3.5" />
+                        <Linkedin className="w-4 h-4" />
                     </Link>
                     <Link
                         href={member.gmail}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-primary/60 hover:text-secondary transition-colors"
+                        className="text-muted-foreground hover:text-eventaty-gold dark:hover:text-violet-400 transition-colors"
                         onClick={(e) => e.stopPropagation()}
                     >
-                        <Mail className="w-3.5 h-3.5" />
+                        <Mail className="w-4 h-4" />
                     </Link>
                 </div>
             </div>

@@ -19,13 +19,33 @@ export default function TicketSelectionModal({
   eventId,
   ticketTypeId,
 }: TicketSelectionModalProps) {
-  const [count, setCount] = useState(1);
+  const [count, setCount] = useState<number | "">(1);
   const router = useRouter();
 
   if (!isOpen) return null;
 
-  const handleIncrement = () => setCount((prev) => prev + 1);
-  const handleDecrement = () => setCount((prev) => (prev > 1 ? prev - 1 : 1));
+  const validCount = typeof count === "number" && count >= 1 ? count : 1;
+
+  const handleIncrement = () => setCount((prev) => (typeof prev === "number" ? prev + 1 : 1));
+  const handleDecrement = () => setCount((prev) => (typeof prev === "number" && prev > 1 ? prev - 1 : 1));
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const val = e.target.value;
+    if (val === "") {
+      setCount("");
+      return;
+    }
+    const parsed = parseInt(val, 10);
+    if (!isNaN(parsed) && parsed >= 0) {
+      setCount(parsed);
+    }
+  };
+
+  const handleInputBlur = () => {
+    if (count === "" || count < 1) {
+      setCount(1);
+    }
+  };
 
   const handleBuyNow = () => {
     // Navigate to booking page with params
@@ -34,7 +54,7 @@ export default function TicketSelectionModal({
       ticketTypeId: ticketTypeId || "",
       ticketName: ticketName,
       price: price.toString(),
-      quantity: count.toString(),
+      quantity: validCount.toString(),
     });
     router.push(`/booking?${queryParams.toString()}`);
   };
@@ -57,13 +77,13 @@ export default function TicketSelectionModal({
             {ticketName} &bull; <span className="font-semibold text-gray-700">{price.toFixed(2)} EGP</span> per ticket
           </p>
 
-          <div className="flex items-center justify-center gap-12 mb-10">
+          <div className="flex items-center justify-center gap-6 md:gap-12 mb-10">
             {/* Minus Button */}
             <button
               onClick={handleDecrement}
-              disabled={count <= 1}
+              disabled={validCount <= 1}
               className={`w-16 h-16 rounded-full flex items-center justify-center transition-all focus:outline-none ${
-                count <= 1
+                validCount <= 1
                   ? "bg-gray-100 text-gray-300 border border-gray-200 cursor-not-allowed opacity-50"
                   : "bg-[#7C3AED] text-white hover:bg-[#6D28D9] shadow-lg hover:shadow-xl transform hover:scale-105 cursor-pointer"
               }`}
@@ -72,10 +92,17 @@ export default function TicketSelectionModal({
               <Minus size={24} strokeWidth={2.5} />
             </button>
 
-            {/* Count */}
-            <span className="text-5xl font-semibold text-gray-900 w-12 text-center">
-              {count}
-            </span>
+            {/* Editable Count Input */}
+            <input
+              type="number"
+              min={1}
+              value={count}
+              onChange={handleInputChange}
+              onBlur={handleInputBlur}
+              onFocus={(e) => e.target.select()}
+              className="text-5xl font-semibold text-gray-900 w-24 text-center bg-transparent focus:outline-none focus:ring-2 focus:ring-[#7C3AED]/30 rounded-xl transition-all [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+              aria-label="Number of tickets"
+            />
 
             {/* Plus Button */}
             <button
@@ -91,7 +118,7 @@ export default function TicketSelectionModal({
           <div className="mb-8 flex items-center justify-between border-t border-gray-100 pt-6 px-2">
             <span className="text-gray-500 font-medium text-base">Total</span>
             <span className="text-2xl font-bold text-[#7C3AED]">
-              {(price * count).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} EGP
+              {(price * validCount).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} EGP
             </span>
           </div>
 

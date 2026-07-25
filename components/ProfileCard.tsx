@@ -162,7 +162,7 @@ export default function ProfileCard({
         {!isPast && (
           <div className={`w-full md:w-1/2 lg:w-1/3 p-5`}>
             <div className="flex flex-col justify-center items-center h-full">
-              <div>
+              <div className="flex justify-center items-center w-full">
                 <SVG
                   text={data.bookingReference}
                   options={{

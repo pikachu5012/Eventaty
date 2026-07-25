@@ -1,6 +1,5 @@
 "use client";
 import { useState, useEffect } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import EventSlide from "../EventsSlide";
 import { mockEvents } from "@/lib/mockData";
@@ -10,27 +9,14 @@ export default function HomeSlider() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState(0); // -1 for left, 1 for right
 
-  useEffect(() => {
-    const timer = setInterval(() => {
-      handleNext();
-    }, 6000);
-    return () => clearInterval(timer);
-  }, [currentIndex]);
-
-  if (featuredEvents.length === 0) {
-    return (
-      <div className="p-10 text-center text-gray-500">
-        No featured events marked.
-      </div>
-    );
-  }
-
   const handleNext = () => {
+    if (featuredEvents.length === 0) return;
     setDirection(1);
     setCurrentIndex((prev) => (prev + 1) % featuredEvents.length);
   };
 
   const handlePrev = () => {
+    if (featuredEvents.length === 0) return;
     setDirection(-1);
     setCurrentIndex((prev) => (prev - 1 + featuredEvents.length) % featuredEvents.length);
   };
@@ -39,6 +25,24 @@ export default function HomeSlider() {
     setDirection(index > currentIndex ? 1 : -1);
     setCurrentIndex(index);
   };
+
+  useEffect(() => {
+    const len = featuredEvents.length;
+    if (len === 0) return;
+    const timer = setInterval(() => {
+      setDirection(1);
+      setCurrentIndex((prev) => (prev + 1) % len);
+    }, 6000);
+    return () => clearInterval(timer);
+  }, [featuredEvents.length]);
+
+  if (featuredEvents.length === 0) {
+    return (
+      <div className="p-10 text-center text-gray-500">
+        No featured events marked.
+      </div>
+    );
+  }
 
   const slideVariants = {
     enter: (direction: number) => ({
@@ -55,10 +59,15 @@ export default function HomeSlider() {
     }),
   };
 
+  const swipeConfidenceThreshold = 10000;
+  const swipePower = (offset: number, velocity: number) => {
+    return Math.abs(offset) * velocity;
+  };
+
   return (
-    <div className="relative w-full pt-10 pb-8 overflow-hidden group">
+    <div className="relative w-full pt-4 pb-8 overflow-hidden group touch-pan-y">
       {/* Slider view window */}
-      <div className="relative min-h-[350px] md:min-h-[400px] w-full">
+      <div className="relative h-[70vh] md:h-[80vh] min-h-[500px] max-h-[750px] w-full cursor-grab active:cursor-grabbing">
         <AnimatePresence initial={false} custom={direction} mode="wait">
           <motion.div
             key={currentIndex}
@@ -67,36 +76,27 @@ export default function HomeSlider() {
             initial="enter"
             animate="center"
             exit="exit"
+            drag="x"
+            dragConstraints={{ left: 0, right: 0 }}
+            dragElastic={0.2}
+            onDragEnd={(_, { offset, velocity }) => {
+              const swipe = swipePower(offset.x, velocity.x);
+              if (swipe < -swipeConfidenceThreshold) {
+                handleNext();
+              } else if (swipe > swipeConfidenceThreshold) {
+                handlePrev();
+              }
+            }}
             transition={{
               x: { type: "spring", stiffness: 200, damping: 25 },
               opacity: { duration: 0.25 },
             }}
             className="w-full h-full"
           >
-            <EventSlide event={featuredEvents[currentIndex] as any} />
+            <EventSlide event={featuredEvents[currentIndex]} />
           </motion.div>
         </AnimatePresence>
       </div>
-
-      {/* Navigation Arrows */}
-      {featuredEvents.length > 1 && (
-        <>
-          <button
-            onClick={handlePrev}
-            className="absolute left-4 top-1/2 -translate-y-1/2 z-20 bg-black/25 dark:bg-zinc-800/40 backdrop-blur-xs border border-white/10 hover:bg-[#6D28D9] text-white rounded-full p-2.5 transition-all duration-200 cursor-pointer shadow-sm md:opacity-0 md:group-hover:opacity-100"
-            aria-label="Previous slide"
-          >
-            <ChevronLeft size={24} />
-          </button>
-          <button
-            onClick={handleNext}
-            className="absolute right-4 top-1/2 -translate-y-1/2 z-20 bg-black/25 dark:bg-zinc-800/40 backdrop-blur-xs border border-white/10 hover:bg-[#6D28D9] text-white rounded-full p-2.5 transition-all duration-200 cursor-pointer shadow-sm md:opacity-0 md:group-hover:opacity-100"
-            aria-label="Next slide"
-          >
-            <ChevronRight size={24} />
-          </button>
-        </>
-      )}
 
       {/* Dots Indicator */}
       {featuredEvents.length > 1 && (

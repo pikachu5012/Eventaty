@@ -1,5 +1,4 @@
 import { getTranslations } from "next-intl/server";
-import axios from "axios";
 import { IEvent } from "@/types/event";
 import CardComponent from "@/components/CardComponent";
 import { Button } from "@/components/ui/button";
@@ -10,7 +9,7 @@ import { mockEvents } from "@/lib/mockData";
 
 export default async function UpComingEvents() {
   const t = await getTranslations('HomePage');
-  let events: IEvent[] = mockEvents;
+  const events: IEvent[] = mockEvents;
 
   const displayedEvents = events
     .filter(
@@ -24,10 +23,10 @@ export default async function UpComingEvents() {
     .slice(0, 3);
 
   return (
-    <section className="max-w-[1440px] mx-auto px-4 md:px-0">
-      <div className="text-center text-5xl my-10 font-bold">
+    <section className="max-w-[1400px] mx-auto px-4 md:px-6 lg:px-8">
+      <h2 className="text-center text-3xl md:text-4xl my-10 font-bold">
         {t('upcomingEvents')}
-      </div>
+      </h2>
       <div className="flex py-4 gap-4 flex-wrap justify-center">
         {displayedEvents.length > 0 ? (
           displayedEvents.map((event) => (
