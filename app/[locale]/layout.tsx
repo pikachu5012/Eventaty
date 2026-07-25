@@ -14,18 +14,21 @@ const spaceGrotesk = Space_Grotesk({
   variable: "--font-space-grotesk",
   subsets: ["latin"],
   weight: ["500", "700"],
+  display: "swap",
 });
 
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
   weight: ["400", "500"],
+  display: "swap",
 });
 
 const ibmArabic = IBM_Plex_Sans_Arabic({
   variable: "--font-ibm-arabic",
   subsets: ["arabic"],
   weight: ["400", "500", "700"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {

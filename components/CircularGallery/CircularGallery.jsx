@@ -24,10 +24,8 @@ function autoBind(instance) {
   });
 }
 
-const DEFAULT_FONT = 'bold 30px Figtree';
-// Figtree is not guaranteed to be available on the host page, so the component
-// loads it on demand whenever the default font is used.
-const DEFAULT_FONT_URL = 'https://fonts.googleapis.com/css2?family=Figtree:wght@400;700&display=swap';
+const DEFAULT_FONT = 'bold 30px sans-serif';
+const DEFAULT_FONT_URL = '';
 
 function deriveFontFamilyFromUrl(url) {
   const fileName = (url.split('/').pop() || 'custom-font').split('?')[0];
@@ -630,7 +628,7 @@ export default function CircularGallery({
   fontUrl = '',
   scrollSpeed = 2,
   scrollEase = 0.05,
-  onItemClick = (text = '', index = 0) => {}
+  onItemClick = () => {}
 }) {
   const containerRef = useRef(null);
   useEffect(() => {

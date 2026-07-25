@@ -59,5 +59,11 @@
     "sharp@0.34.5": true,
     "@parcel/watcher@2.5.6": true,
     "unrs-resolver@1.11.1": true
-  }
+  },
+  "browserslist": [
+    "chrome >= 90",
+    "edge >= 90",
+    "firefox >= 88",
+    "safari >= 15"
+  ]
 }
