@@ -1,10 +1,9 @@
 import React from "react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { Calendar, Clock, MapPin, Users, Tag, ArrowRight } from "lucide-react";
+import { Calendar, Clock, MapPin, Users, ArrowRight } from "lucide-react";
 import TicketsSection from "@/components/sections/TicketsSection";
 import DarkVeil from "@/components/DarkVeil/DarkVeil";
-import axios from "axios";
 import { IEvent } from "@/types/event";
 import {
   getVenueName,
@@ -50,8 +49,9 @@ export default async function EventDetailsPage({
 
   if (event.startDateTime && !event.startDateTime.includes("T")) {
     // It's likely already formatted or just a date string, keep it
-    formattedDate = (event as any).date || event.startDateTime;
-    formattedTime = (event as any).time || "";
+    const legacyEvent = event as unknown as Record<string, unknown>;
+    formattedDate = typeof legacyEvent.date === "string" ? legacyEvent.date : event.startDateTime;
+    formattedTime = typeof legacyEvent.time === "string" ? legacyEvent.time : "";
   } else if (event.startDateTime) {
     // It's an ISO string
     try {
@@ -65,7 +65,7 @@ export default async function EventDetailsPage({
         hour: "2-digit",
         minute: "2-digit",
       });
-    } catch (e) {
+    } catch {
       // Fallback
       formattedDate = event.startDateTime;
     }

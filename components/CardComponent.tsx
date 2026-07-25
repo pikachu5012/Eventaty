@@ -17,11 +17,13 @@ import { IEvent } from "@/types/event";
 import { IVenue } from "@/types/venue";
 import { mockEvents } from "@/lib/mockData";
 
+import { ICategory } from "@/types/category";
+
 export default function CardComponent({
   data,
   isEvent,
 }: {
-  data?: Partial<IEvent & IVenue & { eventCount?: number; [key: string]: unknown }>;
+  data?: Partial<IEvent> & Partial<IVenue> & { eventCount?: number; category?: string | ICategory };
   isEvent?: boolean;
 }) {
   const t = useTranslations('Card');
