@@ -33,13 +33,13 @@ export default function VenueEvents({ events }: VenueEventsProps) {
   );
 
   return (
-    <div className="bg-card rounded-xl shadow-sm p-8 border border-white/20">
+    <div className="bg-card rounded-xl shadow-sm p-8 border border-border/60">
       <h2 className="text-2xl font-bold mb-6 text-primary">
         Upcoming Events at This Venue
       </h2>
 
       {/* --- Date Selector --- */}
-      <div className="flex gap-4 mb-8 pb-4 scrollbar-hide">
+      <div className="flex gap-4 mb-8 pb-4 overflow-x-auto scrollbar-hide">
         {uniqueDates.map((evt) => {
           if (!evt) return null;
           const isSelected = selectedDate === evt.startDateTime;
@@ -66,25 +66,25 @@ export default function VenueEvents({ events }: VenueEventsProps) {
               key={evt.startDateTime}
               onClick={() => setSelectedDate(evt.startDateTime)}
               className={`
-                shrink-0 w-20 h-30 rounded-2xl flex flex-col items-center justify-center transition-all duration-300 border
+                shrink-0 w-22 h-32 rounded-2xl flex flex-col items-center justify-center transition-all duration-300 border cursor-pointer relative p-2
                 ${
                   isSelected
-                    ? "bg-eventaty-gold text-white shadow-md shadow-eventaty-gold/20 scale-105 border-transparent"
-                    : "bg-eventaty-cream text-gray-400 border-gray-200 hover:border-eventaty-gold/50 hover:text-eventaty-gold"
+                    ? "bg-[#7C3AED] text-white shadow-md shadow-violet-500/25 border-transparent ring-2 ring-violet-400/50"
+                    : "bg-card text-muted-foreground border-border/80 hover:border-violet-500/60 hover:text-violet-600 shadow-xs"
                 }
               `}
             >
               <span
-                className={`text-xs font-medium uppercase ${
-                  isSelected ? "opacity-90" : ""
+                className={`text-[11px] font-bold uppercase tracking-wider ${
+                  isSelected ? "text-violet-100" : "text-muted-foreground"
                 }`}
               >
                 {dayName}
               </span>
-              <span className="text-2xl font-bold">{dayNumber}</span>
+              <span className="text-2xl font-extrabold my-0.5">{dayNumber}</span>
               <span
-                className={`text-xs uppercase ${
-                  isSelected ? "opacity-90" : "opacity-70"
+                className={`text-[11px] font-bold uppercase tracking-wider ${
+                  isSelected ? "text-violet-100" : "text-muted-foreground"
                 }`}
               >
                 {monthName}
@@ -92,10 +92,11 @@ export default function VenueEvents({ events }: VenueEventsProps) {
 
               {/* Event Counter Badge */}
               <span
-                className={`mt-2 text-[10px] px-2 py-0.5 rounded-full ${
-                  isSelected ? "bg-black/20" : "bg-gray-200 text-gray-500"
+                className={`mt-1.5 text-[9px] font-bold px-2.5 py-0.5 rounded-full flex items-center gap-1 ${
+                  isSelected ? "bg-white/20 text-white" : "bg-muted text-muted-foreground"
                 }`}
               >
+                {isSelected && <span className="font-extrabold text-[10px]">✓</span>}
                 {eventsCount} event{eventsCount > 1 ? "s" : ""}
               </span>
             </button>
@@ -109,13 +110,13 @@ export default function VenueEvents({ events }: VenueEventsProps) {
           filteredEvents.map((event) => (
             <div
               key={event._id}
-              className="group border border-eventaty-gold/30 rounded-xl p-4 flex flex-col md:flex-row gap-6 bg-eventaty-cream/20 hover:shadow-md hover:border-eventaty-gold transition-all duration-300"
+              className="group border border-border/60 rounded-xl p-5 flex flex-col md:flex-row gap-6 bg-card hover:shadow-md hover:border-violet-500/50 transition-all duration-300"
             >
               {/* Image Section */}
-              <div className="w-full md:w-32 h-32 bg-gray-800 rounded-lg shrink-0 overflow-hidden relative shadow-inner">
+              <div className="w-full md:w-32 h-32 bg-gray-800 rounded-lg shrink-0 overflow-hidden relative shadow-xs">
                 <div
                   className="w-full h-full bg-cover bg-center group-hover:scale-110 transition-transform duration-500"
-                  style={{ backgroundImage: `url(${event.images[0]})` }} // Handling Images
+                  style={{ backgroundImage: `url(${event.images[0]})` }}
                 />
               </div>
 
@@ -123,27 +124,27 @@ export default function VenueEvents({ events }: VenueEventsProps) {
               <div className="flex-1 flex flex-col justify-center">
                 <div className="flex justify-between items-start mb-2">
                   <button
-                    className="text-lg font-bold text-eventaty-gold group-hover:text-eventaty-dark transition-colors cursor-pointer"
+                    className="text-lg font-bold text-primary group-hover:text-[#7C3AED] transition-colors cursor-pointer text-start"
                     onClick={() => router.push(`/events/${event._id}`)}
                   >
                     {event.title}
                   </button>
-                  <div className="text-right">
-                    <span className="text-eventaty-gold font-bold text-xl block">
+                  <div className="text-end">
+                    <span className="text-[#7C3AED] font-bold text-xl block">
                       {event.price} EGP
                     </span>
-                    <span className="text-[10px] uppercase text-gray-400 font-medium">
+                    <span className="text-[10px] uppercase text-muted-foreground font-medium">
                       per ticket
                     </span>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-2 text-primary/70 text-sm mb-3 font-medium">
-                  <Clock size={16} className="text-eventaty-gold" />
+                <div className="flex items-center gap-2 text-muted-foreground text-sm mb-3 font-medium">
+                  <Clock size={16} className="text-[#7C3AED]" />
                   <span>{new Date(event.startDateTime).toLocaleString()}</span>
                 </div>
 
-                <p className="text-primary/70 text-sm leading-relaxed line-clamp-2">
+                <p className="text-muted-foreground text-sm leading-relaxed line-clamp-2">
                   {event.description}
                 </p>
               </div>

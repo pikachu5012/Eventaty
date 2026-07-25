@@ -81,7 +81,12 @@
         "sendButton": "Send Message",
         "namePlaceholder": "John Doe",
         "emailPlaceholder": "john@example.com",
-        "messagePlaceholder": "Tell us how we can help you..."
+        "subjectPlaceholder": "How can we help?",
+        "messagePlaceholder": "Tell us how we can help you...",
+        "responseTimeNotice": "We typically respond within 24 hours.",
+        "successTitle": "Message Sent Successfully!",
+        "successDesc": "Thank you for reaching out to us. We have received your message and will get back to you within 24 hours.",
+        "sendAnother": "Send Another Message"
     },
     "Events": {
         "searchPlaceholder": "Search events...",

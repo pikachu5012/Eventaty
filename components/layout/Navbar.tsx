@@ -171,7 +171,7 @@ export default function Navbar() {
           ? "h-[88px] bg-[#18181b] border-b-0 shadow-none"
           : "h-[88px] bg-white border-b-0 shadow-none"
     }`}>
-      <div className="max-w-[1400px] flex flex-wrap items-center justify-between mx-auto px-4 md:px-6 lg:px-8 w-full">
+      <div className="max-w-[1400px] flex items-center justify-between mx-auto px-4 md:px-6 lg:px-8 w-full">
         {/* Logo */}
         <div className="md:w-auto w-1/2 shrink-0">
           <Link href="/" className="flex items-center">
@@ -182,8 +182,8 @@ export default function Navbar() {
               width={140}
               height={40}
               className="hidden md:block h-10 w-auto transition-all duration-300"
+              style={{ width: "auto", height: "auto" }}
               priority
-              loading="eager"
             />
             {/* Mobile Logo */}
             <Image
@@ -192,8 +192,8 @@ export default function Navbar() {
               width={42}
               height={40}
               className="block md:hidden h-10 w-auto transition-all duration-300"
+              style={{ width: "auto", height: "auto" }}
               priority
-              loading="eager"
             />
           </Link>
         </div>
@@ -384,6 +384,7 @@ export default function Navbar() {
                       width={120}
                       height={34}
                       className="h-8 w-auto transition-all duration-300"
+                      style={{ width: "auto", height: "auto" }}
                       priority
                     />
                   </Link>

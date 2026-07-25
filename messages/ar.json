@@ -81,7 +81,12 @@
         "sendButton": "إرسال الرسالة",
         "namePlaceholder": "الاسم الكامل",
         "emailPlaceholder": "example@mail.com",
-        "messagePlaceholder": "أخبرنا كيف يمكننا مساعدتك..."
+        "subjectPlaceholder": "كيف يمكننا مساعدتك؟",
+        "messagePlaceholder": "أخبرنا كيف يمكننا مساعدتك...",
+        "responseTimeNotice": "عادة ما نرد خلال 24 ساعة.",
+        "successTitle": "تم إرسال الرسالة بنجاح!",
+        "successDesc": "شكراً لتواصلك معنا. لقد استلمنا رسالتك وسنرد عليك خلال 24 ساعة.",
+        "sendAnother": "إرسال رسالة أخرى"
     },
     "Events": {
         "searchPlaceholder": "ابحث عن فعاليات...",

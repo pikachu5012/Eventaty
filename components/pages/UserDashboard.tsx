@@ -12,16 +12,23 @@ import { cn } from "@/lib/utils";
 
 import { motion, AnimatePresence } from "framer-motion";
 
+import { ProfileBookingListSkeleton } from "@/components/ui/ProfileSkeleton";
+
 export default function UserDashboard() {
   const t = useTranslations('Dashboard.User');
   const [isEditing, setIsEditing] = useState(false);
   const { user, token } = useAuth();
   const [myBookings, setMyBookings] = useState<IBooking[]>([]);
   const [activeTab, setActiveTab] = useState("Upcoming");
+  const [loading, setLoading] = useState(true);
 
   const fetchMyBookings = useCallback(async () => {
-    if (!token) return;
+    if (!token) {
+      setLoading(false);
+      return;
+    }
     try {
+      setLoading(true);
       const response = await axios.get(`/api/booking/me`, {
         headers: {
           Authorization: token,
@@ -30,6 +37,8 @@ export default function UserDashboard() {
       setMyBookings(response.data.data.bookings);
     } catch (error) {
       console.error("Error fetching my bookings:", error);
+    } finally {
+      setLoading(false);
     }
   }, [token]);
 
@@ -253,7 +262,9 @@ export default function UserDashboard() {
                   exit={{ opacity: 0, y: -15 }}
                   transition={{ duration: 0.22, ease: "easeInOut" }}
                 >
-                  {activeTab === "Upcoming" ? (
+                  {loading ? (
+                    <ProfileBookingListSkeleton count={3} />
+                  ) : activeTab === "Upcoming" ? (
                     <div>
                       {upcomingBookings.length > 0 ? (
                         upcomingBookings.map((booking: IBooking) => (

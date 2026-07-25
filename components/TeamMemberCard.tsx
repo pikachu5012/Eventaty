@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Github, Linkedin, User, Mail } from "lucide-react";
+import { Github, Linkedin, Mail } from "lucide-react";
 
 interface TeamMemberCardProps {
     member: {
@@ -17,22 +17,40 @@ interface TeamMemberCardProps {
 export default function TeamMemberCard({ member, index }: TeamMemberCardProps) {
     const [isActive, setIsActive] = useState(false);
 
+    // Compute initials from name (e.g., "Ahmed Mohamed" -> "AM")
+    const initials = member.name
+        .split(" ")
+        .map((part) => part.charAt(0))
+        .join("")
+        .toUpperCase()
+        .slice(0, 2);
+
+    const bgGradients = [
+        "from-violet-600 to-purple-600",
+        "from-blue-600 to-indigo-600",
+        "from-emerald-600 to-teal-600",
+        "from-rose-600 to-pink-600",
+        "from-amber-500 to-orange-600",
+        "from-cyan-600 to-blue-600",
+    ];
+
+    const currentGradient = bgGradients[index % bgGradients.length];
+
     return (
         <div
-            key={index}
             className="flex flex-col items-center group"
             onClick={() => setIsActive(!isActive)}
         >
-            {/* Team Member Photo - Icon */}
-            <div className="w-full aspect-square bg-card rounded-xl overflow-hidden border border-eventaty-gold/20 shadow-sm relative mb-3 cursor-pointer">
-                <div className="absolute inset-0 flex items-center justify-center bg-linear-to-br from-primary/5 to-primary/10 transition-colors duration-300 group-hover:from-eventaty-gold/5 group-hover:to-eventaty-gold/10">
-                    <User className="w-10 h-10 text-primary/20 group-hover:text-eventaty-gold/30 transition-all duration-500 transform group-hover:scale-110" />
-                </div>
+            {/* Team Member Photo / Initial Avatar */}
+            <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${currentGradient} shadow-md flex items-center justify-center mb-3 cursor-pointer transition-transform duration-300 group-hover:scale-105`}>
+                <span className="text-xl font-extrabold text-white tracking-wider">
+                    {initials}
+                </span>
             </div>
 
             {/* Name and Socials */}
             <div className="relative flex flex-col items-center text-center">
-                <h3 className="text-sm font-semibold text-primary transition-colors duration-300 group-hover:text-eventaty-gold line-clamp-1">
+                <h3 className="text-sm font-semibold text-primary transition-colors duration-300 group-hover:text-violet-600 dark:group-hover:text-violet-400 line-clamp-1">
                     {member.name}
                 </h3>
                 <div
@@ -45,7 +63,7 @@ export default function TeamMemberCard({ member, index }: TeamMemberCardProps) {
                         href={member.github}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-muted-foreground hover:text-eventaty-gold dark:hover:text-violet-400 transition-colors"
+                        className="text-muted-foreground hover:text-violet-600 dark:hover:text-violet-400 transition-colors"
                         onClick={(e) => e.stopPropagation()}
                     >
                         <Github className="w-4 h-4" />
@@ -54,7 +72,7 @@ export default function TeamMemberCard({ member, index }: TeamMemberCardProps) {
                         href={member.linkedin}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-muted-foreground hover:text-eventaty-gold dark:hover:text-violet-400 transition-colors"
+                        className="text-muted-foreground hover:text-violet-600 dark:hover:text-violet-400 transition-colors"
                         onClick={(e) => e.stopPropagation()}
                     >
                         <Linkedin className="w-4 h-4" />
@@ -63,7 +81,7 @@ export default function TeamMemberCard({ member, index }: TeamMemberCardProps) {
                         href={member.gmail}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-muted-foreground hover:text-eventaty-gold dark:hover:text-violet-400 transition-colors"
+                        className="text-muted-foreground hover:text-violet-600 dark:hover:text-violet-400 transition-colors"
                         onClick={(e) => e.stopPropagation()}
                     >
                         <Mail className="w-4 h-4" />

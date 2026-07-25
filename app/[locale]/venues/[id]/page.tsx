@@ -1,4 +1,3 @@
-import React from "react";
 import {
   MapPin,
   Users,
@@ -8,36 +7,29 @@ import {
   Accessibility,
   Snowflake,
   Crown,
+  Building2,
 } from "lucide-react";
 // Import the new Client Component
 import VenueEvents from "@/components/sections/VenueEvents";
 import { IAmenity } from "@/types/venue";
+import { IEvent } from "@/types/event";
 import { getTranslations } from "next-intl/server";
 import { tStr } from "@/lib/translateHelper";
+import { Link } from "@/navigation";
 
-// --- Helper for Icons (Keep this as is) ---
+// --- Helper for Icons ---
 const IconMapper = ({ name }: { name: string }) => {
   const size = 18;
-  switch (name.toLowerCase()) {
-    case "parking":
-      return <ParkingCircle size={size} />;
-    case "wifi":
-      return <Wifi size={size} />;
-    case "food":
-    case "food court":
-      return <Utensils size={size} />;
-    case "vip":
-    case "vip lounge":
-      return <Crown size={size} />;
-    case "wheelchair":
-    case "wheelchair access":
-      return <Accessibility size={size} />;
-    case "ac":
-    case "air conditioning":
-      return <Snowflake size={size} />;
-    default:
-      return <Crown size={size} />;
+  const normalized = name.toLowerCase();
+  if (normalized.includes("wifi")) return <Wifi size={size} />;
+  if (normalized.includes("parking")) return <ParkingCircle size={size} />;
+  if (normalized.includes("food") || normalized.includes("utensil")) return <Utensils size={size} />;
+  if (normalized.includes("vip")) return <Crown size={size} />;
+  if (normalized.includes("wheelchair") || normalized.includes("access") || normalized.includes("handicap")) {
+    return <Accessibility size={size} />;
   }
+  if (normalized.includes("ac") || normalized.includes("air")) return <Snowflake size={size} />;
+  return <Crown size={size} />;
 };
 
 // --- Main Page ---
@@ -65,11 +57,11 @@ export default async function VenueDetails({
     city: tStr(rawApiData.city, locale),
     country: tStr(rawApiData.country, locale),
     address: tStr(rawApiData.address, locale),
-    amenities: (rawApiData.amenities || []).map((amenity: any) => ({
+    amenities: (rawApiData.amenities || []).map((amenity: IAmenity) => ({
       ...amenity,
       name: tStr(amenity.name, locale),
     })),
-    events: (rawApiData.events || []).map((event: any) => ({
+    events: (rawApiData.events || []).map((event: IEvent) => ({
       ...event,
       title: tStr(event.title, locale),
       description: tStr(event.description, locale),
@@ -195,10 +187,18 @@ export default async function VenueDetails({
                 }
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full bg-eventaty-gold text-white text-center font-bold py-3.5 px-4 rounded-lg shadow-lg shadow-eventaty-gold/30 hover:bg-eventaty-gold/90 transition-colors cursor-pointer block"
+                className="w-full bg-[#7C3AED] text-white text-center font-bold py-3.5 px-4 rounded-xl shadow-md hover:bg-[#6D28D9] transition-all cursor-pointer block text-sm"
               >
                 {t('getDirections')}
               </a>
+
+              <Link
+                href="/contact"
+                className="w-full mt-3 bg-card border border-violet-500/40 hover:border-violet-500 text-violet-600 dark:text-violet-400 text-center font-bold py-3 px-4 rounded-xl transition-all cursor-pointer flex items-center justify-center gap-2 text-sm"
+              >
+                <Building2 size={18} />
+                Request Venue Booking
+              </Link>
             </div>
           </div>
         </div>

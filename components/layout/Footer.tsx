@@ -10,8 +10,8 @@ export default async function Footer() {
   const isAr = locale === "ar";
 
   return (
-    <footer className="relative bg-navFooter pt-20 pb-64 overflow-hidden border-t border-slate-900">
-      <div className="max-w-[1400px] mx-auto px-4 md:px-6 lg:px-8 grid grid-cols-2 md:grid-cols-6 lg:grid-cols-5 gap-8 mb-32 relative z-10">
+    <footer className="relative bg-navFooter pt-12 md:pt-20 pb-28 md:pb-64 overflow-hidden border-t border-slate-900">
+      <div className="max-w-[1400px] mx-auto px-4 md:px-6 lg:px-8 grid grid-cols-2 md:grid-cols-6 lg:grid-cols-5 gap-8 mb-8 md:mb-32 relative z-10">
         {/* Column 1: Logo & copyright */}
         <div className="space-y-4 col-span-2 md:col-span-2 lg:col-span-1">
           <Image
@@ -20,6 +20,7 @@ export default async function Footer() {
             width={140}
             height={40}
             className="h-10 w-auto"
+            style={{ width: "auto", height: "auto" }}
           />
           <p className="text-sm text-slate-500 pt-2 leading-relaxed">
             {isAr ? "© حقوق النشر إيفنتاتي 2026. كل الحقوق محفوظة." : "© copyright Eventaty 2026. All rights reserved."}

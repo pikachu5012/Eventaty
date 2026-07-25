@@ -65,9 +65,9 @@ export default function HomeSlider() {
   };
 
   return (
-    <div className="relative w-full pt-4 pb-8 overflow-hidden group touch-pan-y">
+    <div className="relative w-full pt-2 pb-4 overflow-hidden group touch-pan-y">
       {/* Slider view window */}
-      <div className="relative h-[70vh] md:h-[80vh] min-h-[500px] max-h-[750px] w-full cursor-grab active:cursor-grabbing">
+      <div className="relative h-[65vh] md:h-[80vh] min-h-[440px] md:min-h-[540px] max-h-[750px] w-full cursor-grab active:cursor-grabbing">
         <AnimatePresence initial={false} custom={direction} mode="wait">
           <motion.div
             key={currentIndex}
@@ -100,7 +100,7 @@ export default function HomeSlider() {
 
       {/* Dots Indicator */}
       {featuredEvents.length > 1 && (
-        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-20">
+        <div className="flex justify-center gap-2 mt-4 md:mt-6 mb-1 z-20">
           {featuredEvents.map((_, index) => (
             <button
               key={index}

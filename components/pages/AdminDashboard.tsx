@@ -1,12 +1,10 @@
-import React, { useState, useEffect } from "react";
-import { toast } from "sonner";
+import React, { useState, useEffect, useCallback } from "react";
 import {
   DollarSign,
   Calendar,
   Users,
   ChartNoAxesGantt,
   Spotlight,
-  Loader2,
 } from "lucide-react";
 import MetricCard from "@/components/MetricCard";
 import axios from "axios";
@@ -16,10 +14,13 @@ import { IVenue } from "@/types/venue";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import VenueManagement from "@/components/pages/VenueManagement";
 import EventManagement from "@/components/pages/EventManagement";
-import { useTranslations } from "next-intl";
+import { IBooking } from "@/types/booking";
+import { useTranslations, useLocale } from "next-intl";
+import { StatCardsSkeleton, TableSkeleton } from "@/components/ui/TableSkeleton";
 
 export default function AdminDashboard() {
   const t = useTranslations('Dashboard.Admin');
+  const locale = useLocale();
   const [events, setEvents] = useState<IEvent[]>([]);
   const [totalBookings, setTotalBookings] = useState<number>(0);
   const [totalRevenue, setTotalRevenue] = useState<number>(0);
@@ -32,7 +33,7 @@ export default function AdminDashboard() {
 
   const { token } = useAuth();
 
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     try {
       setLoading(true);
       const bookingConfig = token
@@ -58,16 +59,15 @@ export default function AdminDashboard() {
         bookingsData?.bookings ||
         bookingsData ||
         [];
-
       const bookingsCount = allBookings.length;
       setTotalBookings(bookingsCount);
 
       // Calculate Total Revenue (confirmed or completed bookings)
-      const revenue = allBookings
+      const revenue = (allBookings as IBooking[])
         .filter(
-          (b: any) => b.status === "confirmed" || b.status === "completed"
+          (b: IBooking) => b.status === "confirmed" || b.status === "completed"
         )
-        .reduce((acc: number, curr: any) => acc + (curr.totalAmount || 0), 0);
+        .reduce((acc: number, curr: IBooking) => acc + (curr.totalAmount || 0), 0);
       setTotalRevenue(revenue);
 
       setCategories(
@@ -90,16 +90,17 @@ export default function AdminDashboard() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [token]);
 
   useEffect(() => {
     fetchData();
-  }, [token]);
+  }, [fetchData, locale]);
 
   if (loading) {
     return (
-      <div className="flex h-[50vh] items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin text-eventaty-gold" />
+      <div className="min-h-screen bg-background p-6 lg:p-10 space-y-10 max-w-7xl mx-auto">
+        <StatCardsSkeleton />
+        <TableSkeleton rows={6} />
       </div>
     );
   }

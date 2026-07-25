@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { toast } from "sonner";
 import { Search, Plus, Eye, Pencil, Trash2, MapPin, Users } from "lucide-react";
@@ -8,6 +8,7 @@ import { IVenue } from "@/types/venue";
 import { useAuth } from "@/context/AuthContext";
 import { VenueForm } from "@/components/forms/VenueForm";
 import { useTranslations } from "next-intl";
+import { TableSkeleton } from "@/components/ui/TableSkeleton";
 
 export default function VenueManagement() {
   const t = useTranslations('Dashboard.Admin.Venues');
@@ -26,7 +27,7 @@ export default function VenueManagement() {
   const itemsPerPage = 6;
   const { token } = useAuth();
 
-  const fetchVenues = async () => {
+  const fetchVenues = useCallback(async () => {
     try {
       setLoading(true);
       const response = await axios.get("/api/venues");
@@ -43,11 +44,11 @@ export default function VenueManagement() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [t]);
 
   useEffect(() => {
     fetchVenues();
-  }, []);
+  }, [fetchVenues]);
 
   // Reset to first page when search changes
   useEffect(() => {
@@ -64,7 +65,7 @@ export default function VenueManagement() {
     setIsFormOpen(true);
   };
 
-  const handleFormSubmit = async (data: any) => {
+  const handleFormSubmit = async (data: Partial<IVenue> | Record<string, unknown>) => {
     setIsFormLoading(true);
     try {
       const config = token
@@ -173,10 +174,7 @@ export default function VenueManagement() {
 
       {/* Content */}
       {loading ? (
-        <div className="flex flex-col items-center justify-center py-20 gap-4">
-          <div className="h-10 w-10 animate-spin rounded-full border-4 border-gray-200 border-t-eventaty-gold" />
-          <p className="text-primary font-medium">{t('loading')}</p>
-        </div>
+        <TableSkeleton rows={6} />
       ) : error ? (
         <div className="text-center py-20 px-6">
           <p className="text-red-500 font-medium">{error}</p>

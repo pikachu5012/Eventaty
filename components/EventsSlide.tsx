@@ -48,7 +48,7 @@ export default function EventSlide({ event }: EProps) {
     : "08:00";
 
   return (
-    <div className="relative w-full h-full rounded-[28px] overflow-hidden flex items-center p-8 md:p-16 lg:p-20 max-w-[1400px] mx-auto">
+    <div className="relative w-full h-full rounded-[28px] overflow-hidden flex items-center pt-24 pb-14 px-6 md:p-16 lg:p-20 max-w-[1400px] mx-auto">
       {/* Background Image */}
       {imageUrl ? (
         <Image
@@ -58,7 +58,6 @@ export default function EventSlide({ event }: EProps) {
           unoptimized
           className="object-cover"
           priority
-          loading="eager"
         />
       ) : (
         <div className="absolute inset-0 bg-[#2C2D31] flex items-center justify-center">
@@ -77,7 +76,7 @@ export default function EventSlide({ event }: EProps) {
       />
 
       {/* Content - sits above the gradient */}
-      <div className="relative z-10 w-full max-w-[680px] flex flex-col justify-center text-start">
+      <div className="relative z-10 w-full max-w-[680px] flex flex-col justify-center my-auto text-start">
         <div className="mb-6 md:mb-10">
           <h2 className="text-3xl md:text-5xl font-extrabold text-white leading-tight mb-4 line-clamp-2">
             {tStr(event.title, locale)}

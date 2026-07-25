@@ -8,10 +8,13 @@ import { IVenue } from "@/types/venue";
 import { motion } from "framer-motion";
 import { useTranslations } from "next-intl";
 
+import { CardSkeletonGrid } from "@/components/ui/CardSkeleton";
+
 export default function VenuesList() {
   const t = useTranslations('Venues');
   const [searchQuery, setSearchQuery] = useState("");
   const [allVenues, setAllVenues] = useState<IVenue[]>([]);
+  const [loading, setLoading] = useState(true);
 
   const filteredVenues = useMemo(() => {
     return allVenues.filter((venue) => {
@@ -24,11 +27,14 @@ export default function VenuesList() {
   useEffect(() => {
     const fetchVenues = async () => {
       try {
+        setLoading(true);
         const response = await fetch("/api/venues");
         const data = await response.json();
         setAllVenues(data.data.venues);
       } catch (error) {
         console.error(error);
+      } finally {
+        setLoading(false);
       }
     };
     fetchVenues();
@@ -54,7 +60,9 @@ export default function VenuesList() {
 
       {/* Main Venus Grid */}
       <main className="max-w-7xl mx-auto">
-        {filteredVenues.length > 0 ? (
+        {loading ? (
+          <CardSkeletonGrid count={6} />
+        ) : filteredVenues.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredVenues.map((venue: IVenue, index) => (
               <motion.div

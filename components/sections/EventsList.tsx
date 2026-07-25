@@ -15,6 +15,8 @@ import {
 import { motion } from "framer-motion";
 import { useTranslations } from "next-intl";
 
+import { CardSkeletonGrid } from "@/components/ui/CardSkeleton";
+
 export default function EventsList({ category }: { category?: string }) {
   const t = useTranslations('Events');
   const [searchQuery, setSearchQuery] = useState("");
@@ -23,6 +25,7 @@ export default function EventsList({ category }: { category?: string }) {
   const [dateFilter, setDateFilter] = useState("");
   const [allEvents, setAllEvents] = useState<IEvent[]>([]);
   const [isFiltersOpen, setIsFiltersOpen] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     setSelectedCategory(category || "All");
@@ -31,10 +34,13 @@ export default function EventsList({ category }: { category?: string }) {
   useEffect(() => {
     const fetchEvents = async () => {
       try {
+        setLoading(true);
         const response = await axios.get(`/api/events`);
         setAllEvents(response.data.data.events);
       } catch (error) {
         console.error("Error fetching events:", error);
+      } finally {
+        setLoading(false);
       }
     };
     fetchEvents();
@@ -147,7 +153,9 @@ export default function EventsList({ category }: { category?: string }) {
             </h2>
           </div>
 
-          {filteredEvents.length > 0 ? (
+          {loading ? (
+            <CardSkeletonGrid count={6} />
+          ) : filteredEvents.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
               {filteredEvents.map((event, index) => {
                 return (

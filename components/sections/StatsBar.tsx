@@ -35,7 +35,7 @@ export default async function StatsBar() {
   ];
 
   return (
-    <section className="max-w-[1400px] mx-auto px-4 md:px-6 lg:px-8 py-8">
+    <section className="max-w-[1400px] mx-auto px-4 md:px-6 lg:px-8 py-6 md:py-8">
       <div className="grid grid-cols-2 md:grid-cols-4 bg-white dark:bg-ink-900 border border-gray-200 dark:border-slate-800 rounded-2xl shadow-xs overflow-hidden">
         {stats.map((stat, i) => {
           const IconComponent = stat.icon;

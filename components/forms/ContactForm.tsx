@@ -14,6 +14,7 @@ export default function ContactForm() {
         message: "",
     });
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [isSuccess, setIsSuccess] = useState(false);
 
     const handleChange = (
         e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -55,7 +56,8 @@ export default function ContactForm() {
             const data = await response.json();
 
             if (response.ok) {
-                toast.success("Message sent successfully! We'll get back to you soon.");
+                toast.success("Message sent successfully!");
+                setIsSuccess(true);
                 // Reset form
                 setFormData({
                     name: "",
@@ -73,6 +75,29 @@ export default function ContactForm() {
             setIsSubmitting(false);
         }
     };
+
+    if (isSuccess) {
+        return (
+            <div className="p-8 rounded-2xl bg-emerald-50/70 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800 text-center space-y-4 my-4">
+                <div className="w-14 h-14 rounded-full bg-emerald-100 dark:bg-emerald-900/50 text-emerald-600 dark:text-emerald-400 flex items-center justify-center mx-auto text-2xl font-bold">
+                    ✓
+                </div>
+                <h3 className="text-xl font-bold text-foreground">
+                    {t("successTitle") || "Message Sent Successfully!"}
+                </h3>
+                <p className="text-sm text-muted-foreground max-w-md mx-auto">
+                    {t("successDesc") || "Thank you for reaching out to us. We have received your message and will get back to you within 24 hours."}
+                </p>
+                <button
+                    type="button"
+                    onClick={() => setIsSuccess(false)}
+                    className="mt-4 px-6 py-2.5 rounded-xl bg-violet-600 text-white font-semibold hover:bg-violet-700 transition-colors cursor-pointer text-sm"
+                >
+                    {t("sendAnother") || "Send Another Message"}
+                </button>
+            </div>
+        );
+    }
 
     return (
         <form onSubmit={handleSubmit} className="space-y-6">
@@ -116,7 +141,8 @@ export default function ContactForm() {
                     name="subject"
                     value={formData.subject}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-secondary focus:ring-2 focus:ring-eventaty-gold/20 outline-none transition-all text-primary"
+                    placeholder={t("subjectPlaceholder")}
+                    className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-secondary focus:ring-2 focus:ring-eventaty-gold/20 outline-none transition-all placeholder:text-gray-400 text-primary"
                     disabled={isSubmitting}
                 />
             </div>
@@ -136,14 +162,19 @@ export default function ContactForm() {
                 />
             </div>
 
-            <button
-                type="submit"
-                disabled={isSubmitting}
-                className="w-full bg-[#7C3AED] hover:bg-[#6D28D9] text-white font-bold py-4 rounded-xl shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0 cursor-pointer"
-            >
-                <Send size={20} />
-                {isSubmitting ? "Sending..." : t("sendButton")}
-            </button>
+            <div>
+                <button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="w-full bg-[#7C3AED] hover:bg-[#6D28D9] text-white font-bold py-4 rounded-xl shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0 cursor-pointer"
+                >
+                    <Send size={20} />
+                    {isSubmitting ? "Sending..." : t("sendButton")}
+                </button>
+                <p className="text-center text-xs text-muted-foreground mt-3 font-medium">
+                    {t("responseTimeNotice") || "We typically respond within 24 hours."}
+                </p>
+            </div>
         </form>
     );
 }

@@ -6,16 +6,12 @@ import { useRouter } from "@/navigation";
 import { Loader2 } from "lucide-react";
 import { AuthOverlay } from "@/components/AuthOverlay";
 import AdminDashboard from "@/components/pages/AdminDashboard";
-import { useState, useEffect } from "react";
-import AccountTypeOverlay from "@/components/AccountTypeOverlay";
-import { useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 
 export default function Dashboard() {
   const t = useTranslations('Dashboard');
   const { user, isLoading } = useAuth();
   const router = useRouter();
-  const searchParams = useSearchParams();
   const isAdmin = user?.role === "admin";
 
   if (isLoading) {
