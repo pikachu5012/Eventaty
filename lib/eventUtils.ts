@@ -1,10 +1,32 @@
-import { IEvent } from "@/types/event";
+import { IEvent, EventItem } from "@/types/event";
 import { IVenue } from "@/types/venue";
 import { ICategory } from "@/types/category";
 
 /**
  * Utility functions to safely access event data whether it's populated or not
  */
+
+/**
+ * Get event ID string safely from IEvent, EventItem, or mixed event unions
+ */
+export function getEventId(event: IEvent | EventItem | (EventItem & { _id?: string })): string {
+  if ("id" in event && event.id) return event.id;
+  if ("_id" in event && event._id) return event._id;
+  return "";
+}
+
+/**
+ * Get venue name safely from IEvent, EventItem, or mixed event unions
+ */
+export function getSlideVenueName(event: IEvent | EventItem | (EventItem & { _id?: string })): string {
+  if ("venueName" in event && event.venueName) {
+    return typeof event.venueName === "string" ? event.venueName : event.venueName.name;
+  }
+  if ("venueId" in event && event.venueId) {
+    return typeof event.venueId === "string" ? event.venueId : event.venueId.name;
+  }
+  return "Venue TBD";
+}
 
 /**
  * Get venue name from event, whether venueId is populated or not

@@ -4,6 +4,7 @@ import { EventItem, IEvent } from "@/types/event";
 import { ImageIcon } from "lucide-react";
 import { useLocale } from "next-intl";
 import { tStr } from "@/lib/translateHelper";
+import { getEventId, getSlideVenueName } from "@/lib/eventUtils";
 
 type EProps = {
   event: IEvent | EventItem | (EventItem & { _id?: string });
@@ -11,7 +12,7 @@ type EProps = {
 
 export default function EventSlide({ event }: EProps) {
   const locale = useLocale();
-  const eventId = event.id || event._id;
+  const eventId = getEventId(event);
 
   const getImageUrl = (event: { image?: string | string[]; images?: string | string[] }) => {
     const img = event.image || event.images;
@@ -27,11 +28,7 @@ export default function EventSlide({ event }: EProps) {
   };
 
   const imageUrl = getImageUrl(event);
-
-  const rawVenueName =
-    typeof event.venueName === "string"
-      ? event.venueName
-      : event.venueName?.name || "Venue TBD";
+  const rawVenueName = getSlideVenueName(event);
   const venueName = tStr(rawVenueName, locale);
 
   const dateObj = event.startDateTime ? new Date(event.startDateTime) : null;

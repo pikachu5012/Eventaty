@@ -4,6 +4,7 @@ import { Autoplay, Pagination } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
 import { EventItem } from "@/types/event";
+import { getEventId } from "@/lib/eventUtils";
 import EventSlide from "@/components/EventsSlide";
 
 type EProps = {
@@ -32,7 +33,7 @@ export default function MySwiper({ events }: EProps) {
         className="pb-12"
       >
         {events.map((event) => (
-          <SwiperSlide key={event.id || (event as any)._id}>
+          <SwiperSlide key={getEventId(event)}>
             <EventSlide event={event} />
           </SwiperSlide>
         ))}
