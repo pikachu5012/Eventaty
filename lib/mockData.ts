@@ -58,8 +58,8 @@ export const mockVenues: IVenue[] = [
     name: "Cairo Opera House",
     address: "Gezira St, Zamalek",
     images: [
-      "https://picsum.photos/seed/venue1a/800/500",
-      "https://picsum.photos/seed/venue1b/800/500",
+      "/swipper1.png",
+      "/swipper2.jpg",
     ],
     city: "Cairo",
     state: "Cairo Governorate",
@@ -83,8 +83,8 @@ export const mockVenues: IVenue[] = [
     name: "Cairo Stadium",
     address: "Nasr City, Cairo Stadium Complex",
     images: [
-      "https://picsum.photos/seed/venue2a/800/500",
-      "https://picsum.photos/seed/venue2b/800/500",
+      "/swipper2.jpg",
+      "/swipper3.jpg",
     ],
     city: "Cairo",
     state: "Cairo Governorate",
@@ -107,8 +107,8 @@ export const mockVenues: IVenue[] = [
     name: "Smart Village",
     address: "KM 28 Cairo-Alexandria Desert Road",
     images: [
-      "https://picsum.photos/seed/venue3a/800/500",
-      "https://picsum.photos/seed/venue3b/800/500",
+      "/swipper3.jpg",
+      "/swipper1.png",
     ],
     city: "Giza",
     state: "Giza Governorate",
@@ -132,8 +132,8 @@ export const mockVenues: IVenue[] = [
     name: "Garden City Arena",
     address: "15 Qasr El Aini St, Garden City",
     images: [
-      "https://picsum.photos/seed/venue4a/800/500",
-      "https://picsum.photos/seed/venue4b/800/500",
+      "/ninja.png",
+      "/swipper2.jpg",
     ],
     city: "Cairo",
     state: "Cairo Governorate",
@@ -162,8 +162,8 @@ export const mockEvents: IEvent[] = [
     description:
       "Experience the magic of jazz under the Egyptian sky. The Cairo Jazz Festival brings together world-renowned artists and local talent for three unforgettable nights of music, culture, and celebration.",
     images: [
-      "https://picsum.photos/seed/event1a/800/500",
-      "https://picsum.photos/seed/event1b/800/500",
+      "/swipper1.png",
+      "/swipper2.jpg",
     ],
     startDateTime: "2026-08-15T19:00:00Z",
     endDateTime: "2026-08-15T23:00:00Z",
@@ -210,8 +210,8 @@ export const mockEvents: IEvent[] = [
     description:
       "The ultimate showdown of Egyptian football! Watch the two best clubs battle it out for the league title in a thrilling atmosphere at Cairo Stadium.",
     images: [
-      "https://picsum.photos/seed/event2a/800/500",
-      "https://picsum.photos/seed/event2b/800/500",
+      "/swipper2.jpg",
+      "/swipper3.jpg",
     ],
     startDateTime: "2026-09-20T18:00:00Z",
     endDateTime: "2026-09-20T21:00:00Z",
@@ -258,8 +258,8 @@ export const mockEvents: IEvent[] = [
     description:
       "The biggest technology conference in the MENA region. Keynotes from global tech leaders, hands-on workshops, startup showcases, and networking with 1000+ developers and entrepreneurs.",
     images: [
-      "https://picsum.photos/seed/event3a/800/500",
-      "https://picsum.photos/seed/event3b/800/500",
+      "/swipper3.jpg",
+      "/swipper1.png",
     ],
     startDateTime: "2026-10-05T09:00:00Z",
     endDateTime: "2026-10-05T18:00:00Z",
@@ -307,8 +307,8 @@ export const mockEvents: IEvent[] = [
     description:
       "A culinary adventure featuring 50+ food vendors, live cooking demonstrations by celebrity chefs, food competitions, and tastings of cuisines from around the world.",
     images: [
-      "https://picsum.photos/seed/event4a/800/500",
-      "https://picsum.photos/seed/event4b/800/500",
+      "/ninja.png",
+      "/swipper2.jpg",
     ],
     startDateTime: "2026-08-28T12:00:00Z",
     endDateTime: "2026-08-28T22:00:00Z",
@@ -349,8 +349,8 @@ export const mockEvents: IEvent[] = [
     description:
       "Explore the vibrant world of contemporary Egyptian art. Featuring works from 30+ emerging and established artists, interactive installations, and guided tours.",
     images: [
-      "https://picsum.photos/seed/event5a/800/500",
-      "https://picsum.photos/seed/event5b/800/500",
+      "/swipper1.png",
+      "/swipper2.jpg",
     ],
     startDateTime: "2026-09-10T10:00:00Z",
     endDateTime: "2026-09-10T20:00:00Z",
@@ -391,8 +391,8 @@ export const mockEvents: IEvent[] = [
     description:
       "Watch 20 of Egypt's most promising startups pitch their ideas to top VCs and angel investors. Network with founders, mentors, and industry leaders.",
     images: [
-      "https://picsum.photos/seed/event6a/800/500",
-      "https://picsum.photos/seed/event6b/800/500",
+      "/swipper2.jpg",
+      "/swipper3.jpg",
     ],
     startDateTime: "2026-10-18T17:00:00Z",
     endDateTime: "2026-10-18T22:00:00Z",
@@ -433,8 +433,8 @@ export const mockEvents: IEvent[] = [
     description:
       "The king of Mediterranean music returns to the stage! Amr Diab performs his greatest hits and new releases in an electrifying live concert experience.",
     images: [
-      "https://picsum.photos/seed/event7a/800/500",
-      "https://picsum.photos/seed/event7b/800/500",
+      "/swipper3.jpg",
+      "/swipper1.png",
     ],
     startDateTime: "2026-11-05T20:00:00Z",
     endDateTime: "2026-11-06T00:00:00Z",
@@ -488,8 +488,8 @@ export const mockEvents: IEvent[] = [
     description:
       "The largest and oldest book fair in the Arab world. Browse thousands of titles, attend author signings, literary discussions, and cultural performances.",
     images: [
-      "https://picsum.photos/seed/event8a/800/500",
-      "https://picsum.photos/seed/event8b/800/500",
+      "/ninja.png",
+      "/swipper2.jpg",
     ],
     startDateTime: "2026-12-01T10:00:00Z",
     endDateTime: "2026-12-01T21:00:00Z",

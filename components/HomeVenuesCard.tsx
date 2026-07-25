@@ -32,7 +32,7 @@ export default function HomeVenuesCard({ venue }: { venue: IVenue }) {
               src={venue.images[0]}
               alt="Venue Image"
               fill
-              unoptimized
+              sizes="(max-width: 768px) 66vw, 20vw"
               className="object-cover rounded-xl"
             />
           </div>

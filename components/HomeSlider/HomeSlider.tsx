@@ -93,7 +93,7 @@ export default function HomeSlider() {
             }}
             className="w-full h-full"
           >
-            <EventSlide event={featuredEvents[currentIndex]} />
+            <EventSlide event={featuredEvents[currentIndex]} priority={currentIndex === 0} />
           </motion.div>
         </AnimatePresence>
       </div>
@@ -105,10 +105,10 @@ export default function HomeSlider() {
             <button
               key={index}
               onClick={() => handleDotClick(index)}
-              className={`h-2.5 rounded-full transition-all duration-300 cursor-pointer ${
+              className={`h-2.5 rounded-full transition-transform duration-300 cursor-pointer ${
                 index === currentIndex
                   ? "bg-eventaty-gold w-6"
-                  : "bg-gray-400/40 dark:bg-white/20 hover:bg-gray-400/60 dark:hover:bg-white/40 w-2.5"
+                  : "bg-gray-400/40 dark:bg-white/20 hover:bg-gray-400/60 dark:hover:bg-white/40 w-2.5 hover:scale-110"
               }`}
               aria-label={`Go to slide ${index + 1}`}
             />

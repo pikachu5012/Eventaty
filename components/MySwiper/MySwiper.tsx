@@ -15,7 +15,7 @@ export default function MySwiper({ events }: EProps) {
   if (!events?.length) return null;
 
   return (
-    <div className="w-full px-0 md:px-4 [&_.swiper-pagination-bullet]:bg-gray-300 [&_.swiper-pagination-bullet]:opacity-100 [&_.swiper-pagination-bullet]:transition-all [&_.swiper-pagination-bullet]:duration-300 [&_.swiper-pagination-bullet-active]:!bg-[#FFC107] [&_.swiper-pagination-bullet-active]:!w-6 [&_.swiper-pagination-bullet-active]:!rounded-[4px] [&_.swiper-pagination]:!bottom-0">
+    <div className="w-full px-0 md:px-4 [&_.swiper-pagination-bullet]:bg-gray-300 [&_.swiper-pagination-bullet]:opacity-100 [&_.swiper-pagination-bullet]:transition-transform [&_.swiper-pagination-bullet]:duration-300 [&_.swiper-pagination-bullet-active]:!bg-[#FFC107] [&_.swiper-pagination-bullet-active]:!w-6 [&_.swiper-pagination-bullet-active]:!rounded-[4px] [&_.swiper-pagination]:!bottom-0">
       <Swiper
         modules={[Autoplay, Pagination]}
         autoplay={{

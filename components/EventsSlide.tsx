@@ -8,9 +8,10 @@ import { getEventId, getSlideVenueName } from "@/lib/eventUtils";
 
 type EProps = {
   event: IEvent | EventItem | (EventItem & { _id?: string });
+  priority?: boolean;
 };
 
-export default function EventSlide({ event }: EProps) {
+export default function EventSlide({ event, priority = true }: EProps) {
   const locale = useLocale();
   const eventId = getEventId(event);
 
@@ -24,7 +25,7 @@ export default function EventSlide({ event }: EProps) {
     if (url.startsWith("http")) return url;
 
     const path = url.startsWith("/") ? url : `/${url}`;
-    return `http://localhost:3000${path}`;
+    return path;
   };
 
   const imageUrl = getImageUrl(event);
@@ -53,11 +54,12 @@ export default function EventSlide({ event }: EProps) {
       {imageUrl ? (
         <Image
           src={imageUrl}
-          alt={event.title}
+          alt={tStr(event.title, locale) || "Event Image"}
           fill
-          unoptimized
+          sizes="100vw"
           className="object-cover"
-          priority
+          priority={priority}
+          fetchPriority={priority ? "high" : "auto"}
         />
       ) : (
         <div className="absolute inset-0 bg-[#2C2D31] flex items-center justify-center">

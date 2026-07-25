@@ -9,12 +9,12 @@ import { useLocale } from "next-intl";
 import { tStr } from "@/lib/translateHelper";
 
 const CATEGORY_IMAGES: Record<string, string> = {
-  "music": "https://images.unsplash.com/photo-1506157786151-b8491531f063?auto=format&fit=crop&w=800&q=80",
-  "sports": "https://images.unsplash.com/photo-1461896836934-ffe607ba8211?auto=format&fit=crop&w=800&q=80",
-  "technology": "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=80",
-  "food & drink": "https://images.unsplash.com/photo-1498837167922-ddd27525d352?auto=format&fit=crop&w=800&q=80",
-  "art": "https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?auto=format&fit=crop&w=800&q=80",
-  "business": "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80",
+  "music": "/swipper1.png",
+  "sports": "/swipper2.jpg",
+  "technology": "/swipper3.jpg",
+  "food & drink": "/ninja.png",
+  "art": "/swipper1.png",
+  "business": "/swipper2.jpg",
 };
 
 export default function CategoryGallery({ categories }: { categories: ICategory[] }) {
@@ -27,7 +27,7 @@ export default function CategoryGallery({ categories }: { categories: ICategory[
   };
 
   const galleryItems = categories.map((cat) => ({
-    image: CATEGORY_IMAGES[cat.name.toLowerCase()] || "https://images.unsplash.com/photo-1506157786151-b8491531f063?auto=format&fit=crop&w=800&q=80",
+    image: CATEGORY_IMAGES[cat.name.toLowerCase()] || "/swipper1.png",
     text: tStr(cat.name, locale),
   }));
 

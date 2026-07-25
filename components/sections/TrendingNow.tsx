@@ -52,7 +52,7 @@ export default async function TrendingNow() {
                       src={event.images[0]}
                       alt={eventName}
                       fill
-                      unoptimized
+                      sizes="(max-width: 768px) 100vw, 33vw"
                       className="object-cover transition-transform duration-300 group-hover:scale-105"
                     />
                     <div className="absolute top-4 left-4 z-10 bg-[#111111] text-white px-3 py-1 rounded-full text-xs font-semibold shadow-md">
