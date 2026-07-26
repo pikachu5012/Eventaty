@@ -8,13 +8,15 @@ import {
 } from "lucide-react";
 import { useTranslations, useLocale } from "next-intl";
 import { useState, useEffect } from "react";
-import { SettingsDropdown } from "../SettingsDropdown";
-import { UserDropdown } from "../UserDropdown";
+import dynamic from "next/dynamic";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { useAuth } from "@/context/AuthContext";
 import { toast } from "sonner";
-import { AuthOverlay } from "@/components/AuthOverlay";
+
+const SettingsDropdown = dynamic(() => import("../SettingsDropdown").then(m => m.SettingsDropdown), { ssr: false });
+const UserDropdown = dynamic(() => import("../UserDropdown").then(m => m.UserDropdown), { ssr: false });
+const AuthOverlay = dynamic(() => import("@/components/AuthOverlay").then(m => m.AuthOverlay), { ssr: false });
 
 import { useTheme } from "../ThemeProvider";
 

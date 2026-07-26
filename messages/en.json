@@ -343,7 +343,8 @@
         "unknownLocation": "Unknown Location",
         "startingFrom": "Starting from",
         "upcomingEvents": "Upcoming Events",
-        "viewDetails": "View Details"
+        "viewDetails": "View Details",
+        "book": "Book"
     },
     "EventForm": {
         "editTitle": "Edit Event",

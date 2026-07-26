@@ -30,7 +30,7 @@ export default async function UpComingEvents() {
       <div className="flex py-4 gap-4 flex-wrap justify-center">
         {displayedEvents.length > 0 ? (
           displayedEvents.map((event) => (
-            <div key={event._id} className="w-3/4 md:w-2/5 lg:w-[30%]">
+            <div key={event._id} className="w-full sm:w-2/5 lg:w-[30%]">
               <CardComponent data={event} isEvent={true} />
             </div>
           ))

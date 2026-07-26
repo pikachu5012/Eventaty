@@ -343,7 +343,8 @@
         "unknownLocation": "موقع غير معروف",
         "startingFrom": "يبدأ من",
         "upcomingEvents": "الفعاليات القادمة",
-        "viewDetails": "عرض التفاصيل"
+        "viewDetails": "عرض التفاصيل",
+        "book": "احجز"
     },
     "EventForm": {
         "editTitle": "تعديل الفعالية",

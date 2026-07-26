@@ -14,7 +14,7 @@ export default async function HomeVenues() {
   return (
     <section className="max-w-[1400px] mx-auto px-4 md:px-6 lg:px-8 py-10">
         <h2 className="text-center text-3xl md:text-4xl my-10 font-bold">{t('venues')}</h2>
-        <div className="flex py-4 gap-4 flex-wrap justify-between">
+        <div className="flex py-4 gap-3 sm:gap-4 flex-wrap justify-between">
           {displayedVenues.map((venue) => (
             <HomeVenuesCard key={venue._id} venue={venue} />
           ))}

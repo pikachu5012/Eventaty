@@ -1,3 +1,4 @@
+import { preload } from "react-dom";
 import HomeSlider from "@/components/HomeSlider/HomeSlider";
 import BrowseByCategory from "@/components/sections/BrowseByCategory";
 import HomeVenues from "@/components/sections/HomeVenues";
@@ -6,10 +7,14 @@ import StatsBar from "@/components/sections/StatsBar";
 import TrendingNow from "@/components/sections/TrendingNow";
 import HowItWorks from "@/components/sections/HowItWorks";
 import Testimonials from "@/components/sections/Testimonials";
-
-export const dynamic = "force-dynamic";
+import { mockEvents } from "@/lib/mockData";
 
 export default function Home() {
+    const firstFeaturedImage = mockEvents.find((e) => e.featured)?.images?.[0];
+    if (firstFeaturedImage) {
+        preload(firstFeaturedImage, { as: "image", fetchPriority: "high" });
+    }
+
     return (
         <div className="bg-background">
             <HomeSlider />
